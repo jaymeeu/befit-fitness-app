@@ -4,6 +4,7 @@ import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
+import AuthContextProvider, { useAuthContext } from '../contexts/AuthContext';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -12,12 +13,19 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
+  // initialRouteName: '(tabs)',
 };
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    "capriola": require('../assets/fonts/Capriola-Regular.ttf'),
+    'work-san-light': require('../assets/fonts/WorkSans-Light.ttf'),
+    'work-san': require('../assets/fonts/WorkSans-Regular.ttf'),
+    'work-san-md': require('../assets/fonts/WorkSans-Medium.ttf'),
+    'work-san-semibold': require('../assets/fonts/WorkSans-SemiBold.ttf'),
+    'work-san-bold': require('../assets/fonts/WorkSans-Bold.ttf'),
+    'work-san-exBold': require('../assets/fonts/WorkSans-ExtraBold.ttf'),
     ...FontAwesome.font,
   });
 
@@ -35,16 +43,21 @@ export default function RootLayout() {
   );
 }
 
+
+
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
     <>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <AuthContextProvider>
         <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="(tabs)" options={{ headerShown : false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+          <Stack.Screen name="others" />
         </Stack>
+        </AuthContextProvider>
       </ThemeProvider>
     </>
   );
