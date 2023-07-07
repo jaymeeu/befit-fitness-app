@@ -4,6 +4,8 @@ import Onboarding from '../../components/Onboarding';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View } from '../../components/Themed';
 import SigninSIgnup from '../../components/SigninSIgnup';
+import SignInScreen from '../../components/SigninSIgnup/SignInScreen';
+import SignUpScreen from '../../components/SigninSIgnup/SignupScreen';
 
 export default function Page() {
 
@@ -17,7 +19,9 @@ export default function Page() {
                     :
                     userToken === null ?
                     <View>
-                        <SigninSIgnup/>
+                        {/* <SigninSIgnup/> */}
+                        {/* <SignInScreen/> */}
+                        <SignUpScreen/>
                     </View>
                     :
                     <View style={{flex: 1}}>
