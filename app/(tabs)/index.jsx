@@ -3,6 +3,7 @@ import { useAuthContext } from '../../contexts/AuthContext';
 import Onboarding from '../../components/Onboarding';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View } from '../../components/Themed';
+import SigninSIgnup from '../../components/SigninSIgnup';
 
 export default function Page() {
 
@@ -13,6 +14,11 @@ export default function Page() {
             {
                 userToken === null && userOnboard === null ?
                     <Onboarding />
+                    :
+                    userToken === null ?
+                    <View>
+                        <SigninSIgnup/>
+                    </View>
                     :
                     <View style={{flex: 1}}>
                         <View><Text>Home page</Text></View>

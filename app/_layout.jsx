@@ -5,7 +5,11 @@ import { SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import AuthContextProvider, { useAuthContext } from '../contexts/AuthContext';
+import {Amplify} from 'aws-amplify';
 
+import config from './../src/aws-exports'
+
+Amplify.configure(config);
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,

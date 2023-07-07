@@ -20,7 +20,7 @@ export default function TabLayout() {
   return (
     <>
       {
-        userToken === null && userOnboard === null ?
+        userToken === null ?
           <Stack>
             <Stack.Screen name='index'
               options={{ headerShown: false }} />
