@@ -38,21 +38,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
     height : height ,
-    // backgroundColor:'green'
-
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#051C60',
+    color : Colors[colorScheme ?? 'light'].text,
     margin: 10,
   },
-  text: {
-    color: 'gray',
-    marginVertical: 10,
-  },
   link: {
-    color: '#FDB075',
+    color : Colors[colorScheme ?? 'light'].text,
   },
 });
 

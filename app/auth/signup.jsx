@@ -65,15 +65,15 @@ const SignUpScreen = () => {
         title: {
             fontSize: 24,
             fontWeight: 'bold',
-            color: '#051C60',
+            color : Colors[colorScheme ?? 'light'].text,
             margin: 10,
         },
         text: {
-            color: 'gray',
+            color : Colors[colorScheme ?? 'light'].tabIconDefault,
             marginVertical: 10,
         },
         link: {
-            color: 'blue',
+            color : Colors[colorScheme ?? 'light'].text
         },
     });
 
@@ -179,7 +179,7 @@ const SignUpScreen = () => {
                     <TouchableOpacity
                         style={{ marginTop: 20, padding: 10 }}
                     >
-                        <Text>Have an account? Sign in</Text>
+                        <Text style={{ color : Colors[colorScheme ?? 'light'].tabIconDefault}}>Have an account? Sign in</Text>
                     </TouchableOpacity>
                 </Link>
             </SafeAreaView>
