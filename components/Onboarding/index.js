@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
             }}
            >
             <Text style={styles.nextText}>Next</Text>
-            <AntDesign name="arrowright" size={20} color="black" />
+            <AntDesign name="arrowright" size={20} color={Colors[colorScheme ?? 'light'].text} />
           </Pressable>
           :
           <Pressable style={styles.next} onPress={goToNext} >

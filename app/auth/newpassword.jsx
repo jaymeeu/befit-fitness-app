@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
           placeholder="Username"
           name="username"
           control={control}
-          activeIcon={<EvilIcons name="lock" size={24} color="black" />}
+          activeIcon={<EvilIcons name="lock" size={24} color={Colors[colorScheme ?? 'light'].text} />}
           inactiveIcon={<EvilIcons name="lock" size={24} color={Colors[colorScheme ?? 'light'].tabIconDefault}/>}
           
           rules={{required: 'Username is required'}}

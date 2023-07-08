@@ -92,7 +92,7 @@ const colorScheme = useColorScheme();
         name="username"
         control={control}
         placeholder="Enter Email"
-        activeIcon={<MaterialIcons name="alternate-email" size={20} color="black" />}
+        activeIcon={<MaterialIcons name="alternate-email" size={20} color={Colors[colorScheme ?? 'light'].text} />}
         inactiveIcon={<MaterialIcons name="alternate-email" size={20} color={Colors[colorScheme ?? 'light'].tabIconDefault}/>}
         rules={{
           required: 'Email is required',
@@ -107,7 +107,7 @@ const colorScheme = useColorScheme();
         name="password"
         control={control}
         placeholder="Enter Password"
-        activeIcon={<EvilIcons name="lock" size={24} color="black" />}
+        activeIcon={<EvilIcons name="lock" size={24} color={Colors[colorScheme ?? 'light'].text} />}
         inactiveIcon={<EvilIcons name="lock" size={24} color={Colors[colorScheme ?? 'light'].tabIconDefault}/>}
         secureTextEntry={true}
         rules={{
@@ -121,7 +121,7 @@ const colorScheme = useColorScheme();
 
       <Link href="/auth/forgetpassword" asChild>
         <TouchableOpacity style={{ padding: 10, alignSelf: 'flex-end' }}>
-          <Text style={{ textAlign: 'right', width: '100%', }}>Forgot password</Text>
+          <Text style={{ textAlign: 'right', width: '100%', color : Colors[colorScheme ?? 'light'].tabIconDefault }}>Forgot password</Text>
         </TouchableOpacity>
       </Link>
 
@@ -129,7 +129,7 @@ const colorScheme = useColorScheme();
 
       <Link href="/auth/signup" asChild>
         <TouchableOpacity style={{ marginTop: 20, padding: 10 }}>
-          <Text>Don't have an account? Create one</Text>
+          <Text style={{color : Colors[colorScheme ?? 'light'].tabIconDefault}}>Don't have an account? Create one</Text>
         </TouchableOpacity>
       </Link>
 

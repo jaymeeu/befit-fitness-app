@@ -36,7 +36,7 @@ const CustomInput = ({
       flex: 1,
       backgroundColor: 'transparent',
       paddingVertical: 15,
-  
+      color : Colors[colorScheme ?? 'light'].text,
       fontFamily: 'work-san'
     },
   });
@@ -81,9 +81,9 @@ const CustomInput = ({
               <Pressable onPress={()=>setshow(!show)}>
                 {
                   show ?
-                    <Ionicons name="eye-off-outline" size={24} color="black" />
+                    <Ionicons name="eye-off-outline" size={24} color={Colors[colorScheme ?? 'light'].text} />
                     :
-                    <Ionicons name="eye-outline" size={24} color="black" />
+                    <Ionicons name="eye-outline" size={24} color={Colors[colorScheme ?? 'light'].text} />
                 }
               </Pressable>
             }

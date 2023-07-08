@@ -79,7 +79,7 @@ const colorScheme = useColorScheme()
         <CustomInput
           name="code"
           control={control}
-          activeIcon={<EvilIcons name="lock" size={24} color="black" />}
+          activeIcon={<EvilIcons name="lock" size={24} color={Colors[colorScheme ?? 'light'].text} />}
           inactiveIcon={<EvilIcons name="lock" size={24} color={Colors[colorScheme ?? 'light'].tabIconDefault} />}
           
           placeholder="Enter your confirmation code"

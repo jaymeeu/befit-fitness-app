@@ -84,7 +84,7 @@ const SignUpScreen = () => {
 
                 {/* <CustomInput
                     name="name"
-                    activeIcon={<MaterialIcons name="alternate-email" size={20} color="black" />}
+                    activeIcon={<MaterialIcons name="alternate-email" size={20} color={Colors[colorScheme ?? 'light'].text} />}
                     inactiveIcon={<MaterialIcons name="alternate-email" size={20} const colorScheme = useColorScheme()
  />}
                     control={control}
@@ -103,7 +103,7 @@ const SignUpScreen = () => {
                 /> */}
 
                 {/* <CustomInput
-                    activeIcon={<MaterialIcons name="alternate-email" size={20} color="black" />}
+                    activeIcon={<MaterialIcons name="alternate-email" size={20} color={Colors[colorScheme ?? 'light'].text} />}
                     inactiveIcon={<MaterialIcons name="alternate-email" size={20} const colorScheme = useColorScheme()
  />}
                     name="username"
@@ -123,7 +123,7 @@ const SignUpScreen = () => {
                 /> */}
                 <CustomInput
                     name="username"
-                    activeIcon={<MaterialIcons name="alternate-email" size={20} color="black" />}
+                    activeIcon={<MaterialIcons name="alternate-email" size={20} color={Colors[colorScheme ?? 'light'].text} />}
                     inactiveIcon={<MaterialIcons name="alternate-email" size={20} color={Colors[colorScheme ?? 'light'].tabIconDefault}/>}
                     control={control}
                     placeholder="Email"
@@ -136,7 +136,7 @@ const SignUpScreen = () => {
                     name="password"
                     control={control}
                     placeholder="Password"
-                    activeIcon={<EvilIcons name="lock" size={24} color="black" />}
+                    activeIcon={<EvilIcons name="lock" size={24} color={Colors[colorScheme ?? 'light'].text} />}
                     inactiveIcon={<EvilIcons name="lock" size={24} color={Colors[colorScheme ?? 'light'].tabIconDefault}/>}
                     secureTextEntry
                     rules={{
@@ -151,7 +151,7 @@ const SignUpScreen = () => {
                     name="password-repeat"
                     control={control}
                     placeholder="Repeat Password"
-                    activeIcon={<EvilIcons name="lock" size={24} color="black" />}
+                    activeIcon={<EvilIcons name="lock" size={24} color={Colors[colorScheme ?? 'light'].text} />}
                     inactiveIcon={<EvilIcons name="lock" size={24} color={Colors[colorScheme ?? 'light'].tabIconDefault}/>}
                     secureTextEntry
                     rules={{
