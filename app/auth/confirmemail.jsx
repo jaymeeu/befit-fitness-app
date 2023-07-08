@@ -4,30 +4,27 @@ import { StyleSheet, ScrollView, Alert, useWindowDimensions} from 'react-native'
 import {useForm} from 'react-hook-form';
 // import { useRoute } from '@react-navigation/native';
 import {Auth} from 'aws-amplify'
-import CustomInput from '../CustomInput';
-import CustomButton from '../CustomButton/CustomButton';
-import { MaterialIcons } from '@expo/vector-icons';
 import { EvilIcons } from '@expo/vector-icons';
-import { Text, View } from '../Themed';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
+import CustomInput from '../../components/CustomInput';
+import { Text, View } from '../../components/Themed';
+import CustomButton from '../../components/CustomButton/CustomButton';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 
 
 const ConfirmEmailScreen = () => {
-  // const route = useRoute();
+  const router = useRouter();
 
-  const {control, handleSubmit, watch} = useForm({
-      defaultValues: "email@gmail.com"  //email coming from signup
-      // {username: route?.params?.username}
-  });
+  const params = useLocalSearchParams();
 
-  // const navigation = useNavigation();
-
-  const username = watch('username')
+  const {control, handleSubmit} = useForm();
 
   const onConfirmPressed = async data => {
     try{
-      await Auth.confirmSignUp(data.username, data.code);
+      await Auth.confirmSignUp(params.username, data.code);
       // navigation.navigate('SignIn');
+      router.push('auth')
     }
     catch (e){
       Alert.alert('Opps', e.message);
@@ -35,14 +32,10 @@ const ConfirmEmailScreen = () => {
   };
 
 
-  const onSignInPress = () => {
-    // navigation.navigate('SignIn');
-  };
-
   const onResendPress = async () => {
     try{
       // await Auth.resendSignUp(route?.params?.username);  or
-      await Auth.resendSignUp(username);
+      await Auth.resendSignUp(params.username);
       Alert.alert('Success', "Code was resent to your email");
     }
     catch (e){
@@ -80,17 +73,8 @@ const ConfirmEmailScreen = () => {
       <SafeAreaView style={styles.root}>
         <Text style={styles.title}>Confirm your email</Text>
 
-        <CustomInput
-          name="username"
-          control={control}
-          placeholder="Username"
-          activeIcon={<EvilIcons name="lock" size={24} color="black" />}
-          inactiveIcon={<EvilIcons name="lock" size={24} color="#888888" />}
-          
-          rules={{
-            required: 'Username is required',
-          }}
-        />
+        <Text>Verification code sent to your email : {params.username}</Text>
+
 
         <CustomInput
           name="code"
@@ -114,7 +98,9 @@ const ConfirmEmailScreen = () => {
 
         <CustomButton
           text="Back to Sign in"
-          onPress={onSignInPress}
+          onPress={()=>{
+            router.push('/auth')
+          }}
           type="TERTIARY"
         />
       </SafeAreaView>

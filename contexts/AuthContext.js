@@ -19,7 +19,7 @@ const AuthContextProvider = ({ children }) => {
         try {
             const value = await AsyncStorage.getItem('@user_onboard')
             setuserOnboard(value)
-            console.log(value,"ghjkjk")
+            console.log(value,"ghjkjkxxx")
 
         } catch (e) {
         }

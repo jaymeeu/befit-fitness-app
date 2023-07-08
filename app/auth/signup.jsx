@@ -2,30 +2,38 @@ import React, { useState } from 'react';
 import { Alert, StyleSheet, ScrollView, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { Auth } from 'aws-amplify'
-import CustomInput from '../CustomInput';
-import { Text, View } from '../Themed';
-import CustomButton from '../CustomButton/CustomButton';
 import { MaterialIcons } from '@expo/vector-icons';
 import { EvilIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
+import CustomInput from '../../components/CustomInput';
+import { Text, View } from '../../components/Themed';
+import CustomButton from '../../components/CustomButton/CustomButton';
+import { Link, useRouter } from 'expo-router';
 
 const EMAIL_REGEX =
     /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 const SignUpScreen = () => {
+    const router = useRouter();
+
     const { control, handleSubmit, watch } = useForm();
     const pwd = watch('password');
 
-  const { height } = useWindowDimensions();
+    const { height } = useWindowDimensions();
 
     const onRegisterPressed = async (data) => {
-        const { username, password, email, name } = data
+        const { username, password } = data
 
         try {
             const response = await Auth.signUp({
                 username,
                 password,
-                attributes: { email, name, preferred_username: username },
+                attributes: { preferred_username: username },
+            })
+            router.push({
+                pathname: "/auth/confirmemail",
+                params: { username}
             })
             // navigation.navigate('ConfirmEmail', {username});
         }
@@ -33,10 +41,6 @@ const SignUpScreen = () => {
             Alert.alert(e.message)
             // console.log(e)
         }
-    };
-
-    const onSignInPress = () => {
-        // navigation.navigate('SignIn');
     };
 
     const onTermsOfUsePressed = () => {
@@ -48,34 +52,34 @@ const SignUpScreen = () => {
     };
 
 
-const styles = StyleSheet.create({
-    root: {
-        alignItems: 'center',
-        padding: 20,
-        height : height ,
-        backgroundColor: 'red'
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: '#051C60',
-        margin: 10,
-    },
-    text: {
-        color: 'gray',
-        marginVertical: 10,
-    },
-    link: {
-        color: '#FDB075',
-    },
-});
+    const styles = StyleSheet.create({
+        root: {
+            alignItems: 'center',
+            padding: 20,
+            height: height,
+            // backgroundColor: 'red'
+        },
+        title: {
+            fontSize: 24,
+            fontWeight: 'bold',
+            color: '#051C60',
+            margin: 10,
+        },
+        text: {
+            color: 'gray',
+            marginVertical: 10,
+        },
+        link: {
+            color: 'blue',
+        },
+    });
 
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
             <SafeAreaView style={styles.root}>
                 <Text style={styles.title}>Create an account</Text>
 
-                <CustomInput
+                {/* <CustomInput
                     name="name"
                     activeIcon={<MaterialIcons name="alternate-email" size={20} color="black" />}
                     inactiveIcon={<MaterialIcons name="alternate-email" size={20} color="#888888" />}
@@ -92,9 +96,9 @@ const styles = StyleSheet.create({
                             message: 'Name should be max 24 characters long',
                         },
                     }}
-                />
+                /> */}
 
-                <CustomInput
+                {/* <CustomInput
                     activeIcon={<MaterialIcons name="alternate-email" size={20} color="black" />}
                     inactiveIcon={<MaterialIcons name="alternate-email" size={20} color="#888888" />}
                     name="username"
@@ -111,9 +115,9 @@ const styles = StyleSheet.create({
                             message: 'Username should be max 24 characters long',
                         },
                     }}
-                />
+                /> */}
                 <CustomInput
-                    name="email"
+                    name="username"
                     activeIcon={<MaterialIcons name="alternate-email" size={20} color="black" />}
                     inactiveIcon={<MaterialIcons name="alternate-email" size={20} color="#888888" />}
                     control={control}
@@ -166,15 +170,15 @@ const styles = StyleSheet.create({
                     </Text>
                 </Text>
 
-
-                <TouchableOpacity
-                    style={{ marginTop: 20, padding: 10 }}
-                    onPress={onSignInPress}
-                >
-                    <Text>Have an account? Sign in</Text>
-                </TouchableOpacity>
+                <Link href="/auth" asChild>
+                    <TouchableOpacity
+                        style={{ marginTop: 20, padding: 10 }}
+                    >
+                        <Text>Have an account? Sign in</Text>
+                    </TouchableOpacity>
+                </Link>
             </SafeAreaView>
-         </ScrollView>
+        </ScrollView>
     );
 };
 

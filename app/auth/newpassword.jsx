@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 import { StyleSheet, ScrollView, Alert, useWindowDimensions} from 'react-native';
 import {useForm} from 'react-hook-form';
 import { Auth } from 'aws-amplify';
-import CustomButton from '../CustomButton/CustomButton';
-import { Text, View } from '../Themed';
 import { EvilIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import CustomInput from '../CustomInput';
+import CustomInput from '../../components/CustomInput';
+import { Text } from '../../components/Themed';
+import CustomButton from '../../components/CustomButton/CustomButton';
 
 const NewPasswordScreen = () => {
 

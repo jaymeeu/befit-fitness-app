@@ -85,18 +85,30 @@ export default function RootLayout() {
 
 
 function RootLayoutNav() {
+const { userToken, userOnboard } = useAuthContext()
+
   const colorScheme = useColorScheme();
 
   return (
     <>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <AuthContextProvider>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown : false }} />
-          <Stack.Screen name="(auth)" options={{ headerShown : false }} />
-          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-          <Stack.Screen name="others" />
-        </Stack>
+          {/* {
+            userToken === null ?
+            <Stack>
+              <Stack.Screen name="index" options={{ headerShown : false }} />
+            </Stack>
+            : */}
+            <Stack>
+              <Stack.Screen name="index" options={{ headerShown : false }} />
+
+              <Stack.Screen name="(tabs)" options={{ headerShown : false }} />
+              <Stack.Screen name="auth" options={{ headerShown : false }} />
+              <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+              <Stack.Screen name="others" />
+            </Stack>
+          {/* } */}
+       
         </AuthContextProvider>
       </ThemeProvider>
     </>

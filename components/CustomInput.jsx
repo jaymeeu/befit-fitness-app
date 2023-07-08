@@ -80,14 +80,14 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginVertical: 8,
     flexDirection: 'row',
-    backgroundColor: 'none',
+    backgroundColor: 'transparent',
     alignItems: 'center'
 
   },
   input: {
     marginLeft: 7,
     flex: 1,
-    backgroundColor: 'none',
+    backgroundColor: 'transparent',
     paddingVertical: 15,
 
     fontFamily: 'work-san'

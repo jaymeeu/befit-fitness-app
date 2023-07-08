@@ -3,11 +3,13 @@ import { StyleSheet, ScrollView, Alert, useWindowDimensions } from 'react-native
 // import {useNavigation} from '@react-navigation/core';
 import { useForm } from 'react-hook-form';
 import { Auth } from 'aws-amplify';
-import { Text, View } from '../Themed';
-import CustomButton from '../CustomButton/CustomButton';
-import CustomInput from '../CustomInput';
 import { EvilIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import CustomInput from '../../components/CustomInput';
+import { Text, View } from '../../components/Themed';
+import CustomButton from '../../components/CustomButton/CustomButton';
+import { Link } from 'expo-router';
+
 
 const ForgotPasswordScreen = () => {
     const { control, handleSubmit } = useForm();
@@ -23,10 +25,6 @@ const ForgotPasswordScreen = () => {
         }
 
         // console.warn(data);
-    };
-
-    const onSignInPress = () => {
-        // navigation.navigate('SignIn');
     };
 
     const { height } = useWindowDimensions();
@@ -56,7 +54,7 @@ const ForgotPasswordScreen = () => {
 
     return (
         <SafeAreaView style={styles.root}>
-            <View style={{ flexDirection: "column", gap: 15, width: "100%", alignItems: "center" }}>
+            <View style={{ flexDirection: "column", gap: 15, width: "100%", alignItems: "center", backgroundColor :'transparent' }}>
 
                 <Text style={styles.title}>Reset your password</Text>
 
@@ -71,12 +69,12 @@ const ForgotPasswordScreen = () => {
                     }}
                 />
                 <CustomButton text="Send" onPress={handleSubmit(onSendPressed)} />
-
-                <CustomButton
-                    text="Back to Sign in"
-                    onPress={onSignInPress}
-                    type="TERTIARY"
-                />
+                <Link href="/auth" asChild>
+                    <CustomButton
+                        text="Back to Sign in"
+                        type="TERTIARY"
+                    />
+                </Link>
             </View>
         </SafeAreaView>
     );

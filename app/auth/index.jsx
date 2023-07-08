@@ -6,16 +6,19 @@ import {
   useWindowDimensions,
   TouchableOpacity,
 } from 'react-native';
-import Logo from '../../assets/images/GoogleIcon.png';
 import { useForm } from 'react-hook-form';
-import CustomButton from '../CustomButton/CustomButton';
 import { MaterialIcons } from '@expo/vector-icons';
 import { EvilIcons } from '@expo/vector-icons';
-import CustomInput from '../CustomInput';
-import { Text, View } from '../Themed';
 import { Auth } from 'aws-amplify'
 
+import Logo from '../../assets/images/GoogleIcon.png';
+import CustomInput from '../../components/CustomInput';
+import { Text, View } from '../../components/Themed';
+import CustomButton from '../../components/CustomButton/CustomButton';
+import { Link, useRouter } from 'expo-router';
+
 const SignInScreen = () => {
+  const router = useRouter()
   const { height } = useWindowDimensions();
 
   const styles = StyleSheet.create({
@@ -29,7 +32,7 @@ const SignInScreen = () => {
       width: '70%',
       maxWidth: 300,
       maxHeight: 150,
-      marginBottom:20
+      marginBottom: 20
     },
   });
 
@@ -48,24 +51,24 @@ const SignInScreen = () => {
     setloading(true);
     try {
       const response = await Auth.signIn(data.username, data.password)
-      // console.log(response)
+      console.log(response)
     }
     catch (e) {
-      Alert.alert("Opps", e.message)
+      if(e.message === 'User is not confirmed.'){
+        router.push({
+          pathname: "/auth/confirmemail",
+          params: { username : data.username}
+        })
+      }
+      else{
+        Alert.alert("Opps", e.message)
+      }
     }
     setloading(false)
 
     // console.log(data);
     // // validate user
     // navigation.navigate('Home');
-  };
-
-  const onForgotPasswordPressed = () => {
-    // navigation.navigate('ForgotPassword');
-  };
-
-  const onSignUpPress = () => {
-    // navigation.navigate('SignUp');
   };
 
 
@@ -108,24 +111,20 @@ const SignInScreen = () => {
         }}
       />
 
-      <TouchableOpacity
-        style={{ padding: 10, alignSelf: 'flex-end' }}
-        onPress={onForgotPasswordPressed}
-      >
-        <Text style={{ textAlign: 'right', width: '100%', }}>Forgot password</Text>
-      </TouchableOpacity>
-
+      <Link href="/auth/forgetpassword" asChild>
+        <TouchableOpacity style={{ padding: 10, alignSelf: 'flex-end' }}>
+          <Text style={{ textAlign: 'right', width: '100%', }}>Forgot password</Text>
+        </TouchableOpacity>
+      </Link>
 
       <CustomButton text={loading ? "Loading..." : "Sign In"} onPress={handleSubmit(onSignInPressed)} />
 
+      <Link href="/auth/signup" asChild>
+        <TouchableOpacity style={{ marginTop: 20, padding: 10 }}>
+          <Text>Don't have an account? Create one</Text>
+        </TouchableOpacity>
+      </Link>
 
-      <TouchableOpacity
-        style={{marginTop:20, padding: 10 }}
-        onPress={onSignUpPress}
-      >
-        <Text>Don't have an account? Create one</Text>
-      </TouchableOpacity>
-     
     </View>
   );
 };
