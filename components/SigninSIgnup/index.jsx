@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Image, ScrollView, StyleSheet, useWindowDimensions } from 'react-native'
+import { Image, ScrollView, StyleSheet, useColorScheme, useWindowDimensions } from 'react-native'
 import { Text, View } from '../Themed';
 import SocialButton from '../CustomButton/SocialButton';
 import google from '../../assets/images/GoogleIcon.png'
@@ -8,10 +8,9 @@ import CustomButton from '../CustomButton/CustomButton';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
 import { Auth, Hub } from 'aws-amplify'
 import { Link, router } from 'expo-router';
+import Colors from '../../constants/Colors';
 
 export default SigninSIgnup = () => {
-
-
 
     const [user, setUser] = useState(null);
     const [customState, setCustomState] = useState(null);
@@ -38,12 +37,13 @@ export default SigninSIgnup = () => {
     }, []);
 
     const { height } = useWindowDimensions();
+    const colorScheme = useColorScheme();
 
 
     const styles = StyleSheet.create({
         container: {
             height: height,
-            backgroundColor: "black",
+            backgroundColor: Colors[colorScheme ?? 'light'].background,
             paddingTop: 100
         },
         top: {
@@ -66,7 +66,7 @@ export default SigninSIgnup = () => {
             textAlign: "center",
             fontFamily: "capriola",
             fontSize: 18,
-            color: "white",
+            color: Colors[colorScheme ?? 'light'].text,
             marginBottom: 15,
         },
         or: {
@@ -75,7 +75,7 @@ export default SigninSIgnup = () => {
             fontFamily: "capriola",
             fontSize: 18,
             marginVertical: 20,
-            color: "#888888",
+            color: Colors[colorScheme ?? 'light'].text,
         },
     });
 

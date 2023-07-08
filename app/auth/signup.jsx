@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, StyleSheet, ScrollView, TouchableOpacity, useWindowDimensions } from 'react-native';
+import { Alert, StyleSheet, ScrollView, TouchableOpacity, useWindowDimensions, useColorScheme } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { Auth } from 'aws-amplify'
 import { MaterialIcons } from '@expo/vector-icons';
@@ -10,11 +10,14 @@ import CustomInput from '../../components/CustomInput';
 import { Text, View } from '../../components/Themed';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import { Link, useRouter } from 'expo-router';
+import Colors from '../../constants/Colors';
 
 const EMAIL_REGEX =
     /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 const SignUpScreen = () => {
+    const colorScheme = useColorScheme()
+
     const router = useRouter();
 
     const { control, handleSubmit, watch } = useForm();
@@ -82,7 +85,8 @@ const SignUpScreen = () => {
                 {/* <CustomInput
                     name="name"
                     activeIcon={<MaterialIcons name="alternate-email" size={20} color="black" />}
-                    inactiveIcon={<MaterialIcons name="alternate-email" size={20} color="#888888" />}
+                    inactiveIcon={<MaterialIcons name="alternate-email" size={20} const colorScheme = useColorScheme()
+ />}
                     control={control}
                     placeholder="Name"
                     rules={{
@@ -100,7 +104,8 @@ const SignUpScreen = () => {
 
                 {/* <CustomInput
                     activeIcon={<MaterialIcons name="alternate-email" size={20} color="black" />}
-                    inactiveIcon={<MaterialIcons name="alternate-email" size={20} color="#888888" />}
+                    inactiveIcon={<MaterialIcons name="alternate-email" size={20} const colorScheme = useColorScheme()
+ />}
                     name="username"
                     control={control}
                     placeholder="Username"
@@ -119,7 +124,7 @@ const SignUpScreen = () => {
                 <CustomInput
                     name="username"
                     activeIcon={<MaterialIcons name="alternate-email" size={20} color="black" />}
-                    inactiveIcon={<MaterialIcons name="alternate-email" size={20} color="#888888" />}
+                    inactiveIcon={<MaterialIcons name="alternate-email" size={20} color={Colors[colorScheme ?? 'light'].tabIconDefault}/>}
                     control={control}
                     placeholder="Email"
                     rules={{
@@ -132,7 +137,7 @@ const SignUpScreen = () => {
                     control={control}
                     placeholder="Password"
                     activeIcon={<EvilIcons name="lock" size={24} color="black" />}
-                    inactiveIcon={<EvilIcons name="lock" size={24} color="#888888" />}
+                    inactiveIcon={<EvilIcons name="lock" size={24} color={Colors[colorScheme ?? 'light'].tabIconDefault}/>}
                     secureTextEntry
                     rules={{
                         required: 'Password is required',
@@ -147,7 +152,7 @@ const SignUpScreen = () => {
                     control={control}
                     placeholder="Repeat Password"
                     activeIcon={<EvilIcons name="lock" size={24} color="black" />}
-                    inactiveIcon={<EvilIcons name="lock" size={24} color="#888888" />}
+                    inactiveIcon={<EvilIcons name="lock" size={24} color={Colors[colorScheme ?? 'light'].tabIconDefault}/>}
                     secureTextEntry
                     rules={{
                         validate: value => value === pwd || 'Password do not match',

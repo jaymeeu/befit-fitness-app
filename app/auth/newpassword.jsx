@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, ScrollView, Alert, useWindowDimensions} from 'react-native';
+import { StyleSheet, ScrollView, Alert, useWindowDimensions, useColorScheme} from 'react-native';
 import {useForm} from 'react-hook-form';
 import { Auth } from 'aws-amplify';
 import { EvilIcons } from '@expo/vector-icons';
@@ -7,6 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomInput from '../../components/CustomInput';
 import { Text } from '../../components/Themed';
 import CustomButton from '../../components/CustomButton/CustomButton';
+import Colors from '../../constants/Colors';
 
 const NewPasswordScreen = () => {
 
@@ -14,6 +15,7 @@ const NewPasswordScreen = () => {
 
   const {control, handleSubmit} = useForm();
 
+  const colorScheme = useColorScheme()
 
   const onSubmitPressed = async data => {
     try{
@@ -63,7 +65,7 @@ const styles = StyleSheet.create({
           name="username"
           control={control}
           activeIcon={<EvilIcons name="lock" size={24} color="black" />}
-          inactiveIcon={<EvilIcons name="lock" size={24} color="#888888" />}
+          inactiveIcon={<EvilIcons name="lock" size={24} color={Colors[colorScheme ?? 'light'].tabIconDefault}/>}
           
           rules={{required: 'Username is required'}}
         />

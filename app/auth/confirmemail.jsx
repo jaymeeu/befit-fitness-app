@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, ScrollView, Alert, useWindowDimensions} from 'react-native';
+import { StyleSheet, ScrollView, Alert, useWindowDimensions, useColorScheme} from 'react-native';
 import {useForm} from 'react-hook-form';
 import {Auth} from 'aws-amplify'
 import { EvilIcons } from '@expo/vector-icons';
@@ -9,11 +9,13 @@ import { Text, View } from '../../components/Themed';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import CustomInput from '../../components/CustomInput';
+import Colors from '../../constants/Colors';
 
 
 const ConfirmEmailScreen = () => {
-  const router = useRouter();
+const colorScheme = useColorScheme()
 
+  const router = useRouter();
   const params = useLocalSearchParams();
 
   const {control, handleSubmit} = useForm();
@@ -78,7 +80,7 @@ const ConfirmEmailScreen = () => {
           name="code"
           control={control}
           activeIcon={<EvilIcons name="lock" size={24} color="black" />}
-          inactiveIcon={<EvilIcons name="lock" size={24} color="#888888" />}
+          inactiveIcon={<EvilIcons name="lock" size={24} color={Colors[colorScheme ?? 'light'].tabIconDefault} />}
           
           placeholder="Enter your confirmation code"
           rules={{

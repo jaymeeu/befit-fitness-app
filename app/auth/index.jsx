@@ -5,6 +5,7 @@ import {
   StyleSheet,
   useWindowDimensions,
   TouchableOpacity,
+  useColorScheme,
 } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -17,12 +18,15 @@ import { Text, View } from '../../components/Themed';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import { Link, useRouter } from 'expo-router';
 import { useAuthContext } from '../../contexts/AuthContext';
+import Colors from '../../constants/Colors';
 
 const SignInScreen = () => {
+
   const router = useRouter()
   const { height } = useWindowDimensions();
 
 const { updateToken } = useAuthContext()
+const colorScheme = useColorScheme();
 
 
   const styles = StyleSheet.create({
@@ -30,7 +34,8 @@ const { updateToken } = useAuthContext()
       alignItems: 'center',
       padding: 20,
       height: height,
-      paddingTop: 100
+      paddingTop: 100,
+      backgroundColor : Colors[colorScheme ?? "light"].background
     },
     logo: {
       width: '70%',
@@ -88,7 +93,7 @@ const { updateToken } = useAuthContext()
         control={control}
         placeholder="Enter Email"
         activeIcon={<MaterialIcons name="alternate-email" size={20} color="black" />}
-        inactiveIcon={<MaterialIcons name="alternate-email" size={20} color="#888888" />}
+        inactiveIcon={<MaterialIcons name="alternate-email" size={20} color={Colors[colorScheme ?? 'light'].tabIconDefault}/>}
         rules={{
           required: 'Email is required',
           pattern: {
@@ -103,7 +108,7 @@ const { updateToken } = useAuthContext()
         control={control}
         placeholder="Enter Password"
         activeIcon={<EvilIcons name="lock" size={24} color="black" />}
-        inactiveIcon={<EvilIcons name="lock" size={24} color="#888888" />}
+        inactiveIcon={<EvilIcons name="lock" size={24} color={Colors[colorScheme ?? 'light'].tabIconDefault}/>}
         secureTextEntry={true}
         rules={{
           required: 'Password is required',

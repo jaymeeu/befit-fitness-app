@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, ScrollView, Alert, useWindowDimensions } from 'react-native';
+import { StyleSheet, ScrollView, Alert, useWindowDimensions, useColorScheme } from 'react-native';
 // import {useNavigation} from '@react-navigation/core';
 import { useForm } from 'react-hook-form';
 import { Auth } from 'aws-amplify';
@@ -9,9 +9,12 @@ import CustomInput from '../../components/CustomInput';
 import { Text, View } from '../../components/Themed';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import { Link } from 'expo-router';
+import Colors from '../../constants/Colors';
 
 
 const ForgotPasswordScreen = () => {
+
+    const colorScheme = useColorScheme()
     const { control, handleSubmit } = useForm();
     //   const navigation = useNavigation();
 
@@ -63,7 +66,7 @@ const ForgotPasswordScreen = () => {
                     control={control}
                     placeholder="Username"
                     activeIcon={<EvilIcons name="lock" size={24} color="black" />}
-                    inactiveIcon={<EvilIcons name="lock" size={24} color="#888888" />}
+                    inactiveIcon={<EvilIcons name="lock" size={24} color={Colors[colorScheme ?? 'light'].tabIconDefault}/>}
                     rules={{
                         required: 'Username is required',
                     }}

@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
-import { View, Text, TextInput, StyleSheet, Pressable } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Pressable, useColorScheme } from 'react-native';
 import { Controller } from 'react-hook-form';
 import { Ionicons } from '@expo/vector-icons';
+import Colors from '../constants/Colors';
 
 const CustomInput = ({
   control,
@@ -17,6 +18,30 @@ const CustomInput = ({
   keyboardType,onBlur, onFocus
 }) => {
 
+  const colorScheme = useColorScheme()
+
+  const styles = StyleSheet.create({
+    container: {
+      width: '100%',
+      borderBottomWidth: 1,
+      borderRadius: 5,
+      marginVertical: 8,
+      flexDirection: 'row',
+      backgroundColor: 'transparent',
+      alignItems: 'center'
+  
+    },
+    input: {
+      marginLeft: 7,
+      flex: 1,
+      backgroundColor: 'transparent',
+      paddingVertical: 15,
+  
+      fontFamily: 'work-san'
+    },
+  });
+
+
   const [show, setshow] = useState(true)
   return (
     <Controller
@@ -29,7 +54,7 @@ const CustomInput = ({
           <View
             style={[
               styles.container,
-              { borderColor: error ? 'red' : '#e8e8e8' },
+              { borderColor: error ? 'red' :  Colors[colorScheme ?? 'light'].tabIconDefault },
             ]}>
             {
               value ?
@@ -47,7 +72,7 @@ const CustomInput = ({
               editable={editable} 
               selectTextOnFocus={editable}
               placeholder={placeholder}
-              placeholderTextColor="#888888"
+              placeholderTextColor={Colors[colorScheme ?? 'light'].tabIconDefault}
               style={styles.input}
               secureTextEntry={secureTextEntry && show}
             />
@@ -72,26 +97,6 @@ const CustomInput = ({
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    borderColor: '#e8e8e8',
-    borderBottomWidth: 1,
-    borderRadius: 5,
-    marginVertical: 8,
-    flexDirection: 'row',
-    backgroundColor: 'transparent',
-    alignItems: 'center'
 
-  },
-  input: {
-    marginLeft: 7,
-    flex: 1,
-    backgroundColor: 'transparent',
-    paddingVertical: 15,
-
-    fontFamily: 'work-san'
-  },
-});
 
 export default CustomInput;
