@@ -25,6 +25,12 @@ const AuthContextProvider = ({ children }) => {
         }
     }
 
+    const updateToken = async (token) => {
+      await AsyncStorage.setItem('@user_token', token);
+      setuserToken(token)
+  }
+
+
     useEffect(() => {
         getUserToken();
         getOnboardState()
@@ -34,9 +40,10 @@ const AuthContextProvider = ({ children }) => {
         <AuthContext.Provider
             value={{ 
                 userToken, 
-                setuserToken, 
+                updateToken,
                 userOnboard,
-                setuserOnboard
+                setuserOnboard,
+                setuserToken
             }}
         >
             {children}

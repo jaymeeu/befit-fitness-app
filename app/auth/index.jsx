@@ -16,10 +16,14 @@ import CustomInput from '../../components/CustomInput';
 import { Text, View } from '../../components/Themed';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import { Link, useRouter } from 'expo-router';
+import { useAuthContext } from '../../contexts/AuthContext';
 
 const SignInScreen = () => {
   const router = useRouter()
   const { height } = useWindowDimensions();
+
+const { updateToken } = useAuthContext()
+
 
   const styles = StyleSheet.create({
     root: {
@@ -51,7 +55,11 @@ const SignInScreen = () => {
     setloading(true);
     try {
       const response = await Auth.signIn(data.username, data.password)
-      console.log(response)
+      updateToken(response?.attributes?.sub)
+
+      // router.replace("../")
+      router.replace("(home)")
+
     }
     catch (e) {
       if(e.message === 'User is not confirmed.'){
@@ -65,10 +73,6 @@ const SignInScreen = () => {
       }
     }
     setloading(false)
-
-    // console.log(data);
-    // // validate user
-    // navigation.navigate('Home');
   };
 
 
@@ -79,7 +83,6 @@ const SignInScreen = () => {
         style={[styles.logo, { height: height * 0.3 }]}
         resizeMode="contain"
       />
-
       <CustomInput
         name="username"
         control={control}

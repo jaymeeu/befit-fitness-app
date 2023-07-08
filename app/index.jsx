@@ -1,39 +1,36 @@
 import { Pressable, Text } from 'react-native';
 import { useAuthContext } from '../contexts/AuthContext';
-import Onboarding from '../components/Onboarding';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import SigninSIgnup from '../components/SigninSIgnup';
 import { View } from '../components/Themed';
-import { FontAwesome } from '@expo/vector-icons';
-import { Link } from 'expo-router';
+import { Logout } from '../utils/Logout';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Onboarding from '../components/Onboarding';
+import { useEffect } from 'react';
+import { useRouter } from 'expo-router';
 
 export default function Page() {
 
-    const { userToken, userOnboard, setuserOnboard } = useAuthContext()
+    const { userToken, userOnboard, setuserToken } = useAuthContext()
+const router = useRouter()
 
+    useEffect(() => {
+     if(router && userToken !== null  ){
+        router.replace('(home)') 
+     }
+    }, [router])
+    
     return (
         <>
             {
                 userToken === null && userOnboard === null ?
                     <Onboarding />
                     :
-                    userToken === null ?
-                    <View>
-                        <SigninSIgnup/>
-                    </View>
-                    :
-                    <View style={{flex: 1}}>
-                        <View><Text>Home page</Text></View>
-                        <Pressable 
-                        style={{marginTop : "auto"}}
-                        onPress={async () => {
-                            await AsyncStorage.removeItem('@user_onboard');
-                            setuserOnboard('onboarded')
-
-                        }}>
-                            <Text>Clear storage</Text>
-                        </Pressable>
-                    </View>
+                    userToken === null && userOnboard !== null ?
+                        <View>
+                            <SigninSIgnup />
+                        </View>
+                        :
+                        <></>
             }
         </>
     )

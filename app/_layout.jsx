@@ -1,14 +1,14 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { SplashScreen, Stack } from 'expo-router';
+import { Link, SplashScreen, Stack, Tabs } from 'expo-router';
 import { useEffect } from 'react';
-import { useColorScheme, Linking } from 'react-native';
-import AuthContextProvider, { useAuthContext } from '../contexts/AuthContext';
-import {Amplify} from 'aws-amplify';
+import { useColorScheme, Linking, Pressable } from 'react-native';
+import { Amplify } from 'aws-amplify';
 import * as WebBrowser from "expo-web-browser";
-
-import awsconfig from './../src/aws-exports'
+import awsconfig from '../src/aws-exports'
+import AuthContextProvider, { useAuthContext } from '../contexts/AuthContext';
+import Colors from '../constants/Colors';
 
 const isLocalHost = Boolean(__DEV__);
 
@@ -52,7 +52,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  // initialRouteName: '(tabs)',
+  initialRouteName: 'index',
 };
 
 export default function RootLayout() {
@@ -83,32 +83,33 @@ export default function RootLayout() {
 }
 
 
+function TabBarIcon(props) {
+  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+}
 
 function RootLayoutNav() {
-const { userToken, userOnboard } = useAuthContext()
 
   const colorScheme = useColorScheme();
+  const { userToken, userOnboard } = useAuthContext()
 
   return (
     <>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <AuthContextProvider>
           {/* {
-            userToken === null ?
-            <Stack>
-              <Stack.Screen name="index" options={{ headerShown : false }} />
-            </Stack>
-            : */}
-            <Stack>
-              <Stack.Screen name="index" options={{ headerShown : false }} />
+            userToken === null ? */}
+              <Stack>
+                <Stack.Screen name="index" options={{ headerShown: false }} />
+                <Stack.Screen name="(home)" options={{ headerShown : false }} />
+                <Stack.Screen name="auth" options={{ headerShown: false }} />
+                <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+              </Stack>
+              {/* :
+              
+          } */}
 
-              <Stack.Screen name="(tabs)" options={{ headerShown : false }} />
-              <Stack.Screen name="auth" options={{ headerShown : false }} />
-              <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-              <Stack.Screen name="others" />
-            </Stack>
           {/* } */}
-       
+
         </AuthContextProvider>
       </ThemeProvider>
     </>

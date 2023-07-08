@@ -1,8 +1,8 @@
 import { Pressable, StyleSheet } from "react-native";
 
-import { Text, View } from "../../components/Themed";
 import { Link } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
+import { Text, View } from "../../components/Themed";
 
 export default function TabTwoScreen() {
   return (

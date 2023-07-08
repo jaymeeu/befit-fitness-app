@@ -1,16 +1,14 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { StyleSheet, ScrollView, Alert, useWindowDimensions} from 'react-native';
-// import {useNavigation} from '@react-navigation/core';
 import {useForm} from 'react-hook-form';
-// import { useRoute } from '@react-navigation/native';
 import {Auth} from 'aws-amplify'
 import { EvilIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import CustomInput from '../../components/CustomInput';
 import { Text, View } from '../../components/Themed';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import CustomInput from '../../components/CustomInput';
 
 
 const ConfirmEmailScreen = () => {
