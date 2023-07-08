@@ -3,13 +3,48 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
-import { useColorScheme } from 'react-native';
+import { useColorScheme, Linking } from 'react-native';
 import AuthContextProvider, { useAuthContext } from '../contexts/AuthContext';
 import {Amplify} from 'aws-amplify';
+import * as WebBrowser from "expo-web-browser";
 
-import config from './../src/aws-exports'
+import awsconfig from './../src/aws-exports'
 
-Amplify.configure(config);
+const isLocalHost = Boolean(__DEV__);
+
+const [productionRedirectSignIn, localRedirectSignIn] =
+  awsconfig.oauth.redirectSignIn.split(",");
+
+const [productionRedirectSignOut, localRedirectSignOut] =
+  awsconfig.oauth.redirectSignOut.split(",");
+
+async function urlOpener(url, redirectUrl) {
+  const { type, url: newUrl } = await WebBrowser.openAuthSessionAsync(
+    url,
+    redirectUrl
+  );
+
+  if (type === "success" && Platform.OS === "ios") {
+    WebBrowser.dismissBrowser();
+    return Linking.openURL(newUrl);
+  }
+}
+
+const updatedConfig = {
+  ...awsconfig,
+  oauth: {
+    ...awsconfig.oauth,
+    redirectSignIn: isLocalHost
+      ? localRedirectSignIn
+      : productionRedirectSignIn,
+    redirectSignOut: isLocalHost
+      ? localRedirectSignOut
+      : productionRedirectSignOut,
+    urlOpener,
+  },
+};
+Amplify.configure(updatedConfig)
+
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -58,6 +93,7 @@ function RootLayoutNav() {
         <AuthContextProvider>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown : false }} />
+          <Stack.Screen name="(auth)" options={{ headerShown : false }} />
           <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
           <Stack.Screen name="others" />
         </Stack>

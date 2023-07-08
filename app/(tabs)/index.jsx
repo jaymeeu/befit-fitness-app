@@ -6,6 +6,9 @@ import { View } from '../../components/Themed';
 import SigninSIgnup from '../../components/SigninSIgnup';
 import SignInScreen from '../../components/SigninSIgnup/SignInScreen';
 import SignUpScreen from '../../components/SigninSIgnup/SignupScreen';
+import ConfirmEmailScreen from '../../components/SigninSIgnup/ConfirmEmailScreen';
+import ForgotPasswordScreen from '../../components/SigninSIgnup/ForgetPsswordScreen';
+import NewPasswordScreen from '../../components/SigninSIgnup/NewPasswordScreen';
 
 export default function Page() {
 
@@ -19,9 +22,12 @@ export default function Page() {
                     :
                     userToken === null ?
                     <View>
-                        {/* <SigninSIgnup/> */}
+                        <SigninSIgnup/>
                         {/* <SignInScreen/> */}
-                        <SignUpScreen/>
+                        {/* <SignUpScreen/> */}
+                        {/* <ConfirmEmailScreen/> */}
+                        {/* <ForgotPasswordScreen/> */}
+                        {/* <NewPasswordScreen/> */}
                     </View>
                     :
                     <View style={{flex: 1}}>

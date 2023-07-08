@@ -74,21 +74,20 @@ const CustomInput = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
     width: '100%',
     borderColor: '#e8e8e8',
     borderBottomWidth: 1,
     borderRadius: 5,
     marginVertical: 8,
     flexDirection: 'row',
-    background: 'none',
+    backgroundColor: 'none',
     alignItems: 'center'
 
   },
   input: {
     marginLeft: 7,
     flex: 1,
-    background: 'none',
+    backgroundColor: 'none',
     paddingVertical: 15,
 
     fontFamily: 'work-san'

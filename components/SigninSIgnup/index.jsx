@@ -1,12 +1,40 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {Image, ScrollView, StyleSheet, useWindowDimensions} from 'react-native'
 import { Text, View } from '../Themed';
 import SocialButton from '../CustomButton/SocialButton';
 import google from '../../assets/images/GoogleIcon.png'
 import CustomButton from '../CustomButton/CustomButton';
+import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
+import { Auth, Hub } from 'aws-amplify'
 
 export default SigninSIgnup = () => {
+
+
+
+  const [user, setUser] = useState(null);
+  const [customState, setCustomState] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
+      switch (event) {
+        case "signIn":
+          setUser(data);
+          break;
+        case "signOut":
+          setUser(null);
+          break;
+        case "customOAuthState":
+          setCustomState(data);
+      }
+    });
+
+    Auth.currentAuthenticatedUser()
+      .then(currentUser => setUser(currentUser))
+      .catch(() => console.log("Not signed in"));
+
+    return unsubscribe;
+  }, []);
 
 const { height } = useWindowDimensions();
 
@@ -57,13 +85,16 @@ const styles = StyleSheet.create({
       <View style={styles.top}>
         <Image source={google} style={{ width: 60, height: 60 }} />
       </View>
-
+{
+    // console.log(user, "currentUser")
+}
       <View style={styles.below}>
         <View style={{backgroundColor : 'transparent'}}>
           <Text style={styles.started}>Get started</Text>
           <SocialButton
             text="Sign Up with Google"
             // onPress={authGoogle}
+            onPress={() => Auth.federatedSignIn({provider: CognitoHostedUIIdentityProvider.Google })}
             source={google}
             type="PRIMARY"
           />

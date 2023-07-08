@@ -8,12 +8,12 @@ import {
 } from 'react-native';
 import Logo from '../../assets/images/GoogleIcon.png';
 import { useForm } from 'react-hook-form';
-import { Auth } from 'aws-amplify'
 import CustomButton from '../CustomButton/CustomButton';
 import { MaterialIcons } from '@expo/vector-icons';
 import { EvilIcons } from '@expo/vector-icons';
 import CustomInput from '../CustomInput';
 import { Text, View } from '../Themed';
+import { Auth } from 'aws-amplify'
 
 const SignInScreen = () => {
   const { height } = useWindowDimensions();
@@ -67,6 +67,7 @@ const SignInScreen = () => {
   const onSignUpPress = () => {
     // navigation.navigate('SignUp');
   };
+
 
   return (
     <View style={styles.root}>
