@@ -96,20 +96,12 @@ function RootLayoutNav() {
     <>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <AuthContextProvider>
-          {/* {
-            userToken === null ? */}
               <Stack>
                 <Stack.Screen name="index" options={{ headerShown: false }} />
                 <Stack.Screen name="(home)" options={{ headerShown : false }} />
                 <Stack.Screen name="auth" options={{ headerShown: false }} />
                 <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
               </Stack>
-              {/* :
-              
-          } */}
-
-          {/* } */}
-
         </AuthContextProvider>
       </ThemeProvider>
     </>

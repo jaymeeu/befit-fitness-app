@@ -13,7 +13,7 @@ const router = useRouter()
 
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView >
       <View>
         <Text>Home page</Text>
       </View>
