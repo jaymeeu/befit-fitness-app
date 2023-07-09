@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import React from "react";
 import Colors from "../../constants/Colors";
+import { TextStroke } from "../TextStroke";
 
 const EachBoard = (props) => {
   const { imageSrc, title, subtitle, imageDimension } = props;
@@ -25,28 +26,47 @@ const EachBoard = (props) => {
       marginVertical: height / 53,
     },
     heading: {
-      marginBottom: 12,
-      color: Colors[colorScheme ?? "light"].text,
+      marginVertical: 12,
+      color: Colors[colorScheme ?? "light"].alwayWhite,
+      fontSize: 24,
+      fontWeight: 600,
+      fontFamily: "capriola",
     },
     subheading: {
       width: window_width * 0.8,
       color: Colors[colorScheme ?? "light"].text,
-
+      fontFamily: "work-san",
+      fontSize: 16,
     },
   });
 
   return (
     <View style={style.container}>
-      <Image
-        style={[
-          style.images,
-          imageDimension,
-          { maxHeight: 220, maxWidth: 220 },
-        ]}
-        source={imageSrc}
-      />
-      <Text style={[style.heading]}>{title}</Text>
-      <Text style={[style.subheading]}>{subtitle}</Text>
+        <View style={{marginBottom : 20, marginTop : 30}}>
+        <TextStroke stroke={1} color={"#000000"}>
+        <Text
+          style={{
+            fontSize: 30,
+            color: "#FFFFFF",
+            fontFamily: "capriola",
+          }}
+        >
+          {title}
+        </Text>
+      </TextStroke>
+        </View>
+     
+      <TextStroke stroke={1} color={"#000000"}>
+        <Text
+          style={{
+            fontSize: 18,
+            color: "#FFFFFF",
+            fontFamily: "work-san",
+          }}
+        >
+          {subtitle}
+        </Text>
+      </TextStroke>
     </View>
   );
 };

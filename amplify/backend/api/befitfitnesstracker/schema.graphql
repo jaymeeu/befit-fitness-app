@@ -6,13 +6,14 @@ enum Level {
 
 type User @model @auth(rules: [{allow: public}]) {
   id: ID!
-  name: String!
+  name: String
   email: String!
-  age: Int!
-  height: Float!
-  weight: Float!
+  age: Int
+  height: Float
+  weight: Float
   workouts: [Workout] @hasMany(indexName: "byUser", fields: ["id"])
-  achievements: [Achievement!]!
+  achievements: [Achievement]
+  sub: String!
 }
 
 type Workout @model @auth(rules: [{allow: public}]) {

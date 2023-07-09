@@ -37,7 +37,8 @@ const ForgotPasswordScreen = () => {
             alignItems: 'center',
             padding: 20,
             height: height,
-            // backgroundColor:'green'
+      backgroundColor : Colors[colorScheme ?? "light"].background
+            
 
         },
         title: {
@@ -45,6 +46,9 @@ const ForgotPasswordScreen = () => {
             fontWeight: 'bold',
             color : Colors[colorScheme ?? 'light'].text,
             margin: 10,
+            // marginBottom : 20,
+      fontFamily: 'capriola',
+
         },
         text: {
             color: 'gray',
@@ -59,7 +63,7 @@ const ForgotPasswordScreen = () => {
         <SafeAreaView style={styles.root}>
             <View style={{ flexDirection: "column", gap: 15, width: "100%", alignItems: "center", backgroundColor :'transparent' }}>
 
-                <Text style={styles.title}>Reset your password</Text>
+                <Text style={styles.title}>Request password reset</Text>
 
                 <CustomInput
                     name="username"

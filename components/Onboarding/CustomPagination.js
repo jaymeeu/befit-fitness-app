@@ -15,8 +15,8 @@ export const CustomPagination = (props) => {
       alignItems :'center',
       justifyContent:'flex-start',
       paddingHorizontal:30,
-      width:'100%'
-      // justifyContent :'flex-end'
+      width:'100%',
+      justifyContent :'flex-end'
       
     },
     pagination: {
@@ -42,7 +42,7 @@ export const CustomPagination = (props) => {
       paginationStyleItemActive={styles.active}
       paginationStyleItemInactive={styles.inactive}
       paginationDefaultColor= {Colors[colorScheme ?? "light"].tabIconDefault}
-      paginationActiveColor= {Colors[colorScheme ?? "light"].tabIconSelected}
+      paginationActiveColor= {Colors[colorScheme ?? "light"].alwayWhite}
     />
   );
 };

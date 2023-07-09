@@ -21,12 +21,22 @@ export const createUser = /* GraphQL */ `
           date
           duration
           caloriesBurned
+          userID
+          level
+          progress
+          expectedResult
+          focus
+          days_completed
+          image
           createdAt
           updatedAt
-          userWorkoutsId
+          _version
+          _deleted
+          _lastChangedAt
           __typename
         }
         nextToken
+        startedAt
         __typename
       }
       achievements {
@@ -36,10 +46,17 @@ export const createUser = /* GraphQL */ `
         earnedDate
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         __typename
       }
+      sub
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       __typename
     }
   }
@@ -64,12 +81,22 @@ export const updateUser = /* GraphQL */ `
           date
           duration
           caloriesBurned
+          userID
+          level
+          progress
+          expectedResult
+          focus
+          days_completed
+          image
           createdAt
           updatedAt
-          userWorkoutsId
+          _version
+          _deleted
+          _lastChangedAt
           __typename
         }
         nextToken
+        startedAt
         __typename
       }
       achievements {
@@ -79,10 +106,17 @@ export const updateUser = /* GraphQL */ `
         earnedDate
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         __typename
       }
+      sub
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       __typename
     }
   }
@@ -107,12 +141,22 @@ export const deleteUser = /* GraphQL */ `
           date
           duration
           caloriesBurned
+          userID
+          level
+          progress
+          expectedResult
+          focus
+          days_completed
+          image
           createdAt
           updatedAt
-          userWorkoutsId
+          _version
+          _deleted
+          _lastChangedAt
           __typename
         }
         nextToken
+        startedAt
         __typename
       }
       achievements {
@@ -122,10 +166,17 @@ export const deleteUser = /* GraphQL */ `
         earnedDate
         createdAt
         updatedAt
+        _version
+        _deleted
+        _lastChangedAt
         __typename
       }
+      sub
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       __typename
     }
   }
@@ -150,17 +201,31 @@ export const createWorkout = /* GraphQL */ `
           reps
           weight
           duration
+          workoutID
+          image
           createdAt
           updatedAt
-          workoutExercisesId
+          _version
+          _deleted
+          _lastChangedAt
           __typename
         }
         nextToken
+        startedAt
         __typename
       }
+      userID
+      level
+      progress
+      expectedResult
+      focus
+      days_completed
+      image
       createdAt
       updatedAt
-      userWorkoutsId
+      _version
+      _deleted
+      _lastChangedAt
       __typename
     }
   }
@@ -185,17 +250,31 @@ export const updateWorkout = /* GraphQL */ `
           reps
           weight
           duration
+          workoutID
+          image
           createdAt
           updatedAt
-          workoutExercisesId
+          _version
+          _deleted
+          _lastChangedAt
           __typename
         }
         nextToken
+        startedAt
         __typename
       }
+      userID
+      level
+      progress
+      expectedResult
+      focus
+      days_completed
+      image
       createdAt
       updatedAt
-      userWorkoutsId
+      _version
+      _deleted
+      _lastChangedAt
       __typename
     }
   }
@@ -220,17 +299,31 @@ export const deleteWorkout = /* GraphQL */ `
           reps
           weight
           duration
+          workoutID
+          image
           createdAt
           updatedAt
-          workoutExercisesId
+          _version
+          _deleted
+          _lastChangedAt
           __typename
         }
         nextToken
+        startedAt
         __typename
       }
+      userID
+      level
+      progress
+      expectedResult
+      focus
+      days_completed
+      image
       createdAt
       updatedAt
-      userWorkoutsId
+      _version
+      _deleted
+      _lastChangedAt
       __typename
     }
   }
@@ -247,9 +340,13 @@ export const createExercise = /* GraphQL */ `
       reps
       weight
       duration
+      workoutID
+      image
       createdAt
       updatedAt
-      workoutExercisesId
+      _version
+      _deleted
+      _lastChangedAt
       __typename
     }
   }
@@ -266,9 +363,13 @@ export const updateExercise = /* GraphQL */ `
       reps
       weight
       duration
+      workoutID
+      image
       createdAt
       updatedAt
-      workoutExercisesId
+      _version
+      _deleted
+      _lastChangedAt
       __typename
     }
   }
@@ -285,9 +386,13 @@ export const deleteExercise = /* GraphQL */ `
       reps
       weight
       duration
+      workoutID
+      image
       createdAt
       updatedAt
-      workoutExercisesId
+      _version
+      _deleted
+      _lastChangedAt
       __typename
     }
   }
@@ -304,6 +409,9 @@ export const createAchievement = /* GraphQL */ `
       earnedDate
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       __typename
     }
   }
@@ -320,6 +428,9 @@ export const updateAchievement = /* GraphQL */ `
       earnedDate
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       __typename
     }
   }
@@ -336,6 +447,9 @@ export const deleteAchievement = /* GraphQL */ `
       earnedDate
       createdAt
       updatedAt
+      _version
+      _deleted
+      _lastChangedAt
       __typename
     }
   }

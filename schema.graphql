@@ -1,67 +1,52 @@
-
-# This "input" configures a global authorization rule to enable public access to
-# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
-input AMPLIFY { globalAuthRule: AuthRule = { allow: public } } # FOR TESTING ONLY!
-
-type Blog @model {
-  id: ID!
-  name: String!
-  posts: [Post] @hasMany
+enum Level {
+  BASIC
+  INTERMEDIATE
+  ADVANCED
 }
 
-type Post @model {
-  id: ID!
-  title: String!
-  blog: Blog @belongsTo
-  comments: [Comment] @hasMany
-}
-
-type Comment @model {
-  id: ID!
-  post: Post @belongsTo
-  content: String!
-}
-
-
-# Defines a user in the fitness tracker application.
-type User @model @auth(rules: [{allow: public}]){
+type User @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String!
   email: String!
-  age: Int!
-  height: Float!
-  weight: Float!
-  workouts: [Workout!]! @hasMany
-  achievements: [Achievement!]! 
+  age: Int
+  height: Float
+  weight: Float
+  workouts: [Workout] @hasMany(indexName: "byUser", fields: ["id"])
+  achievements: [Achievement]!
+  sub: String!
 }
 
-# Defines a workout performed by a user.
-type Workout @model @auth(rules: [{allow: public}]){
+type Workout @model @auth(rules: [{allow: public}]) {
   id: ID!
   title: String!
   description: String!
   date: String!
   duration: Int!
   caloriesBurned: Int!
-  exercises: [Exercise!]! @hasMany
+  exercises: [Exercise!] @hasMany(indexName: "byWorkout", fields: ["id"])
+  userID: ID! @index(name: "byUser")
+  level: Level!
+  progress: Int
+  expectedResult: [String]
+  focus: [String]
+  days_completed: Int
+  image: String!
 }
 
-# Defines an exercise performed within a workout.
-type Exercise @model @auth(rules: [{allow: public}]){
+type Exercise @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String!
   sets: Int!
   reps: Int!
   weight: Float!
   duration: Int!
+  workoutID: ID! @index(name: "byWorkout")
+  image: String
 }
 
-# Defines an achievement earned by a user.
-type Achievement @model @auth(rules: [{allow: public}]){
+type Achievement @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String!
   description: String!
   earnedDate: String!
 }
-
-

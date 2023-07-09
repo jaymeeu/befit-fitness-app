@@ -10,17 +10,20 @@ export default {
     tabIconSelected: tintColorLight,
     buttonBG : '#2B2A49',
     buttonText : 'white',
-    bright: 'white'
+    alwayWhite: 'white',
+    alwayBlack: 'black'
   },
   dark: {
     text: '#e4e4e4',
-    background: '#262445',
+    background: '#201f2d',
     tint: tintColorDark,
     tabIconDefault: '#5E7E96',
     tabIconSelected: tintColorDark,
-    buttonBG : '#e4e4e4',
-    buttonText : '#2B2A49',
-    bright: 'black'
+    buttonBG : '#393851',
+    buttonText : '#e4e4e4',
+    bright: 'black',
+    alwayWhite: 'white',
+    alwayBlack: 'black'
 
   },
 };

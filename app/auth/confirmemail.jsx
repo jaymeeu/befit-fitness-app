@@ -51,7 +51,8 @@ const colorScheme = useColorScheme()
       alignItems: 'center',
       padding: 20,
       height : height ,
-      // backgroundColor:'green'
+      backgroundColor : Colors[colorScheme ?? "light"].background
+      
 
     },
     title: {

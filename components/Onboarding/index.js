@@ -1,8 +1,9 @@
 import React, { useState, useRef } from 'react';
-import { Dimensions, View, Pressable, Text, StyleSheet, TouchableOpacity, useWindowDimensions, useColorScheme } from 'react-native';
+import { Dimensions, View, Pressable, Text, StyleSheet, TouchableOpacity, useWindowDimensions, useColorScheme, ImageBackground } from 'react-native';
 import SwiperFlatList from 'react-native-swiper-flatlist';
 import slide1 from '../../assets/images/slide1.png'
 import slide2 from '../../assets/images/slide2.png'
+import background from '../../assets/images/background.jpg'
 import slide3 from '../../assets/images/slide3.png'
 import { AntDesign } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -36,21 +37,21 @@ const Onboarding = () => {
 
   const data = [{
     "imageSrc": slide1,
-    "title": "Get verified talents",
-    "subtitle": "Discover the best talent to join your team or for your next project",
-    "imageDimension": { width: height/4.1, height: height/4.1 }
+    "title": "Select workout plan",
+    "subtitle": "Select from lists of workout plans for your desired goal",
+    "imageDimension": { width: '100%', height: 250 }
   },
   {
     "imageSrc": slide2,
-    "title": "Get verified talents",
-    "subtitle": "Discover the best talent to join your team or for your next project",
-    "imageDimension": { width: 180, height: 150 }
+    "title": "Do the exercises",
+    "subtitle": "Do the exercise and stay consistence with your workout plans ",
+    "imageDimension": { width: "100%", height: 250 }
   },
   {
     "imageSrc": slide3,
-    "title": "Get verified talents",
-    "subtitle": "Discover the best talent to join your team or for your next project",
-    "imageDimension": { width: 177, height: 125 }
+    "title": "Get desired results",
+    "subtitle": "Achieve your desired body shape and goals",
+    "imageDimension": { width: "100%", height: 250 }
   },
   ]
   const image = index => ({ each: data[index % data.length] });
@@ -73,29 +74,38 @@ const Onboarding = () => {
 const styles = StyleSheet.create({
   container : { 
     flex: 1, 
-    backgroundColor: Colors[colorScheme ?? 'light'].background, 
-    paddingVertical: 30 
+    backgroundColor: "transparent", 
+    paddingVertical: 30 ,
+  },
+  backgroud : {
+    height : height
+    
   },
   next : {
     paddingHorizontal : 30,
     alignItems : 'center',
-    flexDirection :'row'
+    flexDirection :'row',
+    justifyContent:'flex-end',
+
   },
   
   nextText : {
     fontFamily: 'capriola',
     fontSize: 18,
     marginRight : 5,
-    color : Colors[colorScheme ?? "light"].text
+    color : Colors[colorScheme ?? "light"].alwayWhite
   },
   skip : {
     paddingHorizontal : 30,
     flexDirection :'row',
-    justifyContent:'flex-end'
+    justifyContent:'flex-end',
+    // backgroundColor : 'white'
   },
 })
 
   return (
+    <ImageBackground source={background} style={styles.backgroud}>
+
     <SafeAreaView style={styles.container}>
       <TouchableOpacity style={styles.skip}
         onPress={ async() =>{
@@ -110,6 +120,8 @@ const styles = StyleSheet.create({
         onChangeIndex={onChangeIndex}
         data={items}
         ref={scrollRef}
+        autoplay={true}
+        autoplayLoop={true}
         renderItem={({ item }) => <RenderItem item={item.each} />}
         showPagination
         PaginationComponent={CustomPagination}
@@ -124,15 +136,16 @@ const styles = StyleSheet.create({
             }}
            >
             <Text style={styles.nextText}>Next</Text>
-            <AntDesign name="arrowright" size={20} color={Colors[colorScheme ?? 'light'].text} />
+            <AntDesign name="arrowright" size={20} color={Colors[colorScheme ?? 'light'].alwayWhite} />
           </Pressable>
           :
           <Pressable style={styles.next} onPress={goToNext} >
             <Text style={styles.nextText}>Next</Text>
-            <AntDesign name="arrowright" size={20} color={Colors[colorScheme ?? "light"].text} />
+            <AntDesign name="arrowright" size={20} color={Colors[colorScheme ?? "light"].alwayWhite} />
           </Pressable>
       }
     </SafeAreaView>
+    </ImageBackground>
   );
 };
 

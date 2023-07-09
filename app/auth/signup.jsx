@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Alert, StyleSheet, ScrollView, TouchableOpacity, useWindowDimensions, useColorScheme } from 'react-native';
+import { Alert, StyleSheet, ScrollView, TouchableOpacity, useWindowDimensions, useColorScheme, Pressable } from 'react-native';
 import { useForm } from 'react-hook-form';
-import { Auth } from 'aws-amplify'
+import { API, Auth, DataStore, graphqlOperation } from 'aws-amplify'
 import { MaterialIcons } from '@expo/vector-icons';
 import { EvilIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,6 +11,8 @@ import { Text, View } from '../../components/Themed';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import { Link, useRouter } from 'expo-router';
 import Colors from '../../constants/Colors';
+import { Achievement, User } from '../../src/models';
+import { listUsers } from '../../src/graphql/queries';
 
 const EMAIL_REGEX =
     /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -25,25 +27,80 @@ const SignUpScreen = () => {
 
     const { height } = useWindowDimensions();
 
-    const onRegisterPressed = async (data) => {
-        const { username, password } = data
+    const datastoretest = async ()=>{
 
         try {
-            const response = await Auth.signUp({
-                username,
-                password,
-                attributes: { preferred_username: username },
-            })
-            router.push({
-                pathname: "/auth/confirmemail",
-                params: { username}
-            })
-            // navigation.navigate('ConfirmEmail', {username});
-        }
-        catch (e) {
-            Alert.alert(e.message)
-            // console.log(e)
-        }
+          
+            const todos = await API.graphql(graphqlOperation(listUsers));
+            console.log(todos, "todoesss")
+          } catch (error) {
+            console.log('Error saving post', error);
+          }
+
+        // const datum =  DataStore.save(
+        //     new User({
+        //         "name": "Lorem ipsum dolor sit amet",
+        //         "email": "Lorem ipsum dolor sit amet",
+        //         "age": 1020,
+        //         "height": 123.45,
+        //         "weight": 123.45,
+        //         "workouts": [],
+        //         "achievements": [],
+        //         "sub": "Lorem ipsum dolor sit amet"
+        //     })
+        // )
+        // .then((res)=>{
+        //     console.log(res)
+        // })
+        // .catch((err)=>{
+        //     console.log(err, "error")
+        // })
+
+    }
+
+    const onRegisterPressed = async (data) => {
+
+        data.username = data.username.toLowerCase();
+        
+        const { username, password } = data
+
+        console.log('am here starte')
+
+      
+        
+        console.log(datum, "datum")
+
+        console.log('am here end')
+        // try {
+        //     const response = await Auth.signUp({
+        //         username,
+        //         password,
+        //         attributes: { preferred_username: username },
+        //     })
+
+        //     await DataStore.save(
+        //         new User({
+        //             "email": username,
+        //             "sub": response.userSub
+        //         })
+        //     ).then((res)=>{
+        //         console.log(res, "rpose")
+        //     })
+        //     .catch((err)=>{
+        //         console.log(err, "reoorororo")
+        //     })
+
+        //     console.log(response.userSub)
+
+
+        //     router.push({
+        //         pathname: "/auth/confirmemail",
+        //         params: { username}
+        //     })
+        // }
+        // catch (e) {
+        //     Alert.alert(e.message)
+        // }
     };
 
     const onTermsOfUsePressed = () => {
@@ -60,13 +117,16 @@ const SignUpScreen = () => {
             alignItems: 'center',
             padding: 20,
             height: height,
-            // backgroundColor: 'red'
+      backgroundColor : Colors[colorScheme ?? "light"].background
+            
         },
         title: {
             fontSize: 24,
             fontWeight: 'bold',
             color : Colors[colorScheme ?? 'light'].text,
             margin: 10,
+            fontFamily: 'capriola',
+
         },
         text: {
             color : Colors[colorScheme ?? 'light'].tabIconDefault,
@@ -142,8 +202,8 @@ const SignUpScreen = () => {
                     rules={{
                         required: 'Password is required',
                         minLength: {
-                            value: 8,
-                            message: 'Password should be at least 8 characters long',
+                            value: 6,
+                            message: 'Password should be at least 6 characters long',
                         },
                     }}
                 />
@@ -158,7 +218,7 @@ const SignUpScreen = () => {
                         validate: value => value === pwd || 'Password do not match',
                     }}
                 />
-
+                <View style={{marginVertical : 15}}></View>
                 <CustomButton
                     text="Register"
                     onPress={handleSubmit(onRegisterPressed)}
@@ -182,6 +242,10 @@ const SignUpScreen = () => {
                         <Text style={{ color : Colors[colorScheme ?? 'light'].tabIconDefault}}>Have an account? Sign in</Text>
                     </TouchableOpacity>
                 </Link>
+
+                <Pressable onPress={datastoretest}>
+                    <Text>Tested</Text>
+                </Pressable>
             </SafeAreaView>
         </ScrollView>
     );

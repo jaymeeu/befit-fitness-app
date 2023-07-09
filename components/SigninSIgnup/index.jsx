@@ -6,13 +6,20 @@ import SocialButton from '../CustomButton/SocialButton';
 import google from '../../assets/images/GoogleIcon.png'
 import CustomButton from '../CustomButton/CustomButton';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
-import { Auth, Hub } from 'aws-amplify'
-import { Link, router } from 'expo-router';
+import { Auth, Hub, DataStore, API, graphqlOperation } from 'aws-amplify'
+import { Link, useRouter } from 'expo-router';
 import Colors from '../../constants/Colors';
+import { useAuthContext } from '../../contexts/AuthContext';
+import { User } from '../../src/models';
+import { listUsers } from '../../src/graphql/queries';
 
 export default SigninSIgnup = () => {
 
+    const router = useRouter()
+    const { updateToken } = useAuthContext()
+
     const [user, setUser] = useState(null);
+    const [DBuser, setDBUser] = useState(null);
     const [customState, setCustomState] = useState(null);
 
     useEffect(() => {
@@ -30,7 +37,30 @@ export default SigninSIgnup = () => {
         });
 
         Auth.currentAuthenticatedUser()
-            .then(currentUser => setUser(currentUser))
+            .then( async currentUser => {
+                setUser(currentUser)
+
+                console.log(currentUser?.attributes?.sub, "currentUser currentUser currentUser")
+
+                try {
+          
+                    const models = await DataStore.query(User);
+                    console.log(models);
+                  } catch (error) {
+                    console.log('Error saving post', error);
+                  }
+                // Get a specific item
+                // DataStore.query(User, (user) => user.sub('eq', currentUser?.attributes?.sub))
+                // .then((user) => {
+                //     //store database user information
+                //     setDBUser(user[0])
+                //     console.log(user[0], 'usersrsrsrs')
+                // })
+
+                // updateToken(currentUser?.attributes?.sub)
+
+                // router.replace("(home)")
+            })
             .catch(() => console.log("Not signed in"));
 
         return unsubscribe;
@@ -117,7 +147,7 @@ export default SigninSIgnup = () => {
                     <Link href="/auth/signup" asChild>
                         <CustomButton
                             text="Sign up"
-                            type="SECONDARY"
+                            type="PRIMARY"
                         />
                     </Link>
                 </View>

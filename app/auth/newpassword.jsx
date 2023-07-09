@@ -38,12 +38,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
     height : height ,
+    backgroundColor : Colors[colorScheme ?? "light"].background
+
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     color : Colors[colorScheme ?? 'light'].text,
     margin: 10,
+    fontFamily: 'capriola',
+
   },
   link: {
     color : Colors[colorScheme ?? 'light'].text,
@@ -79,8 +83,8 @@ const styles = StyleSheet.create({
           rules={{
             required: 'Password is required',
             minLength: {
-              value: 8,
-              message: 'Password should be at least 8 characters long',
+              value: 6,
+              message: 'Password should be at least 6 characters long',
             },
           }}
         />
