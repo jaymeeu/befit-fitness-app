@@ -6,15 +6,15 @@ import { View } from '../../components/Themed';
 
 export default function Page() {
 
-    const { userToken, userOnboard, setuserOnboard } = useAuthContext()
+    const { dbUser, userOnboard, setuserOnboard } = useAuthContext()
 
     return (
         <>
             {
-                userToken === null && userOnboard === null ?
+                dbUser === null && userOnboard === null ?
                     <Onboarding />
                     :
-                    userToken === null ?
+                    dbUser === null ?
                         <View>
 
                         </View>

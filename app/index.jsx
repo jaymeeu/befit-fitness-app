@@ -10,11 +10,11 @@ import { useRouter } from 'expo-router';
 
 export default function Page() {
 
-    const { userToken, userOnboard, setuserToken } = useAuthContext()
+    const { dbUser, userOnboard, setDbUser } = useAuthContext()
 const router = useRouter()
 
     useEffect(() => {
-     if(router && userToken !== null  ){
+     if(router && dbUser?.length > 0  ){
         router.replace('(home)') 
      }
     }, [router])
@@ -22,12 +22,17 @@ const router = useRouter()
     return (
         <>
             {
-                userToken === null && userOnboard === null ?
+                dbUser === null && userOnboard === null ?
                     <Onboarding />
                     :
-                    userToken === null && userOnboard !== null ?
+                    dbUser === null && userOnboard !== null ?
                         <View>
                             <SigninSIgnup />
+                        </View>
+                        :
+                        dbUser?.length === 0 ?
+                        <View>
+                            <Text>Onboarding flow</Text>
                         </View>
                         :
                         <></>

@@ -7,7 +7,7 @@ import { Pressable } from "react-native";
 import { useRouter } from "expo-router";
 
 const HomeScreen = () => {
-    const { setuserToken } = useAuthContext()
+    const { setDbUser } = useAuthContext()
 
 const router = useRouter()
 
@@ -21,7 +21,7 @@ const router = useRouter()
         style={{ marginTop: "auto" }}
         onPress={async () => {
           Logout().then(() => {
-            setuserToken(null);
+            setDbUser(null);
             router.replace('/')
           });
         }}

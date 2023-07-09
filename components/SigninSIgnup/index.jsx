@@ -16,9 +16,8 @@ import { listUsers } from '../../src/graphql/queries';
 export default SigninSIgnup = () => {
 
     const router = useRouter()
-    const { updateToken } = useAuthContext()
+    const { updateDbUser, setAuthUser } = useAuthContext()
 
-    const [user, setUser] = useState(null);
     const [DBuser, setDBUser] = useState(null);
     const [customState, setCustomState] = useState(null);
 
@@ -26,10 +25,10 @@ export default SigninSIgnup = () => {
         const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
             switch (event) {
                 case "signIn":
-                    setUser(data);
+                    setAuthUser(data);
                     break;
                 case "signOut":
-                    setUser(null);
+                    setAuthUser(undefined);
                     break;
                 case "customOAuthState":
                     setCustomState(data);
@@ -38,14 +37,14 @@ export default SigninSIgnup = () => {
 
         Auth.currentAuthenticatedUser()
             .then( async currentUser => {
-                setUser(currentUser)
+                setAuthUser(currentUser)
 
-                console.log(currentUser?.attributes?.sub, "currentUser currentUser currentUser")
+                // console.log(currentUser?.attributes?.sub, "currentUser currentUser currentUser")
 
                 try {
           
-                    const models = await DataStore.query(User);
-                    console.log(models);
+                    // const models = await DataStore.query(User);
+                    // console.log(models, 'models');
                   } catch (error) {
                     console.log('Error saving post', error);
                   }
@@ -57,7 +56,7 @@ export default SigninSIgnup = () => {
                 //     console.log(user[0], 'usersrsrsrs')
                 // })
 
-                // updateToken(currentUser?.attributes?.sub)
+                // updateDbUser(currentUser?.attributes?.sub)
 
                 // router.replace("(home)")
             })

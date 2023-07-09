@@ -90,7 +90,7 @@ function TabBarIcon(props) {
 function RootLayoutNav() {
 
   const colorScheme = useColorScheme();
-  const { userToken, userOnboard } = useAuthContext()
+  const { dbUser, userOnboard } = useAuthContext()
 
   return (
     <>

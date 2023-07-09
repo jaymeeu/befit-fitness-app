@@ -1,1 +1,3 @@
+import '@azure/core-asynciterator-polyfill'
+import 'core-js/full/symbol/async-iterator';
 import 'expo-router/entry';

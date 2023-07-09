@@ -10,7 +10,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { MaterialIcons } from '@expo/vector-icons';
 import { EvilIcons } from '@expo/vector-icons';
-import { Auth } from 'aws-amplify'
+import { Auth, DataStore } from 'aws-amplify'
 
 import Logo from '../../assets/images/GoogleIcon.png';
 import CustomInput from '../../components/CustomInput';
@@ -19,13 +19,14 @@ import CustomButton from '../../components/CustomButton/CustomButton';
 import { Link, useRouter } from 'expo-router';
 import { useAuthContext } from '../../contexts/AuthContext';
 import Colors from '../../constants/Colors';
+import { User } from '../../src/models';
 
 const SignInScreen = () => {
 
   const router = useRouter()
   const { height } = useWindowDimensions();
 
-const { updateToken } = useAuthContext()
+const { updateDbUser, setAuthUser } = useAuthContext()
 const colorScheme = useColorScheme();
 
 
@@ -60,10 +61,15 @@ const colorScheme = useColorScheme();
     setloading(true);
     try {
       const response = await Auth.signIn(data.username, data.password)
-      updateToken(response?.attributes?.sub)
-
-      // router.replace("../")
-      router.replace("(home)")
+      setAuthUser(response)
+      try {
+        const users = await DataStore.query(User, (user) =>  user.sub.eq(response?.attributes?.sub));
+        updateDbUser(users)
+      } catch (error) {
+        console.log(error, "eoorr")
+      }
+      router.replace("../")
+      // router.replace("(home)")
 
     }
     catch (e) {

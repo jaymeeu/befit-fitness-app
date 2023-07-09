@@ -3,13 +3,17 @@ import React, { useState, useEffect, useContext, createContext } from "react";
 
 const AuthContext = createContext({});
 const AuthContextProvider = ({ children }) => {
-    const [userToken, setuserToken] = useState(undefined)
+    
+    const [dbUser, setDbUser] = useState(undefined)
+
     const [userOnboard, setuserOnboard] = useState(undefined)
 
-    const getUserToken = async () => {
+    const [authUser, setAuthUser] = useState(undefined)
+
+    const getdbUser = async () => {
         try {
-            const value = await AsyncStorage.getItem('@user_token')
-            setuserToken(value)
+            const value = await AsyncStorage.getItem('@db_user')
+            setDbUser(value)
             console.log(value,"ghjkjk")
         } catch (e) {
         }
@@ -25,25 +29,28 @@ const AuthContextProvider = ({ children }) => {
         }
     }
 
-    const updateToken = async (token) => {
-      await AsyncStorage.setItem('@user_token', token);
-      setuserToken(token)
+    const updateDbUser = async (user) => {
+      await AsyncStorage.setItem('@db_user', JSON.stringify(user) );
+      setDbUser(user)
   }
 
 
     useEffect(() => {
-        getUserToken();
+        getdbUser();
         getOnboardState()
     }, [])
 
     return (
         <AuthContext.Provider
             value={{ 
-                userToken, 
-                updateToken,
+                dbUser, 
+                updateDbUser,
                 userOnboard,
                 setuserOnboard,
-                setuserToken
+                setDbUser,
+                authUser, 
+                setAuthUser,
+                updateDbUser
             }}
         >
             {children}

@@ -15,12 +15,12 @@ function TabBarIcon(props) {
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
-  const { userToken, userOnboard } = useAuthContext()
+  const { dbUser, userOnboard } = useAuthContext()
 
   return (
     <>
       {
-        userToken === null ?
+        dbUser === null ?
           <Stack>
             <Stack.Screen name='index'
               options={{ headerShown: false }} />
