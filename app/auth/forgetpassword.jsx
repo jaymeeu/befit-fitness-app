@@ -46,7 +46,6 @@ const ForgotPasswordScreen = () => {
             fontWeight: 'bold',
             color : Colors[colorScheme ?? 'light'].text,
             margin: 10,
-            // marginBottom : 20,
       fontFamily: 'capriola',
 
         },
