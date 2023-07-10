@@ -9,6 +9,7 @@ import * as WebBrowser from "expo-web-browser";
 import awsconfig from '../src/aws-exports'
 import AuthContextProvider, { useAuthContext } from '../contexts/AuthContext';
 import Colors from '../constants/Colors';
+import UserContextProvider from '../contexts/RegContext';
 
 const isLocalHost = Boolean(__DEV__);
 
@@ -96,12 +97,14 @@ function RootLayoutNav() {
     <>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <AuthContextProvider>
-              <Stack>
-                <Stack.Screen name="index" options={{ headerShown: false }} />
-                <Stack.Screen name="(home)" options={{ headerShown : false }} />
-                <Stack.Screen name="auth" options={{ headerShown: false }} />
-                <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-              </Stack>
+          <UserContextProvider>
+            <Stack>
+              <Stack.Screen name="index" options={{ headerShown: false }} />
+              <Stack.Screen name="(home)" options={{ headerShown: false }} />
+              <Stack.Screen name="auth" options={{ headerShown: false }} />
+              <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+            </Stack>
+          </UserContextProvider>
         </AuthContextProvider>
       </ThemeProvider>
     </>

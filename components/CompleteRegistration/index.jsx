@@ -1,82 +1,84 @@
-import { View, Text, useWindowDimensions, Pressable } from 'react-native'
+import { View, Text, useWindowDimensions, Pressable, StyleSheet } from 'react-native'
 import React, { useRef, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import SwiperFlatList from 'react-native-swiper-flatlist'
 import { Paginator } from './Paginator'
+import Hello from './Hello'
+import { Ionicons } from '@expo/vector-icons';
+import Gender from './Gender'
+import Fullname from './Fullname'
 
 const Registration = () => {
     const { width, height } = useWindowDimensions();
     const scrollRef = useRef(null);
 
-  const [currentIndex, setcurrentIndex] = useState(0)
+    const [currentIndex, setcurrentIndex] = useState(0)
 
 
-  const goToNext = () => {
-    setcurrentIndex(prev => prev + 1)
-    scrollRef.current.scrollToIndex({ index: currentIndex + 1 });
-  };
+    const goToNext = () => {
+        setcurrentIndex(prev => prev + 1)
+        scrollRef.current.scrollToIndex({ index: currentIndex + 1 });
+    };
 
-  const goBack = () => {
-    setcurrentIndex(prev => prev + 1)
-    scrollRef.current.scrollToIndex({ index: currentIndex - 1 });
-  };
+    const goBack = () => {
+        setcurrentIndex(prev => prev + 1)
+        scrollRef.current.scrollToIndex({ index: currentIndex - 1 });
+    };
 
-  const onChangeIndex = ({ index, prevIndex }) => {
-    // console.log({ index, prevIndex });
-    setcurrentIndex(index)
-  };
+    const onChangeIndex = ({ index, prevIndex }) => {
+        // console.log({ index, prevIndex });
+        setcurrentIndex(index)
+    };
 
 
-  const data = [{
-    "title": "Select workout plan",
-  },
-  {
-    "title": "Do the exercises",
-  },
-  {
-    "title": "Get desired results",
-  },
-  ]
-  const image = index => ({ each: data[index % data.length] });
+    const data = [
+        <Hello goNext={goToNext} />,
+        <Gender goNext={goToNext} />,
+        <Fullname />
 
-  const items = Array.from(Array(3)).map((_, index) => image(index));
+    ]
+    const image = index => ({ each: data[index % data.length] });
 
-  const RenderItem = ({ item, index }) => (
-    <View style={{ width: width, height : height - 150, justifyContent :'center'}}>
-     <Text>{item.title}</Text>
-    </View>
-  )
+    const items = Array.from(Array(4)).map((_, index) => image(index));
 
-  return (
-    <SafeAreaView>
-      <Text>Onboarding flow</Text>
+    const RenderItem = ({ item, index }) => (
+        <View style={{ width: width, height: height - 250, justifyContent: 'center' }}>
+            {item}
+        </View>
+    )
 
-      <SwiperFlatList
-        onChangeIndex={onChangeIndex}
-        data={items}
-        ref={scrollRef}
-        disableGesture={true}
-        // autoplay={true}
-        // autoplayLoop={true}
-        renderItem={({ item }) => <RenderItem item={item.each} />}
-        showPagination
-        PaginationComponent={Paginator}
-      />
- {
-        currentIndex === 2 ?
-    
-      <Pressable onPress={goBack}>
-        <Text>Previos</Text>
-      </Pressable>
-      :
-      <Pressable onPress={goToNext}>
-        <Text>Next</Text>
-      </Pressable>
+    const styles = StyleSheet.create({
+        navbar: {
+            padding: 15,
+        }
+    })
+    return (
+        <SafeAreaView>
+            <View style={styles.navbar}>
+                {
+                    currentIndex !== 0 &&
+                    <Pressable onPress={goBack}>
+                       <Ionicons name="ios-arrow-back-outline" size={30} />
 
- }
+                    </Pressable>
+                }
+            </View>
 
-    </SafeAreaView>
-  )
+            <SwiperFlatList
+                onChangeIndex={onChangeIndex}
+                data={items}
+                ref={scrollRef}
+                disableGesture={true}
+                // autoplay={true}
+                // autoplayLoop={true}
+                renderItem={({ item }) => <RenderItem item={item.each} />}
+                showPagination
+                PaginationComponent={Paginator}
+            />
+
+
+        </SafeAreaView>
+    )
 }
 
 export default Registration

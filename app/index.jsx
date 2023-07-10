@@ -20,6 +20,9 @@ const router = useRouter()
     
     return (
         <>
+        {
+                          console.log(dbUser, "dbUser")  
+                        }
             {
                 dbUser === null && userOnboard === null ?
                     <Onboarding />
@@ -32,7 +35,9 @@ const router = useRouter()
                         dbUser?.length === 0 ?
                             <Registration/>
                         :
-                        <></>
+                        <>
+                        
+                        </>
             }
         </>
     )

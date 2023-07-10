@@ -11,7 +11,7 @@ export const Paginator = (props) => {
 
   const styles = StyleSheet.create({
     paginationContainer: {
-      bottom: 110,
+    //   bottom: 110,
       alignItems :'center',
       justifyContent:'flex-start',
       paddingHorizontal:30,
@@ -42,8 +42,8 @@ export const Paginator = (props) => {
       paginationStyleItemActive={styles.active}
       paginationStyleItemInactive={styles.inactive}
       paginationTapDisabled={true}
-      paginationDefaultColor= {Colors[colorScheme ?? "light"].tabIconDefault}
-      paginationActiveColor= {Colors[colorScheme ?? "light"].alwayWhite}
+      paginationDefaultColor= {Colors[colorScheme ?? "light"].alwayWhite}
+      paginationActiveColor= {Colors[colorScheme ?? "light"].tabIconDefault}
     />
   );
 };
