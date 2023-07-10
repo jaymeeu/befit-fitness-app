@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Gender from './Gender'
 import Fullname from './Fullname'
 import Age from './Age'
+import Height from './Height'
 
 const Registration = () => {
     const { width, height } = useWindowDimensions();
@@ -37,11 +38,12 @@ const Registration = () => {
         <Gender goNext={goToNext} />,
         <Fullname goNext={goToNext}/>,
         <Age goNext={goToNext}/>,
+        <Height goNext={goToNext}/>,
 
     ]
     const image = index => ({ each: data[index % data.length] });
 
-    const items = Array.from(Array(4)).map((_, index) => image(index));
+    const items = Array.from(Array(6)).map((_, index) => image(index));
 
     const RenderItem = ({ item, index }) => (
         <View style={{ width: width, height: height - 250, justifyContent: 'center' }}>

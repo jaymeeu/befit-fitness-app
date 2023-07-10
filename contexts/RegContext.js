@@ -12,6 +12,8 @@ const UserContextProvider = ({ children }) => {
         height : '',
     })
     
+    const [isFeet, setisFeet] = useState(true)
+
     const updateState = (field, value)=>{
         setInfo((data)=>({...data, [field] : value}))
     }
@@ -20,7 +22,8 @@ const UserContextProvider = ({ children }) => {
         <UserContext.Provider
             value={{ 
                 updateState,
-                info
+                info,
+                isFeet, setisFeet
             }}
         >
             {children}
