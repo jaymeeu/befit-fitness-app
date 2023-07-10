@@ -7,6 +7,7 @@ import Hello from './Hello'
 import { Ionicons } from '@expo/vector-icons';
 import Gender from './Gender'
 import Fullname from './Fullname'
+import Age from './Age'
 
 const Registration = () => {
     const { width, height } = useWindowDimensions();
@@ -34,7 +35,8 @@ const Registration = () => {
     const data = [
         <Hello goNext={goToNext} />,
         <Gender goNext={goToNext} />,
-        <Fullname />
+        <Fullname goNext={goToNext}/>,
+        <Age goNext={goToNext}/>,
 
     ]
     const image = index => ({ each: data[index % data.length] });
