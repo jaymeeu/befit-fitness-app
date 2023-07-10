@@ -9,10 +9,14 @@ import Gender from './Gender'
 import Fullname from './Fullname'
 import Age from './Age'
 import Height from './Height'
+import Weight from './Weight'
+import { useUserContext } from '../../contexts/RegContext'
 
 const Registration = () => {
     const { width, height } = useWindowDimensions();
     const scrollRef = useRef(null);
+
+    const { info } = useUserContext()
 
     const [currentIndex, setcurrentIndex] = useState(0)
 
@@ -32,13 +36,18 @@ const Registration = () => {
         setcurrentIndex(index)
     };
 
+    // const Submit = ()=>{
+    //     console.log(info)
+    // }
+
 
     const data = [
         <Hello goNext={goToNext} />,
         <Gender goNext={goToNext} />,
         <Fullname goNext={goToNext}/>,
         <Age goNext={goToNext}/>,
-        <Height goNext={goToNext}/>,
+        // <Height goNext={goToNext}/>,
+        // <Weight goNext={Submit}/>,
 
     ]
     const image = index => ({ each: data[index % data.length] });

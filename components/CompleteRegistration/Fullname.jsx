@@ -8,7 +8,8 @@ const Fullname = ({ goNext }) => {
 
     const { info, updateState } = useUserContext()
 
-    const colorScheme = useColorScheme()
+    const [fullname, setfullname] = useState(info.fullname)
+
     const styles = StyleSheet.create({
         contaiver: {
             paddingHorizontal: 15,
@@ -66,8 +67,8 @@ const Fullname = ({ goNext }) => {
             <View style={styles.genders}>
               <TextInput
               style={styles.inpute}
-                value={info.fullname}
-                onChangeText={(text)=>updateState('fullname', text)}
+                value={fullname}
+                onChangeText={(text)=>setfullname(text)}
                 keyboardType='text'
                 placeholder='Your name'
               />
@@ -75,13 +76,16 @@ const Fullname = ({ goNext }) => {
 
             <View style={styles.btncontainer}>
                 {
-                    info.fullname.length < 3 ?
+                    fullname.length < 3 ?
                         <View
                             style={styles.btn}>
                             <Text style={styles.btnText}>LET'S GO</Text>
                         </View>
                         :
-                        <Pressable onPress={goNext}>
+                        <Pressable onPress={()=>{
+                            updateState('fullname', fullname);
+                            goNext()
+                        } }>
                             <LinearGradient
                                 style={styles.btn}
                                 colors={['#194769', '#201f2d', '#5E7E96']}>
