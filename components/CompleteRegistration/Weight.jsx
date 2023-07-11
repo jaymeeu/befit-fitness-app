@@ -139,7 +139,7 @@ const [weight, setweight] = useState(info.weight)
                      weight.length === 0 ?
                         <View
                             style={styles.btn}>
-                            <Text style={styles.btnText}>LET'S GO</Text>
+                            <Text style={styles.btnText}>Submit</Text>
                         </View>
                         :
                         <Pressable onPress={()=>{
@@ -149,7 +149,7 @@ const [weight, setweight] = useState(info.weight)
                             <LinearGradient
                                 style={styles.btn}
                                 colors={['#194769', '#201f2d', '#5E7E96']}>
-                                <Text style={styles.btnText}>LET'S GO</Text>
+                                <Text style={styles.btnText}>Submit</Text>
                             </LinearGradient>
                         </Pressable>
                 }
