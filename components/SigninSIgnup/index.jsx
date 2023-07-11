@@ -6,19 +6,15 @@ import SocialButton from '../CustomButton/SocialButton';
 import google from '../../assets/images/GoogleIcon.png'
 import CustomButton from '../CustomButton/CustomButton';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
-import { Auth, Hub, DataStore, API, graphqlOperation } from 'aws-amplify'
+import { Auth, Hub } from 'aws-amplify'
 import { Link, useRouter } from 'expo-router';
 import Colors from '../../constants/Colors';
 import { useAuthContext } from '../../contexts/AuthContext';
-import { User } from '../../src/models';
-import { listUsers } from '../../src/graphql/queries';
 
 export default SigninSIgnup = () => {
-
     const router = useRouter()
-    const { updateDbUser, setAuthUser } = useAuthContext()
+    const { setAuthUser } = useAuthContext()
 
-    const [DBuser, setDBUser] = useState(null);
     const [customState, setCustomState] = useState(null);
 
     useEffect(() => {
@@ -39,35 +35,18 @@ export default SigninSIgnup = () => {
             .then( async currentUser => {
                 setAuthUser(currentUser)
 
-                // console.log(currentUser?.attributes?.sub, "currentUser currentUser currentUser")
-
                 try {
-          
-                    // const models = await DataStore.query(User);
                     // console.log(models, 'models');
                   } catch (error) {
                     console.log('Error saving post', error);
                   }
-                // Get a specific item
-                // DataStore.query(User, (user) => user.sub('eq', currentUser?.attributes?.sub))
-                // .then((user) => {
-                //     //store database user information
-                //     setDBUser(user[0])
-                //     console.log(user[0], 'usersrsrsrs')
-                // })
-
-                // updateDbUser(currentUser?.attributes?.sub)
-
-                // router.replace("(home)")
             })
             .catch(() => console.log("Not signed in"));
-
         return unsubscribe;
     }, []);
 
     const { height } = useWindowDimensions();
     const colorScheme = useColorScheme();
-
 
     const styles = StyleSheet.create({
         container: {

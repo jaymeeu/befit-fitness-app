@@ -68,6 +68,15 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "gender": {
+                    "name": "gender",
+                    "isArray": false,
+                    "type": {
+                        "enum": "Gender"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -460,6 +469,13 @@ export const schema = {
         }
     },
     "enums": {
+        "Gender": {
+            "name": "Gender",
+            "values": [
+                "MALE",
+                "FEMALE"
+            ]
+        },
         "Level": {
             "name": "Level",
             "values": [
@@ -471,5 +487,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.4.4",
-    "version": "f2e8df53b2d23cc131e55f6129206aae"
+    "version": "3a55f66a36f810028ab94190e2ecef7b"
 };

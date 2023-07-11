@@ -1,3 +1,8 @@
+enum Gender {
+  MALE
+  FEMALE
+}
+
 enum Level {
   BASIC
   INTERMEDIATE
@@ -14,6 +19,7 @@ type User @model @auth(rules: [{allow: public}]) {
   workouts: [Workout] @hasMany(indexName: "byUser", fields: ["id"])
   achievements: [Achievement]
   sub: String!
+  gender: Gender
 }
 
 type Workout @model @auth(rules: [{allow: public}]) {

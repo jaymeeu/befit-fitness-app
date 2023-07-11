@@ -4,11 +4,11 @@ import React, { useState, useEffect, useContext, createContext } from "react";
 const AuthContext = createContext({});
 const AuthContextProvider = ({ children }) => {
     
-    const [dbUser, setDbUser] = useState(undefined)
+    const [dbUser, setDbUser] = useState(null)
 
-    const [userOnboard, setuserOnboard] = useState(undefined)
+    const [userOnboard, setuserOnboard] = useState(null)
 
-    const [authUser, setAuthUser] = useState(undefined)
+    const [authUser, setAuthUser] = useState(null)
 
     const getdbUser = async () => {
         try {
@@ -49,8 +49,7 @@ const AuthContextProvider = ({ children }) => {
                 setuserOnboard,
                 setDbUser,
                 authUser, 
-                setAuthUser,
-                updateDbUser
+                setAuthUser
             }}
         >
             {children}

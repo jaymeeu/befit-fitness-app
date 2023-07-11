@@ -11,10 +11,17 @@ import Age from './Age'
 import Height from './Height'
 import Weight from './Weight'
 import { useUserContext } from '../../contexts/RegContext'
+import { useAuthContext } from '../../contexts/AuthContext'
+import { User } from '../../src/models'
+import { DataStore } from 'aws-amplify'
+import { useRouter } from 'expo-router'
 
 const Registration = () => {
     const { width, height } = useWindowDimensions();
     const scrollRef = useRef(null);
+    const router = useRouter()
+    const { authUser, updateDbUser } = useAuthContext()
+
 
     const { info } = useUserContext()
 
@@ -36,18 +43,37 @@ const Registration = () => {
         setcurrentIndex(index)
     };
 
-    const Submit = ()=>{
-        console.log(info)
+    const Submit = async () => {
+        try {
+            await DataStore.save(
+                new User({
+                    "name": info.fullname,
+                    "email": authUser?.attributes?.email,
+                    "age": parseInt(info.age),
+                    "gender": info.gender.toUpperCase(),
+                    "height": parseFloat(info.height),
+                    "weight": parseFloat(info.weight),
+                    "sub": authUser?.attributes?.sub
+                })
+            ).then(async (res)=>{
+               await updateDbUser(res)
+                router.replace('/')
+            })
+        } catch (error) {
+            console.log(error, "error")
+        }
+
+
     }
 
 
     const data = [
         <Hello goNext={goToNext} />,
         <Gender goNext={goToNext} />,
-        <Fullname goNext={goToNext}/>,
-        <Age goNext={goToNext}/>,
-        <Height goNext={goToNext}/>,
-        <Weight goNext={Submit}/>,
+        <Fullname goNext={goToNext} />,
+        <Age goNext={goToNext} />,
+        <Height goNext={goToNext} />,
+        <Weight goNext={Submit} />,
 
     ]
     const image = index => ({ each: data[index % data.length] });
@@ -71,7 +97,7 @@ const Registration = () => {
                 {
                     currentIndex !== 0 &&
                     <Pressable onPress={goBack}>
-                       <Ionicons name="ios-arrow-back-outline" size={30} />
+                        <Ionicons name="ios-arrow-back-outline" size={30} />
 
                     </Pressable>
                 }

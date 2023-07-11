@@ -62,6 +62,7 @@ const colorScheme = useColorScheme();
     try {
       const response = await Auth.signIn(data.username, data.password)
       setAuthUser(response)
+
       try {
         const users = await DataStore.query(User, (user) =>  user.sub.eq(response?.attributes?.sub));
         updateDbUser(users)
@@ -69,7 +70,6 @@ const colorScheme = useColorScheme();
         console.log(error, "eoorr")
       }
       router.replace("../")
-      // router.replace("(home)")
 
     }
     catch (e) {

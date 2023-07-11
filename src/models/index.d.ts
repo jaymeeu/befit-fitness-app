@@ -2,6 +2,11 @@ import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier } from "@aws-
 // @ts-ignore
 import { LazyLoading, LazyLoadingDisabled, AsyncCollection } from "@aws-amplify/datastore";
 
+export enum Gender {
+  MALE = "MALE",
+  FEMALE = "FEMALE"
+}
+
 export enum Level {
   BASIC = "BASIC",
   INTERMEDIATE = "INTERMEDIATE",
@@ -23,6 +28,7 @@ type EagerUser = {
   readonly weight?: number | null;
   readonly workouts?: (Workout | null)[] | null;
   readonly sub: string;
+  readonly gender?: Gender | keyof typeof Gender | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -40,6 +46,7 @@ type LazyUser = {
   readonly weight?: number | null;
   readonly workouts: AsyncCollection<Workout>;
   readonly sub: string;
+  readonly gender?: Gender | keyof typeof Gender | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

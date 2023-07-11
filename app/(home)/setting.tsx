@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { Text, View } from "../../components/Themed";
 
-export default function MyPlans() {
+export default function Settings() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tab Two</Text>

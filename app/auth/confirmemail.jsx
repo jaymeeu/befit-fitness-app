@@ -23,8 +23,7 @@ const colorScheme = useColorScheme()
   const onConfirmPressed = async data => {
     try{
       await Auth.confirmSignUp(params.username, data.code);
-      // navigation.navigate('SignIn');
-      router.push('auth')
+      router.push('/auth')
     }
     catch (e){
       Alert.alert('Opps', e.message);
@@ -34,7 +33,6 @@ const colorScheme = useColorScheme()
 
   const onResendPress = async () => {
     try{
-      // await Auth.resendSignUp(route?.params?.username);  or
       await Auth.resendSignUp(params.username);
       Alert.alert('Success', "Code was resent to your email");
     }
