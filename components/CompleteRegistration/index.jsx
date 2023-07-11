@@ -36,9 +36,9 @@ const Registration = () => {
         setcurrentIndex(index)
     };
 
-    // const Submit = ()=>{
-    //     console.log(info)
-    // }
+    const Submit = ()=>{
+        console.log(info)
+    }
 
 
     const data = [
@@ -46,8 +46,8 @@ const Registration = () => {
         <Gender goNext={goToNext} />,
         <Fullname goNext={goToNext}/>,
         <Age goNext={goToNext}/>,
-        // <Height goNext={goToNext}/>,
-        // <Weight goNext={Submit}/>,
+        <Height goNext={goToNext}/>,
+        <Weight goNext={Submit}/>,
 
     ]
     const image = index => ({ each: data[index % data.length] });

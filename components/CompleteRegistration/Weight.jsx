@@ -8,6 +8,7 @@ const Weight = ({ goNext }) => {
 
     const { info, updateState, isPound, setisPound } = useUserContext()
 
+const [weight, setweight] = useState(info.weight)
 
     const styles = StyleSheet.create({
         contaiver: {
@@ -92,11 +93,11 @@ const Weight = ({ goNext }) => {
 
     const onUnitClick = (toggle)=>{
         setisPound(toggle)
-        if(toggle && info.weight > 0){
-            updateState('weight', `${(parseFloat(info.weight) * 2.20462).toFixed(2)}`) 
+        if(toggle && weight > 0){
+            updateState('weight', `${(parseFloat(weight) * 2.20462).toFixed(2)}`) 
         }
         else{
-            updateState('weight', `${(parseFloat(info.weight) / 2.20462).toFixed(2)}`) 
+            updateState('weight', `${(parseFloat(weight) / 2.20462).toFixed(2)}`) 
         }
     }
 
@@ -121,8 +122,8 @@ const Weight = ({ goNext }) => {
             <View style={styles.genders}>
                 <TextInput
                     style={styles.inpute}
-                    value={info.weight}
-                    onChangeText={(text) => updateState('weight', text)}
+                    value={weight}
+                    onChangeText={(text) => setweight(text)}
                     keyboardType='numeric'
                     placeholder='Your weight'
                 />
@@ -135,13 +136,16 @@ const Weight = ({ goNext }) => {
 
             <View style={styles.btncontainer}>
                 {
-                     info.weight.length === 0 ?
+                     weight.length === 0 ?
                         <View
                             style={styles.btn}>
                             <Text style={styles.btnText}>LET'S GO</Text>
                         </View>
                         :
-                        <Pressable onPress={goNext}>
+                        <Pressable onPress={()=>{
+                            updateState('weight', weight);
+                            goNext()
+                            }}>
                             <LinearGradient
                                 style={styles.btn}
                                 colors={['#194769', '#201f2d', '#5E7E96']}>

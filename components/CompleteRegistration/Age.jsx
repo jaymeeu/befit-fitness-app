@@ -8,6 +8,7 @@ const Age = ({ goNext }) => {
 
     const { info, updateState } = useUserContext()
 
+const [age, setage] = useState(info.age)
     const styles = StyleSheet.create({
         contaiver: {
             paddingHorizontal: 15,
@@ -72,8 +73,8 @@ const Age = ({ goNext }) => {
             <View style={styles.genders}>
               <TextInput
               style={styles.inpute}
-                value={info.age}
-                onChangeText={(text)=>updateState('age', text)}
+                value={age}
+                onChangeText={(text)=>setage(text)}
                 keyboardType='numeric'
                 placeholder='Age'
               />
@@ -81,13 +82,16 @@ const Age = ({ goNext }) => {
 
             <View style={styles.btncontainer}>
                 {
-                    info.age.length <= 1 || info.age.length > 2 ?
+                    age.length <= 1 || age.length > 2 ?
                         <View
                             style={styles.btn}>
                             <Text style={styles.btnText}>LET'S GO</Text>
                         </View>
                         :
-                        <Pressable onPress={goNext}>
+                        <Pressable onPress={()=>{
+                            updateState('age', age);
+                            goNext()
+                        }}>
                             <LinearGradient
                                 style={styles.btn}
                                 colors={['#194769', '#201f2d', '#5E7E96']}>

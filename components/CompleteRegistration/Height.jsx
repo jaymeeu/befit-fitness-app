@@ -8,6 +8,7 @@ const Height = ({ goNext }) => {
 
     const { info, updateState, isFeet, setisFeet } = useUserContext()
 
+const [height, setheight] = useState(info.height)
 
     const styles = StyleSheet.create({
         contaiver: {
@@ -92,11 +93,11 @@ const Height = ({ goNext }) => {
 
     const onUnitClick = (toggle)=>{
         setisFeet(toggle)
-        if(toggle && info.height > 0){
-            updateState('height', `${(parseFloat(info.height)/30.48).toFixed(2)}`) 
+        if(toggle && height > 0){
+            updateState('height', `${(parseFloat(height)/30.48).toFixed(2)}`) 
         }
         else{
-            updateState('height', `${(parseFloat(info.height) * 30.48).toFixed(2)}`) 
+            updateState('height', `${(parseFloat(height) * 30.48).toFixed(2)}`) 
         }
     }
 
@@ -121,8 +122,8 @@ const Height = ({ goNext }) => {
             <View style={styles.genders}>
                 <TextInput
                     style={styles.inpute}
-                    value={info.height}
-                    onChangeText={(text) => updateState('height', text)}
+                    value={height}
+                    onChangeText={(text) => setheight(text)}
                     keyboardType='numeric'
                     placeholder='Your height'
                 />
@@ -135,13 +136,16 @@ const Height = ({ goNext }) => {
 
             <View style={styles.btncontainer}>
                 {
-                     info.height.length === 0 ?
+                     height.length === 0 ?
                         <View
                             style={styles.btn}>
                             <Text style={styles.btnText}>LET'S GO</Text>
                         </View>
                         :
-                        <Pressable onPress={goNext}>
+                        <Pressable onPress={()=>{
+                            updateState('height', height);
+                            goNext()
+                            }}>
                             <LinearGradient
                                 style={styles.btn}
                                 colors={['#194769', '#201f2d', '#5E7E96']}>
