@@ -13,8 +13,12 @@ const AuthContextProvider = ({ children }) => {
     const getdbUser = async () => {
         try {
             const value = await AsyncStorage.getItem('@db_user')
-            setDbUser(value)
-            console.log(value,"ghjkjk")
+            if(value){
+                setDbUser(JSON.parse(value) )
+            }
+            else{
+                setDbUser(value)
+            }
         } catch (e) {
         }
     }
@@ -23,7 +27,6 @@ const AuthContextProvider = ({ children }) => {
         try {
             const value = await AsyncStorage.getItem('@user_onboard')
             setuserOnboard(value)
-            console.log(value,"ghjkjkxxx")
 
         } catch (e) {
         }

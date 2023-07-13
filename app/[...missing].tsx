@@ -1,7 +1,8 @@
 import { Link, Stack } from 'expo-router';
-import { StyleSheet } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 
 import { Text, View } from '../components/Themed';
+import { Auth } from 'aws-amplify';
 
 export default function NotFoundScreen() {
   return (
@@ -13,6 +14,9 @@ export default function NotFoundScreen() {
         <Link href="/" style={styles.link}>
           <Text style={styles.linkText}>Go to home screen!</Text>
         </Link>
+        <Pressable onPress={()=>Auth.signOut()}>
+          <Text>Logout</Text>
+        </Pressable>
       </View>
     </>
   );

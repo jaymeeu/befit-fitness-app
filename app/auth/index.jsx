@@ -1,148 +1,157 @@
-import React, { useState } from 'react';
-import {
-  Alert,
-  Image,
-  StyleSheet,
-  useWindowDimensions,
-  TouchableOpacity,
-  useColorScheme,
-} from 'react-native';
-import { useForm } from 'react-hook-form';
-import { MaterialIcons } from '@expo/vector-icons';
-import { EvilIcons } from '@expo/vector-icons';
-import { Auth, DataStore } from 'aws-amplify'
-
-import Logo from '../../assets/images/GoogleIcon.png';
-import CustomInput from '../../components/CustomInput';
-import { Text, View } from '../../components/Themed';
+import React, { useEffect, useState } from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Image, ScrollView, StyleSheet, useColorScheme, useWindowDimensions } from 'react-native'
+import google from '../../assets/images/GoogleIcon.png'
 import CustomButton from '../../components/CustomButton/CustomButton';
+import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
+import { Auth, DataStore, Hub } from 'aws-amplify'
 import { Link, useRouter } from 'expo-router';
-import { useAuthContext } from '../../contexts/AuthContext';
 import Colors from '../../constants/Colors';
+import { useAuthContext } from '../../contexts/AuthContext';
 import { User } from '../../src/models';
+import SocialButton from '../../components/CustomButton/SocialButton';
+import { Text, View } from '../../components/Themed';
 
-const SignInScreen = () => {
+export default SigninSIgnup = () => {
+    const router = useRouter()
+    const { setAuthUser, authUser, updateDbUser } = useAuthContext()
 
-  const router = useRouter()
-  const { height } = useWindowDimensions();
+    const [customState, setCustomState] = useState(null);
 
-const { updateDbUser, setAuthUser } = useAuthContext()
-const colorScheme = useColorScheme();
+    useEffect(() => {
+        const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
+            switch (event) {
+                case "signIn":
+                    setAuthUser(data);
+                    break;
+                case "signOut":
+                    setAuthUser(undefined);
+                    break;
+                case "customOAuthState":
+                    setCustomState(data);
+            }
+        });
 
+        Auth.currentAuthenticatedUser({ bypassCache: true })
+            .then(async currentUser => {
+                setAuthUser(currentUser)
+            })
+            .catch(() => console.log("Not signed in"));
+        return unsubscribe;
+    }, []);
 
-  const styles = StyleSheet.create({
-    root: {
-      alignItems: 'center',
-      padding: 20,
-      height: height,
-      paddingTop: 100,
-      backgroundColor : Colors[colorScheme ?? "light"].background
-    },
-    logo: {
-      width: '70%',
-      maxWidth: 300,
-      maxHeight: 150,
-      marginBottom: 20
-    },
-  });
+    useEffect(() => {
+        if (authUser) {
+            checkuser()
+        }
+    }, [authUser])
 
-  const [loading, setloading] = useState(false)
+    const checkuser = async ()=>{
+        try {
+            const users = await DataStore.query(User, (user) => user.sub.eq(authUser?.attributes?.sub));
+            updateDbUser(users[0])
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+            if(users[0]?.sub){
+                router.replace("/(tabs/home)")
+              }
+              else{
+                router.replace("/registration")
+              }
 
-  const onSignInPressed = async data => {
-    if (loading) {
-      return;
+        } catch (error) {
+            console.log(error, "eoorr")
+        }
     }
-    setloading(true);
-    try {
-      const response = await Auth.signIn(data.username, data.password)
-      setAuthUser(response)
-
-      try {
-        const users = await DataStore.query(User, (user) =>  user.sub.eq(response?.attributes?.sub));
-        updateDbUser(users)
-      } catch (error) {
-        console.log(error, "eoorr")
-      }
-      router.replace("../")
-
-    }
-    catch (e) {
-      if(e.message === 'User is not confirmed.'){
-        router.push({
-          pathname: "/auth/confirmemail",
-          params: { username : data.username}
-        })
-      }
-      else{
-        Alert.alert("Opps", e.message)
-      }
-    }
-    setloading(false)
-  };
 
 
-  return (
-    <View style={styles.root}>
-      <Image
-        source={Logo}
-        style={[styles.logo, { height: height * 0.3 }]}
-        resizeMode="contain"
-      />
-      <CustomInput
-        name="username"
-        control={control}
-        placeholder="Enter Email"
-        activeIcon={<MaterialIcons name="alternate-email" size={20} color={Colors[colorScheme ?? 'light'].text} />}
-        inactiveIcon={<MaterialIcons name="alternate-email" size={20} color={Colors[colorScheme ?? 'light'].tabIconDefault}/>}
-        rules={{
-          required: 'Email is required',
-          pattern: {
-            value: /^\s*[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\s*$/,
-            message: 'Valid email is required'
-          }
-        }}
-      />
+    const { height } = useWindowDimensions();
+    const colorScheme = useColorScheme();
 
-      <CustomInput
-        name="password"
-        control={control}
-        placeholder="Enter Password"
-        activeIcon={<EvilIcons name="lock" size={24} color={Colors[colorScheme ?? 'light'].text} />}
-        inactiveIcon={<EvilIcons name="lock" size={24} color={Colors[colorScheme ?? 'light'].tabIconDefault}/>}
-        secureTextEntry={true}
-        rules={{
-          required: 'Password is required',
-          minLength: {
-            value: 6,
-            message: 'Password should be minimum 6 characters long',
-          },
-        }}
-      />
+    const styles = StyleSheet.create({
+        container: {
+            height: height,
+            backgroundColor: Colors[colorScheme ?? 'light'].background,
+            paddingTop: 100
+        },
+        top: {
+            padding: 20,
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            backgroundColor: 'transparent',
+            marginBottom: 20
+        },
+        below: {
+            justifyContent: "space-between",
+            maxHeight: 500,
+            padding: 20,
+            backgroundColor: 'transparent',
+            paddingBottom: 40,
+        },
+        started: {
+            width: "100%",
+            textAlign: "center",
+            fontFamily: "capriola",
+            fontSize: 18,
+            color: Colors[colorScheme ?? 'light'].text,
+            marginBottom: 15,
+        },
+        or: {
+            width: "100%",
+            textAlign: "center",
+            fontFamily: "capriola",
+            fontSize: 18,
+            marginVertical: 20,
+            color: Colors[colorScheme ?? 'light'].text,
+        },
+    });
 
-      <Link href="/auth/forgetpassword" asChild>
-        <TouchableOpacity style={{ padding: 10, alignSelf: 'flex-end' }}>
-          <Text style={{ textAlign: 'right', width: '100%', color : Colors[colorScheme ?? 'light'].tabIconDefault }}>Forgot password</Text>
-        </TouchableOpacity>
-      </Link>
+    return (
+        // <SafeAreaView >
+        <View style={styles.container}>
 
-      <CustomButton text={loading ? "Loading..." : "Sign In"} onPress={handleSubmit(onSignInPressed)} />
+            <View style={styles.top}>
+                <Image source={google} style={{ width: 60, height: 60 }} />
+            </View>
+            {
+                // console.log(user, "currentUser")
+            }
+            <View style={styles.below}>
+                <View style={{ backgroundColor: 'transparent' }}>
+                    <Text style={styles.started}>Get started</Text>
+                    <SocialButton
+                        text="Sign Up with Google"
+                        // onPress={authGoogle}
+                        onPress={() => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google })}
+                        source={google}
+                        type="PRIMARY"
+                    />
 
-      <Link href="/auth/signup" asChild>
-        <TouchableOpacity style={{ marginTop: 20, padding: 10 }}>
-          <Text style={{color : Colors[colorScheme ?? 'light'].tabIconDefault}}>Don't have an account? Create one</Text>
-        </TouchableOpacity>
-      </Link>
+                </View>
+                <View style={{ backgroundColor: 'transparent' }}>
+                    <Text style={styles.or}>Or</Text>
+                </View>
 
-    </View>
-  );
-};
+                <View style={{ backgroundColor: 'transparent' }}>
+                    <Link href="/auth/login" asChild>
+                        <CustomButton
+                            text="Login"
+                            type="PRIMARY"
+                        />
+                    </Link>
+
+                    <Link href="/auth/signup" asChild>
+                        <CustomButton
+                            text="Sign up"
+                            type="PRIMARY"
+                        />
+                    </Link>
+                </View>
+            </View>
+
+        </View>
+        //   </SafeAreaView>
+    )
+}
 
 
-
-export default SignInScreen;

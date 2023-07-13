@@ -1,10 +1,10 @@
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Text, View } from "../../components/Themed";
-import { Logout } from "../../utils/Logout";
-import { useAuthContext } from "../../contexts/AuthContext";
+import { Logout } from "../../../utils/Logout";
+import { useAuthContext } from "../../../contexts/AuthContext";
 import { Pressable } from "react-native";
 import { useRouter } from "expo-router";
+import { Text, View } from "../../../components/Themed";
 
 const HomeScreen = () => {
     const { setDbUser } = useAuthContext()

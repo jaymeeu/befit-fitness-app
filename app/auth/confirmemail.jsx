@@ -23,7 +23,7 @@ const colorScheme = useColorScheme()
   const onConfirmPressed = async data => {
     try{
       await Auth.confirmSignUp(params.username, data.code);
-      router.push('/auth')
+      router.push('/auth/login')
     }
     catch (e){
       Alert.alert('Opps', e.message);
@@ -98,7 +98,7 @@ const colorScheme = useColorScheme()
         <CustomButton
           text="Back to Sign in"
           onPress={()=>{
-            router.push('/auth')
+            router.push('/auth/login')
           }}
           type="TERTIARY"
         />

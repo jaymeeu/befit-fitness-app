@@ -57,7 +57,7 @@ const Registration = () => {
                 })
             ).then(async (res)=>{
                await updateDbUser(res)
-                router.replace('/')
+                router.replace('/tabs/home')
             })
         } catch (error) {
             console.log(error, "error")
@@ -93,6 +93,9 @@ const Registration = () => {
     })
     return (
         <SafeAreaView>
+            {
+                console.log(authUser, "authUser")
+            }
             <View style={styles.navbar}>
                 {
                     currentIndex !== 0 &&

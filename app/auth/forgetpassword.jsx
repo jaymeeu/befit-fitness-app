@@ -75,7 +75,7 @@ const ForgotPasswordScreen = () => {
                     }}
                 />
                 <CustomButton text="Send" onPress={handleSubmit(onSendPressed)} />
-                <Link href="/auth" asChild>
+                <Link href="/auth/login" asChild>
                     <CustomButton
                         text="Back to Sign in"
                         type="TERTIARY"

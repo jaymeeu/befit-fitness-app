@@ -10,7 +10,7 @@ const HomeLayout = () => {
   return (
     <Tabs>
       <Tabs.Screen
-        name="index"
+        name="home/index"
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
@@ -31,7 +31,7 @@ const HomeLayout = () => {
         }}
       />
        <Tabs.Screen
-        name="myplans"
+        name="plans/index"
         
         options={{
           headerShown : false,
@@ -42,7 +42,7 @@ const HomeLayout = () => {
         }}
       />
        <Tabs.Screen
-        name="setting"
+        name="settings/index"
         options={{
           title: "Me",
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,

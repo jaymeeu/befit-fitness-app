@@ -8,10 +8,11 @@ import CustomInput from '../../components/CustomInput';
 import { Text } from '../../components/Themed';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import Colors from '../../constants/Colors';
+import { useRouter } from 'expo-router';
 
 const NewPasswordScreen = () => {
 
-  // const route = useRoute();
+  const route = useRouter();
 
   const {control, handleSubmit} = useForm();
 
@@ -20,7 +21,7 @@ const NewPasswordScreen = () => {
   const onSubmitPressed = async data => {
     try{
       await Auth.forgotPasswordSubmit(data.username, data.code, data.username);
-      // navigation.navigate('SignIn');
+      route.push('/auth/login')
     }
     catch (e){
       Alert.alert('Opps', e.message);
@@ -28,7 +29,7 @@ const NewPasswordScreen = () => {
   };
 
   const onSignInPress = () => {
-    // navigation.navigate('SignIn');
+    route.push('/auth/login')
   };
 
   const { height } = useWindowDimensions();

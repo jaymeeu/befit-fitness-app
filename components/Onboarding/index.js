@@ -12,6 +12,7 @@ import { useAuthContext } from '../../contexts/AuthContext';
 import EachBoard from '../../components/Onboarding/EachBoard';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Colors from '../../constants/Colors';
+import { useRouter } from 'expo-router';
 
 const Onboarding = () => {
   const colorScheme = useColorScheme();
@@ -19,6 +20,7 @@ const Onboarding = () => {
   const { width } = useWindowDimensions();
   const { height } = useWindowDimensions();
   const { setuserOnboard } = useAuthContext()
+  const router = useRouter()
 
   const scrollRef = useRef(null);
 
@@ -103,15 +105,19 @@ const styles = StyleSheet.create({
   },
 })
 
+
+const SkillPress = async () =>{
+  await AsyncStorage.setItem('@user_onboard', 'onboarded');
+  setuserOnboard('onboarded');
+  router.replace('/auth')
+}
+
   return (
     <ImageBackground source={background} style={styles.backgroud}>
 
     <SafeAreaView style={styles.container}>
       <TouchableOpacity style={styles.skip}
-        onPress={ async() =>{
-          await AsyncStorage.setItem('@user_onboard', 'onboarded');
-          setuserOnboard('onboarded')
-        } }
+        onPress={SkillPress}
       >
         <Text style={styles.nextText}>Skip</Text>
       </TouchableOpacity>
@@ -130,10 +136,7 @@ const styles = StyleSheet.create({
       {
         currentIndex === 2 ?
           <Pressable style={styles.next} 
-            onPress={ async() => {
-              await AsyncStorage.setItem('@user_onboard', 'onboarded');
-              setuserOnboard('onboarded')
-            }}
+            onPress={SkillPress}
            >
             <Text style={styles.nextText}>Next</Text>
             <AntDesign name="arrowright" size={20} color={Colors[colorScheme ?? 'light'].alwayWhite} />

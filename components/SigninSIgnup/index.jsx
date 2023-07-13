@@ -6,14 +6,15 @@ import SocialButton from '../CustomButton/SocialButton';
 import google from '../../assets/images/GoogleIcon.png'
 import CustomButton from '../CustomButton/CustomButton';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
-import { Auth, Hub } from 'aws-amplify'
+import { Auth, DataStore, Hub } from 'aws-amplify'
 import { Link, useRouter } from 'expo-router';
 import Colors from '../../constants/Colors';
 import { useAuthContext } from '../../contexts/AuthContext';
+import { User } from '../../src/models';
 
 export default SigninSIgnup = () => {
     const router = useRouter()
-    const { setAuthUser } = useAuthContext()
+    const { setAuthUser, authUser, updateDbUser } = useAuthContext()
 
     const [customState, setCustomState] = useState(null);
 
@@ -31,19 +32,31 @@ export default SigninSIgnup = () => {
             }
         });
 
-        Auth.currentAuthenticatedUser()
-            .then( async currentUser => {
+        Auth.currentAuthenticatedUser({ bypassCache: true })
+            .then(async currentUser => {
                 setAuthUser(currentUser)
-
-                try {
-                    // console.log(models, 'models');
-                  } catch (error) {
-                    console.log('Error saving post', error);
-                  }
             })
             .catch(() => console.log("Not signed in"));
         return unsubscribe;
     }, []);
+
+    useEffect(() => {
+        if (authUser) {
+            checkuser()
+        }
+    }, [authUser])
+
+    const checkuser = async ()=>{
+        try {
+            const users = await DataStore.query(User, (user) => user.sub.eq(authUser?.attributes?.sub));
+
+            updateDbUser(users[0])
+        } catch (error) {
+            console.log(error, "eoorr")
+        }
+        router.replace("/index")
+    }
+
 
     const { height } = useWindowDimensions();
     const colorScheme = useColorScheme();
@@ -114,7 +127,7 @@ export default SigninSIgnup = () => {
                 </View>
 
                 <View style={{ backgroundColor: 'transparent' }}>
-                    <Link href="/auth" asChild>
+                    <Link href="/auth/login" asChild>
 
                         <CustomButton
                             text="Login"

@@ -177,7 +177,7 @@ const SignUpScreen = () => {
                     </Text>
                 </Text>
 
-                <Link href="/auth" asChild>
+                <Link href="/auth/login" asChild>
                     <TouchableOpacity
                         style={{ marginTop: 20, padding: 10 }}
                     >

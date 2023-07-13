@@ -99,9 +99,14 @@ function RootLayoutNav() {
         <AuthContextProvider>
           <UserContextProvider>
             <Stack>
-              <Stack.Screen name="index" options={{ headerShown: false }} />
-              <Stack.Screen name="(home)" options={{ headerShown: false }} />
+              <Stack.Screen name="index" 
+                options={{ 
+                  headerShown: false ,
+                }} 
+              />
+              <Stack.Screen name="boarding" options={{ headerShown: false }} />
               <Stack.Screen name="auth" options={{ headerShown: false }} />
+              <Stack.Screen name="registration" options={{ headerShown: false }} />
               <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
             </Stack>
           </UserContextProvider>
