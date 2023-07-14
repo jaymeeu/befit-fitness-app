@@ -11,6 +11,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import UpperCard from "../../../components/home/UpperCard";
 import Spacebetween from "../../../components/Spacebetween";
 import SwiperFlatList from "react-native-swiper-flatlist";
+import PlanCard from "../../../components/home/PlanCard";
 
 const HomeScreen = () => {
   const { setDbUser } = useAuthContext()
@@ -22,8 +23,6 @@ const HomeScreen = () => {
   //     AsyncStorage.removeItem('@db_user')
   //     Auth.signOut()
   // }, [])
-
-  const { height, width } = useWindowDimensions();
 
   const styles = StyleSheet.create({
     upperCardCont: {
@@ -37,41 +36,7 @@ const HomeScreen = () => {
     },
     plans: { color: '#0C0C0C', fontSize: 18, fontFamily: 'capriola' },
     presable: { color: '#0C0C0C', fontSize: 14, fontFamily: 'capriola' },
-    swiper : {
-      padding: 20, width: width - 30, margin: 15, height: width - 30, borderRadius: 30, backgroundColor: 'gray',
-      justifyContent: 'space-between'
-    },
-    text_text :{
-      color : 'white',
-      fontFamily : 'work-san',
-      fontSize : 18
-    },
-    text_text2 :{
-      color : 'white',
-      fontFamily : 'work-san-bold',
-      fontSize : 36,
-      width : '70%'
-    },
-    text_text3 :{
-      color : 'white',
-      fontFamily : 'work-san',
-      fontSize : 16,
-    },
-    btn : { 
-      width : '90%',
-      backgroundColor :'white',
-      borderRadius : '30px',
-      padding : 15
-    },
-    btnText : {
-      color : 'blue',
-      fontFamily : 'work-san-bold',
-      textAlign : 'center',
-      fontSize : 16,
-    }
-
   })
-
   const data = [{
     "title": "MASSIVE UPPER BODY",
     "subtitle": "Select from lists of workout plans for your desired goal Select from lists of workout plans for your desired goal Select from lists of workout plans for your desired goal",
@@ -83,25 +48,15 @@ const HomeScreen = () => {
   {
     "title": "Get desired results",
     "subtitle": "Achieve your desired body shape and goals Select from lists of workout plans for your desired goal Select from lists of workout plans for your desired goal",
-  },
-  ]
+  }]
+
   const image = index => ({ each: data[index % data.length] });
 
   const items = Array.from(Array(3)).map((_, index) => image(index));
-
+  
   const RenderItem = ({ item, index }) => (
-    <View style={styles.swiper}>
-      <Text  style={styles.text_text}>{item.title}</Text>
-      <Text style={styles.text_text2}>{item.title}</Text>
-      <View style={{gap : 12, backgroundColor:'transparent', alignItems : 'center'}}>
-        <Text style={styles.text_text3} numberOfLines={3}>{item.subtitle}</Text>
-        <Pressable style={styles.btn}>
-          <Text style={styles.btnText} >START</Text>
-        </Pressable>
-      </View>
-    </View>
+    <PlanCard item={item}/>
   )
-
  
   return (
     <ScrollView >
@@ -131,14 +86,11 @@ const HomeScreen = () => {
         </View>
 
         <SwiperFlatList
-          style={{ backgroundColor: 'green' }}
+          // style={{ backgroundColor: 'green' }}
           data={items}
           renderItem={({ item }) => <RenderItem item={item.each} />}
           showPagination
         />
-
-
-
       </View>
 
     </ScrollView>
