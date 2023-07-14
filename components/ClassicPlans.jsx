@@ -1,9 +1,12 @@
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, Image, Pressable } from 'react-native'
 import React from 'react'
 import pushup from '../assets/images/pushup.jpeg'
 import { Ionicons } from '@expo/vector-icons'
+import { useRouter } from 'expo-router'
 
 const ClassicPlans = () => {
+
+    const router = useRouter()
 
     const styles = StyleSheet.create({
         container: {
@@ -63,7 +66,7 @@ const ClassicPlans = () => {
                 <Text style={styles.category}>Beginner</Text>
             </View>
 
-            <View style={styles.card_flex}>
+            <Pressable onPress={()=>router.push('/workout/12345')} style={styles.card_flex}>
                 <Image source={pushup} style={{ width: 70, height: 70, borderRadius: 15 }} />
                 <View style={styles.flexer}>
                     <View>
@@ -72,7 +75,7 @@ const ClassicPlans = () => {
                     </View>
                     <Ionicons name="arrow-forward-circle" size={24} color='#707070' />
                 </View>
-            </View>
+            </Pressable>
             <View style={styles.card_flex}>
                 <Image source={pushup} style={{ width: 70, height: 70, borderRadius: 15 }} />
                 <View style={styles.flexer}>

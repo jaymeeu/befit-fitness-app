@@ -105,6 +105,7 @@ function RootLayoutNav() {
                 }} 
               />
               <Stack.Screen name="boarding" options={{ headerShown: false }} />
+              <Stack.Screen name="workout/[workout_id]" options={{ headerShown: false }} />
               <Stack.Screen name="auth" options={{ headerShown: false }} />
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
               <Stack.Screen name="registration" options={{ headerShown: false }} />

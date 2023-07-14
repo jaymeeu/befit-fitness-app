@@ -41,8 +41,6 @@ const PlanCard = ({ item }) => {
     })
 
 
-
-
     return (
         <View style={styles.swiper}>
             <Text style={styles.text_text}>{item.title}</Text>
