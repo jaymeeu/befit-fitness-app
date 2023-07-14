@@ -12,6 +12,7 @@ import UpperCard from "../../../components/home/UpperCard";
 import Spacebetween from "../../../components/Spacebetween";
 import SwiperFlatList from "react-native-swiper-flatlist";
 import PlanCard from "../../../components/home/PlanCard";
+import ClassicPlans from "../../../components/ClassicPlans";
 
 const HomeScreen = () => {
   const { setDbUser } = useAuthContext()
@@ -93,14 +94,15 @@ const HomeScreen = () => {
         />
       </View>
 
-      <View>
+      <View >
         <View style={styles.titled}>
           <Spacebetween>
             <Text style={styles.plans}>Classic Workouts</Text>
           </Spacebetween>
         </View>
-
-       
+        <View style={{padding : 15}}>
+          <ClassicPlans/>
+        </View>
       </View>
 
     </ScrollView>
