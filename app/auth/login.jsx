@@ -65,7 +65,7 @@ const colorScheme = useColorScheme();
       try {
         const users = await DataStore.query(User, (user) =>  user.sub.eq(response?.attributes?.sub));
 
-        if(users[0]?.attributes?.sub){
+        if(users[0]?.sub){
           updateDbUser(users[0])
           router.replace("/(tabs)/home")
         }

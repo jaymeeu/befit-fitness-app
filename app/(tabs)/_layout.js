@@ -32,13 +32,10 @@ const HomeLayout = () => {
       />
        <Tabs.Screen
         name="plans/index"
-        
         options={{
           headerShown : false,
           title: "Plans",
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          
-        
         }}
       />
        <Tabs.Screen

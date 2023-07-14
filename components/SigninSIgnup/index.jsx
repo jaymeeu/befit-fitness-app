@@ -32,7 +32,7 @@ export default SigninSIgnup = () => {
             }
         });
 
-        Auth.currentAuthenticatedUser({ bypassCache: true })
+        Auth.currentAuthenticatedUser()
             .then(async currentUser => {
                 setAuthUser(currentUser)
             })

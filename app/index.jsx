@@ -31,7 +31,7 @@ export default function Page() {
             router.replace('/boarding');
         }
         else if( userOnboard !== null) {
-            Auth.currentAuthenticatedUser({bypassCache : true})
+            Auth.currentAuthenticatedUser()
             .then((currentUser)=>{
                 setAuthUser(currentUser)
                 if(currentUser?.attributes?.sub){

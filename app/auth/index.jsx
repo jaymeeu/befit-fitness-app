@@ -20,7 +20,7 @@ export default SigninSIgnup = () => {
 
     const checkuser = async ()=>{
 
-       await Auth.currentAuthenticatedUser({ bypassCache: true })
+       await Auth.currentAuthenticatedUser()
         .then(async currentUser => {
             setAuthUser(currentUser)
             if(currentUser?.attributes?.sub){
@@ -28,7 +28,7 @@ export default SigninSIgnup = () => {
                     const users = await DataStore.query(User, (user) => user.sub.eq(currentUser?.attributes?.sub));
                 
                     console.log(users, " users users users ")
-                    if(users[0]?.attributes?.sub){
+                    if(users[0]?.sub){
                         updateDbUser(users[0])
                         router.replace("/(tabs)/home");
                     }
