@@ -32,9 +32,10 @@ const HomeScreen = () => {
       backgroundColor: 'red',
     },
     titled: {
-      padding: 15
+      padding: 15,
+      paddingBottom : 0
     },
-    plans: { color: '#0C0C0C', fontSize: 18, fontFamily: 'capriola' },
+    plans: { color: '#0C0C0C', fontSize: 20, fontFamily: 'capriola' },
     presable: { color: '#0C0C0C', fontSize: 14, fontFamily: 'capriola' },
   })
   const data = [{
@@ -86,11 +87,20 @@ const HomeScreen = () => {
         </View>
 
         <SwiperFlatList
-          // style={{ backgroundColor: 'green' }}
           data={items}
           renderItem={({ item }) => <RenderItem item={item.each} />}
           showPagination
         />
+      </View>
+
+      <View>
+        <View style={styles.titled}>
+          <Spacebetween>
+            <Text style={styles.plans}>Classic Workouts</Text>
+          </Spacebetween>
+        </View>
+
+       
       </View>
 
     </ScrollView>
