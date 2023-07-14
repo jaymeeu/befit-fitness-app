@@ -93,6 +93,7 @@ const [weight, setweight] = useState(info.weight)
 
     const onUnitClick = (toggle)=>{
         setisPound(toggle)
+        if(weight === '') {return}
         if(toggle && weight > 0){
             updateState('weight', `${(parseFloat(weight) * 2.20462).toFixed(2)}`) 
         }

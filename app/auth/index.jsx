@@ -18,11 +18,41 @@ export default SigninSIgnup = () => {
 
     const [customState, setCustomState] = useState(null);
 
+    const checkuser = async ()=>{
+
+       await Auth.currentAuthenticatedUser({ bypassCache: true })
+        .then(async currentUser => {
+            setAuthUser(currentUser)
+            if(currentUser?.attributes?.sub){
+                try {
+                    const users = await DataStore.query(User, (user) => user.sub.eq(currentUser?.attributes?.sub));
+                
+                    console.log(users, " users users users ")
+                    if(users[0]?.attributes?.sub){
+                        updateDbUser(users[0])
+                        router.replace("/(tabs)/home");
+                    }
+                    else{
+                        router.replace("/registration");
+                    }
+                } catch (error) {
+                    console.log(error, "eoorr")
+                }
+
+                console.log('i got here')
+            }
+
+        })
+        .catch(() => console.log("Not signed in yet"));
+
+       
+    }
+
     useEffect(() => {
         const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
             switch (event) {
                 case "signIn":
-                    setAuthUser(data);
+                    checkuser(data);
                     break;
                 case "signOut":
                     setAuthUser(undefined);
@@ -32,36 +62,12 @@ export default SigninSIgnup = () => {
             }
         });
 
-        Auth.currentAuthenticatedUser({ bypassCache: true })
-            .then(async currentUser => {
-                setAuthUser(currentUser)
-            })
-            .catch(() => console.log("Not signed in"));
+       
         return unsubscribe;
     }, []);
 
-    useEffect(() => {
-        if (authUser) {
-            checkuser()
-        }
-    }, [authUser])
 
-    const checkuser = async ()=>{
-        try {
-            const users = await DataStore.query(User, (user) => user.sub.eq(authUser?.attributes?.sub));
-            updateDbUser(users[0])
-
-            if(users[0]?.sub){
-                router.replace("/(tabs/home)")
-              }
-              else{
-                router.replace("/registration")
-              }
-
-        } catch (error) {
-            console.log(error, "eoorr")
-        }
-    }
+  
 
 
     const { height } = useWindowDimensions();

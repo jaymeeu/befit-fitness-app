@@ -65,20 +65,17 @@ const colorScheme = useColorScheme();
       try {
         const users = await DataStore.query(User, (user) =>  user.sub.eq(response?.attributes?.sub));
 
-        updateDbUser(users[0])
-
-        if(users[0]?.sub){
-          router.replace("/(tabs/home)")
+        if(users[0]?.attributes?.sub){
+          updateDbUser(users[0])
+          router.replace("/(tabs)/home")
         }
         else{
           router.replace("/registration")
         }
-        
+
       } catch (error) {
         console.log(error, "eoorr")
       }
-     
-
     }
     catch (e) {
       if(e.message === 'User is not confirmed.'){

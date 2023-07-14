@@ -37,10 +37,21 @@ const AuthContextProvider = ({ children }) => {
       setDbUser(user)
   }
 
+  const updateAuthUser = async (user) => {
+    await AsyncStorage.setItem('@db_user', JSON.stringify(user) );
+    setDbUser(user)
+}
+
+const [loaded, setloaded] = useState(false)
 
     useEffect(() => {
         getdbUser();
-        getOnboardState()
+        getOnboardState();
+
+        setTimeout(() => {
+        setloaded(true)
+            
+        }, 1000);
     }, [])
 
     return (
@@ -52,7 +63,8 @@ const AuthContextProvider = ({ children }) => {
                 setuserOnboard,
                 setDbUser,
                 authUser, 
-                setAuthUser
+                setAuthUser,
+                loaded
             }}
         >
             {children}

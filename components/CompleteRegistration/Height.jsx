@@ -93,6 +93,7 @@ const [height, setheight] = useState(info.height)
 
     const onUnitClick = (toggle)=>{
         setisFeet(toggle)
+        if(height === '') {return}
         if(toggle && height > 0){
             updateState('height', `${(parseFloat(height)/30.48).toFixed(2)}`) 
         }

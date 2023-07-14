@@ -49,12 +49,13 @@ export default SigninSIgnup = () => {
     const checkuser = async ()=>{
         try {
             const users = await DataStore.query(User, (user) => user.sub.eq(authUser?.attributes?.sub));
-
-            updateDbUser(users[0])
+            if(users[0]?.sub){
+                updateDbUser(users[0])
+            }
         } catch (error) {
             console.log(error, "eoorr")
         }
-        router.replace("/index")
+        // router.replace("/index")
     }
 
 

@@ -6,7 +6,7 @@ import Onboarding from '../components/Onboarding';
 import { useEffect } from 'react';
 import Registration from '../components/CompleteRegistration';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { DataStore } from 'aws-amplify';
+import { Auth, DataStore } from 'aws-amplify';
 import { User } from '../src/models';
 
 
@@ -15,8 +15,9 @@ import { useRouter, useSegments } from "expo-router";
 
 export default function Page() {
 
-    const { dbUser, userOnboard } = useAuthContext()
+    const { dbUser,setAuthUser, userOnboard, loaded } = useAuthContext()
     const router = useRouter()
+
 
     const segments = useSegments();
   const navigationState = useRootNavigationState();
@@ -24,31 +25,40 @@ export default function Page() {
     useEffect(() => {
 
         if (!navigationState?.key) return;
+        if(!loaded) return ;
 
         if(dbUser === null && userOnboard === null){
             router.replace('/boarding');
         }
-        else if(dbUser === null && userOnboard !== null){
-            router.replace("/auth");
+        else if( userOnboard !== null) {
+            Auth.currentAuthenticatedUser({bypassCache : true})
+            .then((currentUser)=>{
+                setAuthUser(currentUser)
+                if(currentUser?.attributes?.sub){
+                    if(dbUser === null){
+                        router.replace("/registration");
+                    }
+                    else{
+                        router.replace("/home");
+                    }
+                }
+                else{
+                    router.replace("/auth");
+                }
+            })
+            .catch(()=>{
+                router.replace("/auth");
+            })
         }
-        else if(dbUser?.name){
-            router.replace('/home')
-        }
-        else{
-            router.replace('/registration')
 
-        }
-
-        // if (router && dbUser?.name) {
-        //     router.replace('(home)')
-        // }
         // AsyncStorage.removeItem('@user_onboard')
         // AsyncStorage.removeItem('@db_user')
-        console.log(dbUser, "userdb at home")
+        // Auth.signOut()
 
-    }, [router, segments, navigationState?.key])
+    }, [router, segments, navigationState?.key, loaded])
 
-    return <View>{!navigationState?.key ? <Text>LOADING...</Text> : <></>}</View>;
+    return <View>
+        {!navigationState?.key || !loaded ? <Text>LOADING...</Text> : <></>}</View>;
 
     // return (
     //     <>

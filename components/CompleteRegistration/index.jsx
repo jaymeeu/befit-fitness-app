@@ -22,7 +22,6 @@ const Registration = () => {
     const router = useRouter()
     const { authUser, updateDbUser } = useAuthContext()
 
-
     const { info } = useUserContext()
 
     const [currentIndex, setcurrentIndex] = useState(0)
@@ -57,7 +56,7 @@ const Registration = () => {
                 })
             ).then(async (res)=>{
                await updateDbUser(res)
-                router.replace('/tabs/home')
+                router.replace('/(tabs)/home')
             })
         } catch (error) {
             console.log(error, "error")
@@ -93,9 +92,7 @@ const Registration = () => {
     })
     return (
         <SafeAreaView>
-            {
-                console.log(authUser, "authUser")
-            }
+          
             <View style={styles.navbar}>
                 {
                     currentIndex !== 0 &&
