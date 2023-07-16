@@ -6,7 +6,6 @@ const Layout = () => {
   return (
     <Stack>
       <Stack.Screen name='index' options={{headerShown : false}}/>
-      <Stack.Screen name='[exercise]' options={{headerShown : false}}/>
     </Stack>
   )
 }

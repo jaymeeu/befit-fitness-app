@@ -3,6 +3,7 @@ import pushup from '../../../assets/images/pushup.jpeg'
 import React from 'react'
 import { useRouter, useSearchParams } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
+import { TextStroke } from '../../../components/TextStroke'
 
 const Workout_id = () => {
 
@@ -11,8 +12,8 @@ const Workout_id = () => {
   const styles = StyleSheet.create({
     imageHeader: {
       height: 200,
-      justifyContent:'center',
-      padding : 20
+      justifyContent: 'center',
+      padding: 20
     },
     container: {
       marginTop: -20,
@@ -87,7 +88,7 @@ const Workout_id = () => {
       alignItems: 'center',
       justifyContent: 'center',
       padding: 20,
-      paddingBottom : 40,
+      paddingBottom: 40,
       width: '100%',
       backgroundColor: 'black'
     },
@@ -111,16 +112,21 @@ const Workout_id = () => {
   return (
     <View style={{ flex: 1 }}>
       <ImageBackground source={pushup} style={styles.imageHeader}>
-        <Pressable onPress={()=>router.back()}>
-          <Ionicons name="arrow-back-circle-outline" size={36} color="white" />
-        </Pressable>
+        <View style={{ flexDirection: "row", gap: 10, alignItems: 'center' }}>
+          <Pressable onPress={() => router.back()}>
+            <Ionicons name="arrow-back-circle-outline" size={36} color="white" />
+          </Pressable>
+          <TextStroke stroke={1} color={"#000000"}>
+            <Text style={styles.name}>ABS</Text>
+          </TextStroke>
+
+        </View>
       </ImageBackground>
 
 
       <ScrollView style={styles.container}>
         {/* <Text>{workout_id}</Text> */}
         <View>
-          <Text style={styles.name}>ABS</Text>
           <View style={styles.flexer}>
             <View>
               <Text style={styles.title}>Beginner</Text>
@@ -138,52 +144,52 @@ const Workout_id = () => {
           <View>
             <Text style={[styles.title, { paddingVertical: 15 }]}>Exercises <Text style={{ color: "#707070" }}>(16)</Text> </Text>
 
-            <Pressable onPress={() => console.log('hello')} style={styles.card_flex}>
+            <View  style={styles.card_flex}>
               <Image source={pushup} style={{ width: 100, height: 100, borderRadius: 15 }} />
               <View style={styles.flexerV2}>
-                <Text style={styles.workout1}>Abs - Beginner</Text>
-                <Text style={[styles.workout, { color: '#707070', marginTop: 10 }]}>5 Workouts</Text>
+                <Text style={styles.workout1}>JUMPING JACK</Text>
+                <Text style={[styles.workout, { color: '#707070', marginTop: 10 }]}>00:22</Text>
               </View>
-            </Pressable>
+            </View>
 
-            <Pressable onPress={() => console.log('hello')} style={styles.card_flex}>
+            <View style={styles.card_flex}>
               <Image source={pushup} style={{ width: 100, height: 100, borderRadius: 15 }} />
               <View style={styles.flexerV2}>
-                <Text style={styles.workout1}>Abs - Beginner</Text>
-                <Text style={[styles.workout, { color: '#707070', marginTop: 10 }]}>5 Workouts</Text>
+                <Text style={styles.workout1}>ABDOMINAL CRUNCHES</Text>
+                <Text style={[styles.workout, { color: '#707070', marginTop: 10 }]}>x 16</Text>
               </View>
-            </Pressable>
+            </View>
 
-            <Pressable onPress={() => console.log('hello')} style={styles.card_flex}>
+            <View style={styles.card_flex}>
               <Image source={pushup} style={{ width: 100, height: 100, borderRadius: 15 }} />
               <View style={styles.flexerV2}>
                 <Text style={styles.workout1}>Abs - Beginner</Text>
                 <Text style={[styles.workout, { color: '#707070', marginTop: 10 }]}>5 Workouts</Text>
               </View>
-            </Pressable>
+            </View>
 
-            <Pressable onPress={() => console.log('hello')} style={styles.card_flex}>
+            <View style={styles.card_flex}>
               <Image source={pushup} style={{ width: 100, height: 100, borderRadius: 15 }} />
               <View style={styles.flexerV2}>
                 <Text style={styles.workout1}>Abs - Beginner</Text>
                 <Text style={[styles.workout, { color: '#707070', marginTop: 10 }]}>5 Workouts</Text>
               </View>
-            </Pressable>
+            </View>
 
-            <Pressable onPress={() => console.log('hello')} style={styles.card_flex}>
+            <View style={styles.card_flex}>
               <Image source={pushup} style={{ width: 100, height: 100, borderRadius: 15 }} />
               <View style={styles.flexerV2}>
                 <Text style={styles.workout1}>Abs - Beginner</Text>
                 <Text style={[styles.workout, { color: '#707070', marginTop: 10 }]}>5 Workouts</Text>
               </View>
-            </Pressable>
+            </View>
             <View style={{ height: 130 }}></View>
           </View>
         </View>
       </ScrollView>
 
       <View style={styles.btncont}>
-        <Pressable style={styles.btn}>
+        <Pressable onPress={() => router.push('/workout/100/200')} style={styles.btn}>
           <Text style={styles.btnText} >START</Text>
         </Pressable>
       </View>
