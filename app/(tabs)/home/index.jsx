@@ -19,11 +19,11 @@ const HomeScreen = () => {
 
   const router = useRouter()
 
-  // useEffect(() => {
-  //    AsyncStorage.removeItem('@user_onboard')
-  //     AsyncStorage.removeItem('@db_user')
-  //     Auth.signOut()
-  // }, [])
+  useEffect(() => {
+     AsyncStorage.removeItem('@user_onboard')
+      AsyncStorage.removeItem('@db_user')
+      Auth.signOut()
+  }, [])
 
   const styles = StyleSheet.create({
     upperCardCont: {

@@ -1,12 +1,47 @@
 import { View, Text, StyleSheet, Image, Pressable } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import pushup from '../assets/images/pushup.jpeg'
 import { Ionicons } from '@expo/vector-icons'
-import { useRouter } from 'expo-router'
+import { Link, useRouter } from 'expo-router'
+import { DataStore } from 'aws-amplify'
+import { Exercise, Workout } from '../src/models'
 
 const ClassicPlans = () => {
 
     const router = useRouter()
+    const [basic, setBasic] = useState([]);
+    const [intermediate, setIntermediate] = useState([]);
+    const [advance, setAdvance] = useState([]);
+
+    const fetchall = async () => {
+        try {
+            const workouts = await DataStore.query(Workout);
+
+            const exerciseIds = workouts.flatMap(workout => workout.exercises);
+
+            const exercises = await DataStore.query(Exercise, exerc => exerc.or(e => exerciseIds.map(id => e.id.eq(id)) )); 
+      
+            const exerciseMap = exercises.reduce((map, exercise) => {
+              map[exercise.id] = exercise;
+              return map;
+            }, {});
+      
+            const workoutsWithExercises = workouts.map(workout => ({
+              ...workout,
+              exercises: workout.exercises.map(exerciseId => exerciseMap[exerciseId]),
+            }));
+
+            setBasic(workoutsWithExercises.filter((res) => res.level === 'BASIC'))
+            setIntermediate(workoutsWithExercises.filter((res) => res.level === 'INTERMEDIATE'))
+            setAdvance(workoutsWithExercises.filter((res) => res.level === 'ADVANCE'))
+        } catch (error) {
+            console.log(error, "eoorr");
+        }
+    };
+
+    useEffect(() => {
+        fetchall();
+    }, []);
 
     const styles = StyleSheet.create({
         container: {
@@ -26,7 +61,7 @@ const ClassicPlans = () => {
             color: 'white',
             fontSize: 16
         },
-      
+
         category: {
             fontFamily: 'capriola',
             color: 'white',
@@ -39,7 +74,7 @@ const ClassicPlans = () => {
             flexDirection: 'row',
             alignItems: 'center',
             gap: 10,
-            backgroundColor : '#292929'
+            backgroundColor: '#292929'
         },
         flexer: {
             flex: 1,
@@ -54,38 +89,91 @@ const ClassicPlans = () => {
             fontFamily: 'capriola',
             color: 'white',
             fontSize: 18,
-            marginBottom : 5
+            marginBottom: 5
         },
-
-
     })
     return (
-        <View style={styles.container}>
-            <View style={styles.heading}>
-                <Text style={styles.workout}>5 Workouts</Text>
-                <Text style={styles.category}>Beginner</Text>
-            </View>
+        <View style={{ gap: 20 }}>
 
-            <Pressable onPress={()=>router.push('/workout/12345')} style={styles.card_flex}>
-                <Image source={pushup} style={{ width: 70, height: 70, borderRadius: 15 }} />
-                <View style={styles.flexer}>
-                    <View>
-                        <Text style={styles.workout1}>Abs - Beginner</Text>
-                        <Text style={[styles.workout, {color : '#707070'}]}>5 Workouts</Text>
+            {
+                basic.length > 0 &&
+                <View style={styles.container}>
+                    <View style={styles.heading}>
+                        <Text style={styles.workout}>{basic.length} Workouts</Text>
+                        <Text style={styles.category}>Beginner</Text>
                     </View>
-                    <Ionicons name="arrow-forward-circle" size={24} color='#707070' />
+                    {
+                        basic.map((res) => (
+                            <Link 
+                                href={{
+                                    pathname: "/workout",
+                                    // /* 1. Navigate to the details route with query params */
+                                    params: { id: 86, other: "anything you want here" },
+                                }}
+                                
+                                key={res.id} style={styles.card_flex}>
+                                <Image source={{ uri: res.image }} style={{ width: 70, height: 70, borderRadius: 15 }} />
+                                <View style={styles.flexer}>
+                                    <View>
+                                        <Text style={styles.workout1}>{res.title.toUpperCase()}</Text>
+                                        <Text style={[styles.workout, { color: '#707070' }]}>{res.exercises.length} Exercises</Text>
+                                    </View>
+                                    <Ionicons name="arrow-forward-circle" size={24} color='#707070' />
+                                </View>
+                            </Link>
+                        ))
+                    }
                 </View>
-            </Pressable>
-            <View style={styles.card_flex}>
-                <Image source={pushup} style={{ width: 70, height: 70, borderRadius: 15 }} />
-                <View style={styles.flexer}>
-                    <View>
-                        <Text style={styles.workout1}>Abs - Beginner</Text>
-                        <Text style={[styles.workout, {color : '#707070'}]}>5 Workouts</Text>
+            }
+
+            {
+                intermediate.length > 0 &&
+                <View style={styles.container}>
+                    <View style={styles.heading}>
+                        <Text style={styles.workout}>{intermediate.length} Workouts</Text>
+                        <Text style={styles.category}>Intermediate</Text>
                     </View>
-                    <Ionicons name="arrow-forward-circle" size={24} color='#707070' />
+                    {
+                        intermediate.map((res) => (
+                            <Pressable key={res.id} onPress={() => router.push('/workout/12345')} style={styles.card_flex}>
+                                <Image source={{ uri: res.image }} style={{ width: 70, height: 70, borderRadius: 15 }} />
+                                <View style={styles.flexer}>
+                                    <View>
+                                        <Text style={styles.workout1}>{res.title.toUpperCase()}</Text>
+                                        <Text style={[styles.workout, { color: '#707070' }]}>{res.exercises.length} Exercises</Text>
+                                    </View>
+                                    <Ionicons name="arrow-forward-circle" size={24} color='#707070' />
+                                </View>
+                            </Pressable>
+                        ))
+                    }
                 </View>
-            </View>
+            }
+
+            {
+                advance.length > 0 &&
+                <View style={styles.container}>
+                    <View style={styles.heading}>
+                        <Text style={styles.workout}>{advance.length} Workouts</Text>
+                        <Text style={styles.category}>Advanced</Text>
+                    </View>
+                    {
+                        advance.map((res) => (
+                            <Pressable key={res.id} onPress={() => router.push('/workout/12345')} style={styles.card_flex}>
+                                <Image source={{ uri: res.image }} style={{ width: 70, height: 70, borderRadius: 15 }} />
+                                <View style={styles.flexer}>
+                                    <View>
+                                        <Text style={styles.workout1}>{res.title.toUpperCase()}</Text>
+                                        <Text style={[styles.workout, { color: '#707070' }]}>{res.exercises.length} Exercises</Text>
+                                    </View>
+                                    <Ionicons name="arrow-forward-circle" size={24} color='#707070' />
+                                </View>
+                            </Pressable>
+                        ))
+                    }
+                </View>
+            }
+
 
         </View>
     )

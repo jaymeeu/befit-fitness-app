@@ -1,13 +1,15 @@
 import { View, Text, ImageBackground, StyleSheet, ScrollView, Pressable, Image } from 'react-native'
-import pushup from '../../../assets/images/pushup.jpeg'
+import pushup from '../../assets/images/pushup.jpeg'
 import React from 'react'
-import { useRouter, useSearchParams } from 'expo-router'
+import { useRouter, useSearchParams, useLocalSearchParams } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
-import { TextStroke } from '../../../components/TextStroke'
+import { TextStroke } from '../../components/TextStroke'
 
 const Workout_id = () => {
 
   const { workout_id } = useSearchParams()
+
+  const params = useLocalSearchParams();
 
   const styles = StyleSheet.create({
     imageHeader: {
@@ -119,7 +121,9 @@ const Workout_id = () => {
           <TextStroke stroke={1} color={"#000000"}>
             <Text style={styles.name}>ABS</Text>
           </TextStroke>
-
+{
+  console.log(params,"paramsparams")
+}
         </View>
       </ImageBackground>
 
@@ -189,7 +193,7 @@ const Workout_id = () => {
       </ScrollView>
 
       <View style={styles.btncont}>
-        <Pressable onPress={() => router.push('/workout/100/200')} style={styles.btn}>
+        <Pressable onPress={() => router.push('/workout/exercise')} style={styles.btn}>
           <Text style={styles.btnText} >START</Text>
         </Pressable>
       </View>

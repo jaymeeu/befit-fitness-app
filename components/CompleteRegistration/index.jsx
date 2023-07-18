@@ -22,7 +22,7 @@ const Registration = () => {
     const router = useRouter()
     const { authUser, updateDbUser } = useAuthContext()
 
-    const { info } = useUserContext()
+    const { info, isPound, isFeet } = useUserContext()
 
     const [currentIndex, setcurrentIndex] = useState(0)
 
@@ -42,7 +42,8 @@ const Registration = () => {
         setcurrentIndex(index)
     };
 
-    const Submit = async () => {
+    const Submit = async (data) => {
+
         try {
             await DataStore.save(
                 new User({
@@ -50,9 +51,10 @@ const Registration = () => {
                     "email": authUser?.attributes?.email,
                     "age": parseInt(info.age),
                     "gender": info.gender.toUpperCase(),
-                    "height": parseFloat(info.height),
-                    "weight": parseFloat(info.weight),
-                    "sub": authUser?.attributes?.sub
+                    "height": `${info.height} ${isFeet ? "ft" : 'cm'}`,
+                    "weight": `${data} ${isPound ? "lbs" : 'kg'}`,
+                    "sub": authUser?.attributes?.sub,
+                    "isAdmin": false,
                 })
             ).then(async (res)=>{
                await updateDbUser(res)
@@ -61,8 +63,6 @@ const Registration = () => {
         } catch (error) {
             console.log(error, "error")
         }
-
-
     }
 
 

@@ -94,7 +94,7 @@ const [weight, setweight] = useState(info.weight)
     const onUnitClick = (toggle)=>{
         setisPound(toggle)
         if(weight === '') {return}
-        if(toggle && weight > 0){
+        if(toggle && parseFloat(weight) > 0){
             updateState('weight', `${(parseFloat(weight) * 2.20462).toFixed(2)}`) 
         }
         else{
@@ -145,7 +145,7 @@ const [weight, setweight] = useState(info.weight)
                         :
                         <Pressable onPress={()=>{
                             updateState('weight', weight);
-                            goNext()
+                            goNext(weight)
                             }}>
                             <LinearGradient
                                 style={styles.btn}
