@@ -13,7 +13,7 @@ import Weight from './Weight'
 import { useUserContext } from '../../contexts/RegContext'
 import { useAuthContext } from '../../contexts/AuthContext'
 import { User } from '../../src/models'
-import { DataStore } from 'aws-amplify'
+import { Auth, DataStore } from 'aws-amplify'
 import { useRouter } from 'expo-router'
 
 const Registration = () => {
@@ -92,7 +92,7 @@ const Registration = () => {
     })
     return (
         <SafeAreaView>
-          
+
             <View style={styles.navbar}>
                 {
                     currentIndex !== 0 &&

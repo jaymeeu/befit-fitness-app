@@ -46,7 +46,7 @@ const PlanCard = ({ item }) => {
             <Text style={styles.text_text}>{item.title}</Text>
             <Text style={styles.text_text2}>{item.title}</Text>
             <View style={{ gap: 12, backgroundColor: 'transparent', alignItems: 'center' }}>
-                <Text style={styles.text_text3} numberOfLines={3}>{item.subtitle}</Text>
+                <Text style={styles.text_text3} numberOfLines={3}>{item.description}</Text>
                 <Pressable style={styles.btn}>
                     <Text style={styles.btnText} >START</Text>
                 </Pressable>

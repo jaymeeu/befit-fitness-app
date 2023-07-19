@@ -1,13 +1,15 @@
 import { View, Text, ImageBackground, StyleSheet, ScrollView, Pressable, Image } from 'react-native'
 import pushup from '../../assets/images/pushup.jpeg'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter, useSearchParams, useLocalSearchParams } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
 import { TextStroke } from '../../components/TextStroke'
+import { DataStore } from 'aws-amplify'
+import { Workout } from '../../src/models'
+import { Exercise } from '../../src/models'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const Workout_id = () => {
-
-  const { workout_id } = useSearchParams()
 
   const params = useLocalSearchParams();
 
@@ -109,21 +111,50 @@ const Workout_id = () => {
 
   })
 
+  const [fetchedWorkout, setFetchedWorkout] = useState([])
+
+  const fetchByID = async () => {
+    try {
+        const workouts = await DataStore.query(Workout, res => res.id.eq(params.id));
+
+        const exerciseIds = workouts.flatMap(workout => workout.exercises);
+
+        const exercises = await DataStore.query(Exercise, exerc => exerc.or(e => exerciseIds.map(id => e.id.eq(id)) )); 
+  
+        const exerciseMap = exercises.reduce((map, exercise) => {
+          map[exercise.id] = exercise;
+          return map;
+        }, {});
+  
+        const workoutsWithExercises = workouts.map(workout => ({
+          ...workout,
+          exercises: workout.exercises.map(exerciseId => exerciseMap[exerciseId]),
+        }));
+
+        setFetchedWorkout(workoutsWithExercises[0])
+    } catch (error) {
+        console.log(error, "eoorr");
+    }
+};
+
+useEffect(() => {
+  fetchByID();
+}, []);
+
   const router = useRouter()
 
   return (
+    fetchedWorkout?.title &&
     <View style={{ flex: 1 }}>
-      <ImageBackground source={pushup} style={styles.imageHeader}>
+      <ImageBackground source={{uri : fetchedWorkout.image}} style={styles.imageHeader}>
         <View style={{ flexDirection: "row", gap: 10, alignItems: 'center' }}>
           <Pressable onPress={() => router.back()}>
             <Ionicons name="arrow-back-circle-outline" size={36} color="white" />
           </Pressable>
           <TextStroke stroke={1} color={"#000000"}>
-            <Text style={styles.name}>ABS</Text>
+            <Text style={styles.name}>{fetchedWorkout.title.toUpperCase()}</Text>
           </TextStroke>
-{
-  console.log(params,"paramsparams")
-}
+
         </View>
       </ImageBackground>
 
@@ -133,7 +164,7 @@ const Workout_id = () => {
         <View>
           <View style={styles.flexer}>
             <View>
-              <Text style={styles.title}>Beginner</Text>
+              <Text style={styles.title}>{fetchedWorkout.level}</Text>
               <Text style={styles.subtitle}>Level</Text>
             </View>
             <View style={styles.add_border}>
@@ -141,52 +172,25 @@ const Workout_id = () => {
               <Text style={styles.subtitle}>Time</Text>
             </View>
             <View style={styles.add_border}>
-              <Text style={styles.title}>Abs</Text>
+              <Text style={styles.title}>{fetchedWorkout.focus[0]}</Text>
               <Text style={styles.subtitle}>Focus Area</Text>
             </View>
           </View>
           <View>
-            <Text style={[styles.title, { paddingVertical: 15 }]}>Exercises <Text style={{ color: "#707070" }}>(16)</Text> </Text>
+            <Text style={[styles.title, { paddingVertical: 15 }]}>Exercises <Text style={{ color: "#707070" }}>({fetchedWorkout.exercises.length})</Text> </Text>
 
-            <View  style={styles.card_flex}>
-              <Image source={pushup} style={{ width: 100, height: 100, borderRadius: 15 }} />
-              <View style={styles.flexerV2}>
-                <Text style={styles.workout1}>JUMPING JACK</Text>
-                <Text style={[styles.workout, { color: '#707070', marginTop: 10 }]}>00:22</Text>
+          {
+            fetchedWorkout.exercises.map((exe)=>(
+              <View key={exe.id} style={styles.card_flex}>
+                <Image source={{uri : exe.image}} style={{ width: 100, height: 100, borderRadius: 15 }} />
+                <View style={styles.flexerV2}>
+                  <Text style={styles.workout1}>{exe.name.toUpperCase()}</Text>
+                 
+                  <Text style={[styles.workout, { color: '#707070', marginTop: 10 }]}>x {exe.reps}</Text>
+                </View>
               </View>
-            </View>
-
-            <View style={styles.card_flex}>
-              <Image source={pushup} style={{ width: 100, height: 100, borderRadius: 15 }} />
-              <View style={styles.flexerV2}>
-                <Text style={styles.workout1}>ABDOMINAL CRUNCHES</Text>
-                <Text style={[styles.workout, { color: '#707070', marginTop: 10 }]}>x 16</Text>
-              </View>
-            </View>
-
-            <View style={styles.card_flex}>
-              <Image source={pushup} style={{ width: 100, height: 100, borderRadius: 15 }} />
-              <View style={styles.flexerV2}>
-                <Text style={styles.workout1}>Abs - Beginner</Text>
-                <Text style={[styles.workout, { color: '#707070', marginTop: 10 }]}>5 Workouts</Text>
-              </View>
-            </View>
-
-            <View style={styles.card_flex}>
-              <Image source={pushup} style={{ width: 100, height: 100, borderRadius: 15 }} />
-              <View style={styles.flexerV2}>
-                <Text style={styles.workout1}>Abs - Beginner</Text>
-                <Text style={[styles.workout, { color: '#707070', marginTop: 10 }]}>5 Workouts</Text>
-              </View>
-            </View>
-
-            <View style={styles.card_flex}>
-              <Image source={pushup} style={{ width: 100, height: 100, borderRadius: 15 }} />
-              <View style={styles.flexerV2}>
-                <Text style={styles.workout1}>Abs - Beginner</Text>
-                <Text style={[styles.workout, { color: '#707070', marginTop: 10 }]}>5 Workouts</Text>
-              </View>
-            </View>
+            ))
+          }
             <View style={{ height: 130 }}></View>
           </View>
         </View>
@@ -199,6 +203,7 @@ const Workout_id = () => {
       </View>
 
     </View>
+
   )
 }
 

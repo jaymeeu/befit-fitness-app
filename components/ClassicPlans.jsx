@@ -1,47 +1,11 @@
 import { View, Text, StyleSheet, Image, Pressable } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import pushup from '../assets/images/pushup.jpeg'
+import React from 'react'
 import { Ionicons } from '@expo/vector-icons'
-import { Link, useRouter } from 'expo-router'
-import { DataStore } from 'aws-amplify'
-import { Exercise, Workout } from '../src/models'
+import { useRouter } from 'expo-router'
 
-const ClassicPlans = () => {
+const ClassicPlans = ({basic,intermediate,advance}) => {
 
     const router = useRouter()
-    const [basic, setBasic] = useState([]);
-    const [intermediate, setIntermediate] = useState([]);
-    const [advance, setAdvance] = useState([]);
-
-    const fetchall = async () => {
-        try {
-            const workouts = await DataStore.query(Workout);
-
-            const exerciseIds = workouts.flatMap(workout => workout.exercises);
-
-            const exercises = await DataStore.query(Exercise, exerc => exerc.or(e => exerciseIds.map(id => e.id.eq(id)) )); 
-      
-            const exerciseMap = exercises.reduce((map, exercise) => {
-              map[exercise.id] = exercise;
-              return map;
-            }, {});
-      
-            const workoutsWithExercises = workouts.map(workout => ({
-              ...workout,
-              exercises: workout.exercises.map(exerciseId => exerciseMap[exerciseId]),
-            }));
-
-            setBasic(workoutsWithExercises.filter((res) => res.level === 'BASIC'))
-            setIntermediate(workoutsWithExercises.filter((res) => res.level === 'INTERMEDIATE'))
-            setAdvance(workoutsWithExercises.filter((res) => res.level === 'ADVANCE'))
-        } catch (error) {
-            console.log(error, "eoorr");
-        }
-    };
-
-    useEffect(() => {
-        fetchall();
-    }, []);
 
     const styles = StyleSheet.create({
         container: {
@@ -72,9 +36,11 @@ const ClassicPlans = () => {
             // paddingBottom : 8,
             height: 92,
             flexDirection: 'row',
+            display : 'flex',
             alignItems: 'center',
             gap: 10,
-            backgroundColor: '#292929'
+            backgroundColor: '#292929',
+            width : '100%'
         },
         flexer: {
             flex: 1,
@@ -104,12 +70,11 @@ const ClassicPlans = () => {
                     </View>
                     {
                         basic.map((res) => (
-                            <Link 
-                                href={{
+                            <Pressable 
+                                onPress={() => router.push({
                                     pathname: "/workout",
-                                    // /* 1. Navigate to the details route with query params */
-                                    params: { id: 86, other: "anything you want here" },
-                                }}
+                                    params: { id : res.id },
+                                })} 
                                 
                                 key={res.id} style={styles.card_flex}>
                                 <Image source={{ uri: res.image }} style={{ width: 70, height: 70, borderRadius: 15 }} />
@@ -120,7 +85,7 @@ const ClassicPlans = () => {
                                     </View>
                                     <Ionicons name="arrow-forward-circle" size={24} color='#707070' />
                                 </View>
-                            </Link>
+                            </Pressable>
                         ))
                     }
                 </View>
@@ -135,7 +100,12 @@ const ClassicPlans = () => {
                     </View>
                     {
                         intermediate.map((res) => (
-                            <Pressable key={res.id} onPress={() => router.push('/workout/12345')} style={styles.card_flex}>
+                            <Pressable key={res.id} 
+                                onPress={() => router.push({
+                                    pathname: "/workout",
+                                    params: { id: res.id },
+                                })} 
+                                style={styles.card_flex}>
                                 <Image source={{ uri: res.image }} style={{ width: 70, height: 70, borderRadius: 15 }} />
                                 <View style={styles.flexer}>
                                     <View>
@@ -159,7 +129,12 @@ const ClassicPlans = () => {
                     </View>
                     {
                         advance.map((res) => (
-                            <Pressable key={res.id} onPress={() => router.push('/workout/12345')} style={styles.card_flex}>
+                            <Pressable key={res.id} 
+                                onPress={() => router.push({
+                                    pathname: "/workout",
+                                    params: { id: res.id },
+                                })} 
+                                style={styles.card_flex}>
                                 <Image source={{ uri: res.image }} style={{ width: 70, height: 70, borderRadius: 15 }} />
                                 <View style={styles.flexer}>
                                     <View>
