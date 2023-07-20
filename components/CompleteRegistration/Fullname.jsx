@@ -69,7 +69,7 @@ const Fullname = ({ goNext }) => {
               style={styles.inpute}
                 value={fullname}
                 onChangeText={(text)=>setfullname(text)}
-                keyboardType='text'
+                keyboardType='default'
                 placeholder='Your name'
               />
             </View>

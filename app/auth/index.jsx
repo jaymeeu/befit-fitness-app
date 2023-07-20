@@ -20,7 +20,7 @@ export default SigninSIgnup = () => {
 
     const checkuser = async ()=>{
 
-       await Auth.currentAuthenticatedUser()
+       await Auth.currentAuthenticatedUser({bypassCache : true})
         .then(async currentUser => {
             setAuthUser(currentUser)
             if(currentUser?.attributes?.sub){

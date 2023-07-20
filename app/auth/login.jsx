@@ -62,23 +62,6 @@ const colorScheme = useColorScheme();
     try {
       const response = await Auth.signIn(data.username, data.password)
       setAuthUser(response)
-      try {
-        const users = await DataStore.query(User, (user) =>  user.sub.eq(response?.attributes?.sub));
-
-        console.log(users)
-        console.log(response?.attributes?.sub, "response?.attributes?.sub")
-
-        if(users[0]?.sub){
-          updateDbUser(users[0])
-          router.replace("/(tabs)/home")
-        }
-        else{
-          router.replace("/registration")
-        }
-
-      } catch (error) {
-        console.log(error, "eoorr")
-      }
     }
     catch (e) {
       if(e.message === 'User is not confirmed.'){
@@ -91,7 +74,7 @@ const colorScheme = useColorScheme();
         Alert.alert("Opps", e.message)
       }
     }
-    setloading(false)
+    // setloading(false)
   };
 
 
@@ -105,6 +88,7 @@ const colorScheme = useColorScheme();
       <CustomInput
         name="username"
         control={control}
+        keyboardType='email-address'
         placeholder="Enter Email"
         activeIcon={<MaterialIcons name="alternate-email" size={20} color={Colors[colorScheme ?? 'light'].text} />}
         inactiveIcon={<MaterialIcons name="alternate-email" size={20} color={Colors[colorScheme ?? 'light'].tabIconDefault}/>}

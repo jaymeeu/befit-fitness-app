@@ -203,8 +203,8 @@ useEffect(() => {
             <Text style={[styles.title, { paddingVertical: 15 }]}>Exercises <Text style={{ color: "#707070" }}>({fetchedWorkout.exercises.length})</Text> </Text>
 
           {
-            fetchedWorkout.exercises.map((exe)=>(
-              <View key={exe.id} style={styles.card_flex}>
+            fetchedWorkout.exercises.map((exe, i)=>(
+              <View key={i} style={styles.card_flex}>
                 <Image source={{uri : exe.image}} style={{ width: 100, height: 100, borderRadius: 15 }} />
                 <View style={styles.flexerV2}>
                   <Text style={styles.workout1}>{exe.name.toUpperCase()}</Text>

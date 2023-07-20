@@ -54,6 +54,7 @@ export default function Page() {
         // AsyncStorage.removeItem('@user_onboard')
         // AsyncStorage.removeItem('@db_user')
         // Auth.signOut()
+        // DataStore.clear()
 
     }, [router, segments, navigationState?.key, loaded])
 
