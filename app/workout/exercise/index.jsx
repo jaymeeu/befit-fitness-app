@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { DataStore } from 'aws-amplify'
-import { Exercise, Workout } from '../../../src/models'
+import { Exercise, Progress, Workout } from '../../../src/models'
+import { useAuthContext } from '../../../contexts/AuthContext'
 
 const Exercises = () => {
 
@@ -17,6 +18,8 @@ const Exercises = () => {
   const [exercises, setExercises] = useState([])
 
   const [activeIndex, setactiveIndex] = useState(0)
+    const [progress, setprogress] = useState([])
+    const { dbUser } = useAuthContext()
 
   const fetchByID = async () => {
     try {
@@ -39,9 +42,16 @@ const Exercises = () => {
         setFetchedWorkout(workoutsWithExercises?.[0])
         setExercises(workoutsWithExercises?.[0]?.exercises)
         
+        const prog = await DataStore.query(Progress, p => p.and( prog =>([prog.userID.eq(dbUser.id), prog.workout_id.eq(workoutsWithExercises[0].id)])))
+        setprogress(prog[0])
+        if(prog[0]?.completed_exercise_ids){
+            setactiveIndex(prog[0].completed_exercise_ids.length)
+        }
+
     } catch (error) {
         console.log(error, "eoorr");
     }
+
 };
 
 useEffect(() => {
@@ -121,7 +131,10 @@ useEffect(() => {
         }
     })
 
-    const nextClick = () =>{
+    const nextClick = async () =>{
+        await DataStore.save(Progress.copyOf(progress, item => {
+            item.completed_exercise_ids = [...progress.completed_exercise_ids, exercises[activeIndex].id]
+        }));
         setactiveIndex((prev)=> prev + 1)
     }
 

@@ -5,12 +5,16 @@ import { useRouter, useSearchParams, useLocalSearchParams } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
 import { TextStroke } from '../../components/TextStroke'
 import { DataStore } from 'aws-amplify'
-import { Workout } from '../../src/models'
+import { Progress, Workout } from '../../src/models'
 import { Exercise } from '../../src/models'
+import { useAuthContext } from '../../contexts/AuthContext'
 
 const Workout_id = () => {
 
   const params = useLocalSearchParams();
+
+  const { dbUser } = useAuthContext()
+
 
   const styles = StyleSheet.create({
     imageHeader: {
@@ -110,7 +114,8 @@ const Workout_id = () => {
 
   })
 
-  const [fetchedWorkout, setFetchedWorkout] = useState([])
+  const [fetchedWorkout, setFetchedWorkout] = useState()
+const [progress, setprogress] = useState([])
 
   const fetchByID = async () => {
     try {
@@ -131,6 +136,10 @@ const Workout_id = () => {
         }));
 
         setFetchedWorkout(workoutsWithExercises[0])
+
+        const prog = await DataStore.query(Progress, p => p.and( prog =>([prog.userID.eq(dbUser.id), prog.workout_id.eq(workoutsWithExercises[0].id)])))
+        setprogress(prog)
+
     } catch (error) {
         console.log(error, "eoorr");
     }
@@ -141,6 +150,22 @@ useEffect(() => {
 }, []);
 
   const router = useRouter()
+
+  const onStartClick = async () =>{
+    if(progress.length === 0){
+      await DataStore.save(
+        new Progress({
+        "workout_id": fetchedWorkout.id,
+        "total_exercise": fetchedWorkout.exercises.length,
+        "completed_exercise_ids": [],
+        "userID": dbUser?.id
+      })
+    );
+    }
+   
+
+  router.push({ pathname : '/workout/exercise', params :  params})
+  }
 
   return (
     fetchedWorkout?.title &&
@@ -156,7 +181,6 @@ useEffect(() => {
 
         </View>
       </ImageBackground>
-
 
       <ScrollView style={styles.container}>
         {/* <Text>{workout_id}</Text> */}
@@ -196,8 +220,13 @@ useEffect(() => {
       </ScrollView>
 
       <View style={styles.btncont}>
-        <Pressable onPress={() => router.push({ pathname : '/workout/exercise', params :  params})} style={styles.btn}>
-          <Text style={styles.btnText} >START</Text>
+        <Pressable onPress={ onStartClick} style={styles.btn}>
+          <Text style={styles.btnText} >
+            {
+              progress.length === 0 ? "START" : "CONTINUE"
+            }
+            
+          </Text>
         </Pressable>
       </View>
 
