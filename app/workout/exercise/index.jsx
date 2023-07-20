@@ -66,7 +66,6 @@ useEffect(() => {
             flex: 1,
             height: 3,
             borderRadius: 3,
-            backgroundColor: 'gray'
         },
         spacingly: {
             flexDirection: 'row',
@@ -137,8 +136,8 @@ useEffect(() => {
                 <View style={styles.topNav}>
                     <View style={styles.progres}>
                         {
-                            exercises?.map((res)=>(
-                                <View key={res.id} style={styles.progresBar}></View>
+                            exercises?.map((res, index)=>(
+                                <View key={res.id} style={[styles.progresBar, {backgroundColor: index <= activeIndex ? 'black' : 'gray'}]}></View>
                             ))
                         }
                     </View>

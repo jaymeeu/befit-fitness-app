@@ -7,7 +7,6 @@ import { TextStroke } from '../../components/TextStroke'
 import { DataStore } from 'aws-amplify'
 import { Workout } from '../../src/models'
 import { Exercise } from '../../src/models'
-import { SafeAreaView } from 'react-native-safe-area-context'
 
 const Workout_id = () => {
 

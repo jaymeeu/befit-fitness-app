@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Pressable, useWindowDimensions, ImageBackground } from 'react-native'
 import React from 'react'
 import { useRouter } from 'expo-router';
+import { TextStroke } from '../TextStroke';
 
 const PlanCard = ({ item }) => {
     const { height, width } = useWindowDimensions();
@@ -20,7 +21,7 @@ const PlanCard = ({ item }) => {
         text_text2: {
             color: 'white',
             fontFamily: 'work-san-bold',
-            fontSize: 36,
+            fontSize: 34,
             width: '70%'
         },
         text_text3: {
@@ -45,19 +46,36 @@ const PlanCard = ({ item }) => {
 
 
     return (
-        <ImageBackground 
-            imageStyle={{borderRadius: 30}} 
-            source={{uri : item.image}} style={styles.swiper}>
-            <Text style={styles.text_text}>{item.title?.toUpperCase()}</Text>
-            <Text style={styles.text_text2}>{item.title?.toUpperCase()}</Text>
+        <ImageBackground
+            imageStyle={{ borderRadius: 30 }}
+            source={{ uri: item.image }} style={styles.swiper}>
+
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Text style={styles.text_text}>{item.title?.toUpperCase()}</Text>
+                {
+                    item.isPro &&
+                    <View style={{backgroundColor : 'white', paddingVertical:3, paddingHorizontal : 8, borderRadius :5}}>
+                        <Text style={{color:'black', fontWeight : 600}}>Pro</Text>
+                    </View>
+                }
+            </View>
+            <TextStroke stroke={1} color={"#000000"}>
+
+                <Text style={styles.text_text2}>{item.title?.toUpperCase()}</Text>
+            </TextStroke>
             <View style={{ gap: 12, backgroundColor: 'transparent', alignItems: 'center' }}>
                 <Text style={styles.text_text3} numberOfLines={3}>{item.description}</Text>
-                <Pressable 
-                    onPress={() => router.push({
-                        pathname: "/workout",
-                        params: { id: item.id },
-                    })}
-                style={styles.btn}>
+                <Pressable
+                    onPress={() => {
+                        item.isPro ?
+                        console.log('is pro')
+                        :
+                        router.push({
+                            pathname: "/workout",
+                            params: { id: item.id },
+                        })}
+                    }
+                    style={styles.btn}>
                     <Text style={styles.btnText} >START</Text>
                 </Pressable>
             </View>
