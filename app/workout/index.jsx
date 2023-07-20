@@ -197,7 +197,7 @@ useEffect(() => {
       </ScrollView>
 
       <View style={styles.btncont}>
-        <Pressable onPress={() => router.push('/workout/exercise')} style={styles.btn}>
+        <Pressable onPress={() => router.push({ pathname : '/workout/exercise', params :  params})} style={styles.btn}>
           <Text style={styles.btnText} >START</Text>
         </Pressable>
       </View>

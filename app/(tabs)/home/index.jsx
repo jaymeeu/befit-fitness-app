@@ -36,8 +36,6 @@ const HomeScreen = () => {
   const fetchall = async () => {
       try {
           const workouts = await DataStore.query(Workout);
-
-          console.log(workouts[0].isPro , "workouts.filter((res) => (res.isPro || res.isSpecial) )")
           setSpecial(workouts.filter((res) => (res.isPro || res.isSpecial) ))
           setBasic(workouts.filter((res) => (res.level === 'BASIC' && !res.isPro && !res.isSpecial) ))
           setIntermediate(workouts.filter((res) => (res.level === 'INTERMEDIATE' && !res.isPro && !res.isSpecial)))
@@ -67,22 +65,10 @@ const HomeScreen = () => {
     plans: { color: '#0C0C0C', fontSize: 20, fontFamily: 'capriola' },
     presable: { color: '#0C0C0C', fontSize: 14, fontFamily: 'capriola' },
   })
-  const data = [{
-    "title": "MASSIVE UPPER BODY",
-    "description": "Select from lists of workout plans for your desired goal Select from lists of workout plans for your desired goal Select from lists of workout plans for your desired goal",
-  },
-  {
-    "title": "Do the exercises",
-    "description": "Do the exercise and stay consistence with your workout plans Select from lists of workout plans for your desired goal",
-  },
-  {
-    "title": "Get desired results",
-    "description": "Achieve your desired body shape and goals Select from lists of workout plans for your desired goal Select from lists of workout plans for your desired goal",
-  }]
 
-  const image = index => ({ each: data[index % data.length] });
+  const image = index => ({ each: special[index % special.length] });
 
-  const items = Array.from(Array(3)).map((_, index) => image(index));
+  const items = Array.from(Array(special.length)).map((_, index) => image(index));
   
   const RenderItem = ({ item, index }) => (
     <PlanCard item={item}/>

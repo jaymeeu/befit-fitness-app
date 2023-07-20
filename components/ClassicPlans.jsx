@@ -1,9 +1,12 @@
-import { View, Text, StyleSheet, Image, Pressable } from 'react-native'
+import { View, Text, StyleSheet, Image, Pressable, ImageBackground } from 'react-native'
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
+import classic_bg from '../assets/images/classic_bg.jpg'
+import classic_bg1 from '../assets/images/classic_bg1.jpg'
+import classic_bg2 from '../assets/images/classic_bg2.jpg'
 
-const ClassicPlans = ({basic,intermediate,advance}) => {
+const ClassicPlans = ({ basic, intermediate, advance }) => {
 
     const router = useRouter()
 
@@ -13,12 +16,9 @@ const ClassicPlans = ({basic,intermediate,advance}) => {
         },
         heading: {
             padding: 15,
-            height: 110,
-            width: '100%',
-            backgroundColor: 'red',
-            borderTopRightRadius: 15,
-            borderTopLeftRadius: 15,
-            justifyContent: 'space-evenly'
+            height: 90,
+            justifyContent: 'space-evenly',
+            flex: 1
         },
         workout: {
             fontFamily: 'work-san',
@@ -33,14 +33,13 @@ const ClassicPlans = ({basic,intermediate,advance}) => {
         },
         card_flex: {
             paddingHorizontal: 15,
-            // paddingBottom : 8,
             height: 92,
             flexDirection: 'row',
-            display : 'flex',
+            display: 'flex',
             alignItems: 'center',
             gap: 10,
-            backgroundColor: '#292929',
-            width : '100%'
+            backgroundColor: '#313131',
+            width: '100%'
         },
         flexer: {
             flex: 1,
@@ -64,24 +63,27 @@ const ClassicPlans = ({basic,intermediate,advance}) => {
             {
                 basic.length > 0 &&
                 <View style={styles.container}>
-                    <View style={styles.heading}>
+                    <ImageBackground
+                        resizeMode="cover"
+                        imageStyle={{ borderTopRightRadius: 15, borderTopLeftRadius: 15 }}
+                        source={classic_bg} style={styles.heading}>
                         <Text style={styles.workout}>{basic.length} Workouts</Text>
                         <Text style={styles.category}>Beginner</Text>
-                    </View>
+                    </ImageBackground>
                     {
                         basic.map((res) => (
-                            <Pressable 
+                            <Pressable
                                 onPress={() => router.push({
                                     pathname: "/workout",
-                                    params: { id : res.id },
-                                })} 
-                                
+                                    params: { id: res.id },
+                                })}
+
                                 key={res.id} style={styles.card_flex}>
                                 <Image source={{ uri: res.image }} style={{ width: 70, height: 70, borderRadius: 15 }} />
                                 <View style={styles.flexer}>
                                     <View>
                                         <Text style={styles.workout1}>{res.title.toUpperCase()}</Text>
-                                        <Text style={[styles.workout, { color: '#707070' }]}>{res.exercises.length} Exercises</Text>
+                                        <Text style={[styles.workout, { color: '#8a8a8a' }]}>{res.exercises.length} Exercises</Text>
                                     </View>
                                     <Ionicons name="arrow-forward-circle" size={24} color='#707070' />
                                 </View>
@@ -94,17 +96,20 @@ const ClassicPlans = ({basic,intermediate,advance}) => {
             {
                 intermediate.length > 0 &&
                 <View style={styles.container}>
-                    <View style={styles.heading}>
+                    <ImageBackground
+                        resizeMode="cover"
+                        imageStyle={{ borderTopRightRadius: 15, borderTopLeftRadius: 15 }}
+                        source={classic_bg1} style={styles.heading}>
                         <Text style={styles.workout}>{intermediate.length} Workouts</Text>
                         <Text style={styles.category}>Intermediate</Text>
-                    </View>
+                    </ImageBackground>
                     {
                         intermediate.map((res) => (
-                            <Pressable key={res.id} 
+                            <Pressable key={res.id}
                                 onPress={() => router.push({
                                     pathname: "/workout",
                                     params: { id: res.id },
-                                })} 
+                                })}
                                 style={styles.card_flex}>
                                 <Image source={{ uri: res.image }} style={{ width: 70, height: 70, borderRadius: 15 }} />
                                 <View style={styles.flexer}>
@@ -123,17 +128,20 @@ const ClassicPlans = ({basic,intermediate,advance}) => {
             {
                 advance.length > 0 &&
                 <View style={styles.container}>
-                    <View style={styles.heading}>
+                    <ImageBackground
+                        resizeMode="cover"
+                        imageStyle={{ borderTopRightRadius: 15, borderTopLeftRadius: 15 }}
+                        source={classic_bg2} style={styles.heading}>
                         <Text style={styles.workout}>{advance.length} Workouts</Text>
                         <Text style={styles.category}>Advanced</Text>
-                    </View>
+                    </ImageBackground>
                     {
                         advance.map((res) => (
-                            <Pressable key={res.id} 
+                            <Pressable key={res.id}
                                 onPress={() => router.push({
                                     pathname: "/workout",
                                     params: { id: res.id },
-                                })} 
+                                })}
                                 style={styles.card_flex}>
                                 <Image source={{ uri: res.image }} style={{ width: 70, height: 70, borderRadius: 15 }} />
                                 <View style={styles.flexer}>
@@ -148,8 +156,6 @@ const ClassicPlans = ({basic,intermediate,advance}) => {
                     }
                 </View>
             }
-
-
         </View>
     )
 }

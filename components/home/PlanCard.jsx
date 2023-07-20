@@ -1,12 +1,15 @@
-import { View, Text, StyleSheet, Pressable, useWindowDimensions } from 'react-native'
+import { View, Text, StyleSheet, Pressable, useWindowDimensions, ImageBackground } from 'react-native'
 import React from 'react'
+import { useRouter } from 'expo-router';
 
 const PlanCard = ({ item }) => {
     const { height, width } = useWindowDimensions();
 
+    const router = useRouter()
+
     const styles = StyleSheet.create({
         swiper: {
-            padding: 20, width: width - 30, margin: 15, height: width - 30, borderRadius: 30, backgroundColor: 'gray',
+            padding: 20, width: width - 30, margin: 15, height: width - 30,
             justifyContent: 'space-between'
         },
         text_text: {
@@ -42,16 +45,23 @@ const PlanCard = ({ item }) => {
 
 
     return (
-        <View style={styles.swiper}>
-            <Text style={styles.text_text}>{item.title}</Text>
-            <Text style={styles.text_text2}>{item.title}</Text>
+        <ImageBackground 
+            imageStyle={{borderRadius: 30}} 
+            source={{uri : item.image}} style={styles.swiper}>
+            <Text style={styles.text_text}>{item.title?.toUpperCase()}</Text>
+            <Text style={styles.text_text2}>{item.title?.toUpperCase()}</Text>
             <View style={{ gap: 12, backgroundColor: 'transparent', alignItems: 'center' }}>
                 <Text style={styles.text_text3} numberOfLines={3}>{item.description}</Text>
-                <Pressable style={styles.btn}>
+                <Pressable 
+                    onPress={() => router.push({
+                        pathname: "/workout",
+                        params: { id: item.id },
+                    })}
+                style={styles.btn}>
                     <Text style={styles.btnText} >START</Text>
                 </Pressable>
             </View>
-        </View>
+        </ImageBackground>
     )
 }
 
