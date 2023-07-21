@@ -1,7 +1,7 @@
 import { View, Text, ImageBackground, StyleSheet, ScrollView, Pressable, Image } from 'react-native'
 import pushup from '../../assets/images/pushup.jpeg'
 import React, { useEffect, useState } from 'react'
-import { useRouter, useSearchParams, useLocalSearchParams } from 'expo-router'
+import { useRouter, useLocalSearchParams } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
 import { TextStroke } from '../../components/TextStroke'
 import { DataStore } from 'aws-amplify'
@@ -202,15 +202,14 @@ useEffect(() => {
           </View>
           <View>
             <Text style={[styles.title, { paddingVertical: 15 }]}>Exercises <Text style={{ color: "#707070" }}>({fetchedWorkout.exercises.length})</Text> </Text>
-
           {
             fetchedWorkout.exercises.map((exe, i)=>(
               <View key={i} style={styles.card_flex}>
-                <Image source={{uri : exe.image}} style={{ width: 100, height: 100, borderRadius: 15 }} />
+                <Image source={{uri : exe?.image}} style={{ width: 100, height: 100, borderRadius: 15 }} />
                 <View style={styles.flexerV2}>
-                  <Text style={styles.workout1}>{exe.name.toUpperCase()}</Text>
+                  <Text style={styles.workout1}>{exe?.name?.toUpperCase()}</Text>
                  
-                  <Text style={[styles.workout, { color: '#707070', marginTop: 10 }]}>x {exe.reps}</Text>
+                  <Text style={[styles.workout, { color: '#707070', marginTop: 10 }]}>x {exe?.reps}</Text>
                 </View>
               </View>
             ))
@@ -226,7 +225,6 @@ useEffect(() => {
             {
               progress.length === 0 ? "START" : "CONTINUE"
             }
-            
           </Text>
         </Pressable>
       </View>

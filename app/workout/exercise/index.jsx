@@ -116,7 +116,7 @@ useEffect(() => {
             width : 50,
             height : 50,
             borderRadius : 25,
-            backgroundColor : 'gray',
+            backgroundColor : 'blue',
             alignItems : 'center',
             justifyContent : 'center',
         },
@@ -124,7 +124,7 @@ useEffect(() => {
             flex : 1,
             height : 50,
             borderRadius : 25,
-            backgroundColor : 'gray',
+            backgroundColor : 'blue',
             alignItems : 'center',
             justifyContent : 'center',
 
@@ -132,9 +132,20 @@ useEffect(() => {
     })
 
     const nextClick = async () =>{
-        await DataStore.save(Progress.copyOf(progress, item => {
-            item.completed_exercise_ids = [...progress.completed_exercise_ids, exercises[activeIndex].id]
-        }));
+
+        if(!(progress.completed_exercise_ids.includes(exercises[activeIndex].id))){
+
+            await DataStore.save(Progress.copyOf(progress, item => {
+                item.completed_exercise_ids = [...progress.completed_exercise_ids, exercises[activeIndex].id]
+            }));
+
+            setprogress(prevData => ({
+                ...prevData,
+                completed_exercise_ids: [...prevData.completed_exercise_ids, exercises[activeIndex].id]
+              }));
+
+        }
+
         setactiveIndex((prev)=> prev + 1)
     }
 
@@ -150,7 +161,7 @@ useEffect(() => {
                     <View style={styles.progres}>
                         {
                             exercises?.map((res, index)=>(
-                                <View key={res.id} style={[styles.progresBar, {backgroundColor: index <= activeIndex ? 'black' : 'gray'}]}></View>
+                                <View key={index} style={[styles.progresBar, {backgroundColor: index <= activeIndex ? 'black' : 'gray'}]}></View>
                             ))
                         }
                     </View>
@@ -160,7 +171,7 @@ useEffect(() => {
                         </TouchableOpacity>
                         <View style={{ alignItems: 'flex-end' }}>
                             <Text style={styles.bold}>Exercises {activeIndex + 1}/{exercises?.length}</Text>
-                            <Text>00:31</Text>
+                            {/* <Text>00:31</Text> */}
                         </View>
                     </View>
                 </View>
@@ -179,7 +190,6 @@ useEffect(() => {
                             <MaterialIcons name="skip-previous" size={30} color="white" />
                         </Pressable>
                     }
-                    
 
                     <View style={styles.btnDone}>
                         <Ionicons name="checkmark-sharp" size={30} color="white" />
