@@ -20,8 +20,14 @@ import { Link, useRouter } from 'expo-router';
 import { useAuthContext } from '../../contexts/AuthContext';
 import Colors from '../../constants/Colors';
 import { User } from '../../src/models';
+// import {
+//   useAuthenticator,
+//   withAuthenticator,
+// } from '@aws-amplify/ui-react-native';
 
 const SignInScreen = () => {
+
+  
 
   const router = useRouter()
   const { height } = useWindowDimensions();
@@ -72,9 +78,10 @@ const colorScheme = useColorScheme();
       }
       else{
         Alert.alert("Opps", e.message)
+    setloading(false)
+
       }
     }
-    // setloading(false)
   };
 
 
@@ -137,4 +144,4 @@ const colorScheme = useColorScheme();
 
 
 
-export default SignInScreen;
+export default SignInScreen

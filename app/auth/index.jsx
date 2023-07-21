@@ -14,7 +14,7 @@ import { Text, View } from '../../components/Themed';
 
 export default SigninSIgnup = () => {
     const router = useRouter()
-    const { setAuthUser, authUser, updateDbUser } = useAuthContext()
+    const { setAuthUser, dbUser, updateDbUser } = useAuthContext()
 
     const [customState, setCustomState] = useState(null);
 
@@ -24,23 +24,19 @@ export default SigninSIgnup = () => {
             .then(async currentUser => {
                 setAuthUser(currentUser)
                 if (currentUser?.attributes?.sub) {
-                    try {
-                        await DataStore.query(User, (user) => user.sub.eq(currentUser?.attributes?.sub))
-                            .then((users) => {
-                                if (users[0]?.sub) {
-                                    updateDbUser(users[0])
-                                    router.replace("/(tabs)/home");
-                                }
-                                else {
-                                    router.replace("/registration");
-                                }
-                            })
-
-                    } catch (error) {
-                        console.log(error, "eoorr")
+                    if (dbUser === null) {
+                        const users = await DataStore.query(User, (user) => user.sub.eq(currentUser?.attributes?.sub));
+                        if (users[0]?.sub) {
+                            updateDbUser(users[0])
+                            router.replace("/(tabs)/home");
+                        }
+                        else {
+                            router.replace("/registration");
+                        }
                     }
-
-                    console.log('i got here')
+                    else {
+                        router.replace("/(tabs)/home");
+                    } 
                 }
 
             })
@@ -127,7 +123,7 @@ export default SigninSIgnup = () => {
                 <View style={{ backgroundColor: 'transparent' }}>
                     <Text style={styles.started}>Get started</Text>
                     <SocialButton
-                        text="Sign Up with Google"
+                        text="Continue with Google"
                         // onPress={authGoogle}
                         onPress={() => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google })}
                         source={google}

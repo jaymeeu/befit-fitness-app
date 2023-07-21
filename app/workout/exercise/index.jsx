@@ -54,9 +54,11 @@ const Exercises = () => {
 
 };
 
+const [refetch, setrefetch] = useState(false)
+
 useEffect(() => {
   fetchByID();
-}, []);
+}, [refetch]);
 
 
     const styles = StyleSheet.create({
@@ -136,13 +138,15 @@ useEffect(() => {
         if(!(progress.completed_exercise_ids.includes(exercises[activeIndex].id))){
 
             await DataStore.save(Progress.copyOf(progress, item => {
-                item.completed_exercise_ids = [...progress.completed_exercise_ids, exercises[activeIndex].id]
+                item.completed_exercise_ids = [...item.completed_exercise_ids, exercises[activeIndex].id]
             }));
 
-            setprogress(prevData => ({
-                ...prevData,
-                completed_exercise_ids: [...prevData.completed_exercise_ids, exercises[activeIndex].id]
-              }));
+            setrefetch(!refetch)
+
+            // setprogress(prevData => ({
+            //     ...prevData,
+            //     completed_exercise_ids: [...prevData.completed_exercise_ids, exercises[activeIndex].id]
+            //   }));
 
         }
 

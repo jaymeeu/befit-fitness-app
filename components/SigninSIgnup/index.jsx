@@ -115,7 +115,7 @@ export default SigninSIgnup = () => {
                 <View style={{ backgroundColor: 'transparent' }}>
                     <Text style={styles.started}>Get started</Text>
                     <SocialButton
-                        text="Sign Up with Google"
+                        text="Continue with Google"
                         // onPress={authGoogle}
                         onPress={() => Auth.federatedSignIn({ provider: CognitoHostedUIIdentityProvider.Google })}
                         source={google}

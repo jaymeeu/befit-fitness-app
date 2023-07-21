@@ -1,19 +1,14 @@
 import { Pressable, Text } from 'react-native';
 import { useAuthContext } from '../contexts/AuthContext';
-import SigninSIgnup from '../components/SigninSIgnup';
 import { View } from '../components/Themed';
-import Onboarding from '../components/Onboarding';
 import { useEffect } from 'react';
-import Registration from '../components/CompleteRegistration';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Auth, DataStore } from 'aws-amplify';
 import { User } from '../src/models';
-
 
 import { useRootNavigationState } from "expo-router";
 import { useRouter, useSegments } from "expo-router";
 
-export default function Page() {
+const Page = () => {
 
     const { dbUser, setAuthUser, userOnboard, loaded, updateDbUser } = useAuthContext()
     const router = useRouter()
@@ -65,7 +60,15 @@ export default function Page() {
 
     }, [router, segments, navigationState?.key, loaded])
 
-    return <View>
-        {!navigationState?.key || !loaded ? <Text>LOADING...</Text> : <></>}</View>;
+    return ( <View> 
+        {
+            !navigationState?.key || !loaded ? 
+            <Text>LOADING...</Text> 
+            : 
+            <></>
+        }
+    </View> );
 
 }
+
+export default Page

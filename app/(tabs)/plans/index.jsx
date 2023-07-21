@@ -143,6 +143,7 @@ export default function MyPlans() {
             </View>
           </View>
         </View>
+        <Text style={[styles.plans, {marginTop : 20}]}>My workout progress</Text>
         <MyWorkouts 
           workouts={myWorkout}  
           progress={userProgress}
