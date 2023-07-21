@@ -15,40 +15,47 @@ import { useRouter, useSegments } from "expo-router";
 
 export default function Page() {
 
-    const { dbUser,setAuthUser, userOnboard, loaded } = useAuthContext()
+    const { dbUser, setAuthUser, userOnboard, loaded, updateDbUser } = useAuthContext()
     const router = useRouter()
 
 
     const segments = useSegments();
-  const navigationState = useRootNavigationState();
+    const navigationState = useRootNavigationState();
 
     useEffect(() => {
 
         if (!navigationState?.key) return;
-        if(!loaded) return ;
+        if (!loaded) return;
 
-        if(dbUser === null && userOnboard === null){
+        if (dbUser === null && userOnboard === null) {
             router.replace('/boarding');
         }
-        else if( userOnboard !== null) {
-            Auth.currentAuthenticatedUser()
-            .then((currentUser)=>{
-                setAuthUser(currentUser)
-                if(currentUser?.attributes?.sub){
-                    if(dbUser === null){
-                        router.replace("/registration");
+        else if (userOnboard !== null) {
+            Auth.currentAuthenticatedUser({ bypassCache: true })
+                .then(async (currentUser) => {
+                    setAuthUser(currentUser)
+                    if (currentUser?.attributes?.sub) {
+                        if (dbUser === null) {
+                            const users = await DataStore.query(User, (user) => user.sub.eq(currentUser?.attributes?.sub));
+                            if (users[0]?.sub) {
+                                updateDbUser(users[0])
+                                router.replace("/(tabs)/home");
+                            }
+                            else {
+                                router.replace("/registration");
+                            }
+                        }
+                        else {
+                            router.replace("/(tabs)/home");
+                        }
                     }
-                    else{
-                        router.replace("/home");
+                    else {
+                        router.replace("/auth");
                     }
-                }
-                else{
+                })
+                .catch(() => {
                     router.replace("/auth");
-                }
-            })
-            .catch(()=>{
-                router.replace("/auth");
-            })
+                })
         }
 
         // AsyncStorage.removeItem('@user_onboard')
@@ -61,24 +68,4 @@ export default function Page() {
     return <View>
         {!navigationState?.key || !loaded ? <Text>LOADING...</Text> : <></>}</View>;
 
-    // return (
-    //     <>
-    //         {
-    //             dbUser === null && userOnboard === null ?
-    //                 <Onboarding />
-    //                 :
-    //                 dbUser === null && userOnboard !== null ?
-    //                     <View>
-    //                         <SigninSIgnup />
-    //                     </View>
-    //                     :
-    //                     dbUser?.name ?
-    //                         <Registration />
-    //                         :
-    //                         <>
-    //                         </>
-    //         }
-    //     </>
-    // )
-        // ;
 }

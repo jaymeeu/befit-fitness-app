@@ -8,6 +8,7 @@ import { DataStore } from 'aws-amplify'
 import { Progress, Workout } from '../../src/models'
 import { Exercise } from '../../src/models'
 import { useAuthContext } from '../../contexts/AuthContext'
+import { Camelize } from '../../utils/Camelize'
 
 const Workout_id = () => {
 
@@ -191,11 +192,11 @@ useEffect(() => {
               <Text style={styles.subtitle}>Level</Text>
             </View>
             <View style={styles.add_border}>
-              <Text style={styles.title}>18 mins</Text>
+              <Text style={styles.title}>{parseInt(fetchedWorkout.duration / 60)} mins</Text>
               <Text style={styles.subtitle}>Time</Text>
             </View>
             <View style={styles.add_border}>
-              <Text style={styles.title}>{fetchedWorkout.focus[0]}</Text>
+              <Text style={styles.title}>{Camelize(fetchedWorkout.focus[0])}</Text>
               <Text style={styles.subtitle}>Focus Area</Text>
             </View>
           </View>

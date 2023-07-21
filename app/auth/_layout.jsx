@@ -24,7 +24,7 @@ const colorScheme = useColorScheme()
                     headerStyle : { backgroundColor: Colors[colorScheme ?? "light"].background }
                 }}
                 />
-            <Stack.Screen name='confirmemail' options={{ title: 'Confirm your email', presentation: 'modal' }} />
+            <Stack.Screen name='confirmemail' options={{ title: 'Confirm your email' }} />
             <Stack.Screen name='forgetpassword' options={{ headerShown: false }} />
             <Stack.Screen name='newpassword' options={{ headerShown: false }} />
         </Stack>

@@ -24,6 +24,7 @@ const colorScheme = useColorScheme()
     try{
       await Auth.confirmSignUp(params.username, data.code);
       router.push('/auth/login')
+      console.log('navigate')
     }
     catch (e){
       Alert.alert('Opps', e.message);

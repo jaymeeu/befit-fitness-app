@@ -18,7 +18,7 @@ const HomeLayout = () => {
       <Tabs.Screen
         name="home/index"
         options={{
-          title: "",
+          title: "Classic",
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           headerRight: () => (
               <TouchableOpacity>

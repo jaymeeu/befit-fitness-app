@@ -94,15 +94,18 @@ const HomeScreen = () => {
       <View>
         <View style={styles.titled}>
           <Spacebetween>
-            <Text style={styles.plans}>Plans</Text>
-            <TouchableOpacity onPress={() => console.log('hello')}>
+            <Text style={styles.plans}>Top Plans</Text>
+            {/* <TouchableOpacity onPress={() => console.log('hello')}>
               <Text style={styles.presable}>See all</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </Spacebetween>
         </View>
 
         <SwiperFlatList
           data={items}
+          autoplay={true}
+          autoplayLoop={true}
+          autoplayDelay={5}
           renderItem={({ item }) => <RenderItem item={item.each} />}
           showPagination
         />

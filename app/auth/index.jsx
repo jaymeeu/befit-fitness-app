@@ -18,33 +18,35 @@ export default SigninSIgnup = () => {
 
     const [customState, setCustomState] = useState(null);
 
-    const checkuser = async ()=>{
+    const checkuser = async () => {
 
-       await Auth.currentAuthenticatedUser({bypassCache : true})
-        .then(async currentUser => {
-            setAuthUser(currentUser)
-            if(currentUser?.attributes?.sub){
-                try {
-                    const users = await DataStore.query(User, (user) => user.sub.eq(currentUser?.attributes?.sub));
-                
-                    if(users[0]?.sub){
-                        updateDbUser(users[0])
-                        router.replace("/(tabs)/home");
+        await Auth.currentAuthenticatedUser({ bypassCache: true })
+            .then(async currentUser => {
+                setAuthUser(currentUser)
+                if (currentUser?.attributes?.sub) {
+                    try {
+                        await DataStore.query(User, (user) => user.sub.eq(currentUser?.attributes?.sub))
+                            .then((users) => {
+                                if (users[0]?.sub) {
+                                    updateDbUser(users[0])
+                                    router.replace("/(tabs)/home");
+                                }
+                                else {
+                                    router.replace("/registration");
+                                }
+                            })
+
+                    } catch (error) {
+                        console.log(error, "eoorr")
                     }
-                    else{
-                        router.replace("/registration");
-                    }
-                } catch (error) {
-                    console.log(error, "eoorr")
+
+                    console.log('i got here')
                 }
 
-                console.log('i got here')
-            }
+            })
+            .catch(() => console.log("Not signed in yet"));
 
-        })
-        .catch(() => console.log("Not signed in yet"));
 
-       
     }
 
     useEffect(() => {
@@ -61,12 +63,12 @@ export default SigninSIgnup = () => {
             }
         });
 
-       
+
         return unsubscribe;
     }, []);
 
 
-  
+
 
 
     const { height } = useWindowDimensions();

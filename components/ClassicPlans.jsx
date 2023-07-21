@@ -33,12 +33,12 @@ const ClassicPlans = ({ basic, intermediate, advance }) => {
         },
         card_flex: {
             paddingHorizontal: 15,
-            height: 92,
+            height: 84,
             flexDirection: 'row',
             display: 'flex',
             alignItems: 'center',
             gap: 10,
-            backgroundColor: '#313131',
+            backgroundColor: '#1f1f1f',
             width: '100%'
         },
         flexer: {
@@ -53,7 +53,7 @@ const ClassicPlans = ({ basic, intermediate, advance }) => {
         workout1: {
             fontFamily: 'capriola',
             color: 'white',
-            fontSize: 18,
+            fontSize: 14,
             marginBottom: 5
         },
     })
@@ -71,7 +71,7 @@ const ClassicPlans = ({ basic, intermediate, advance }) => {
                         <Text style={styles.category}>Beginner</Text>
                     </ImageBackground>
                     {
-                        basic.map((res) => (
+                        basic.map((res, i) => (
                             <Pressable
                                 onPress={() => router.push({
                                     pathname: "/workout",
@@ -79,8 +79,8 @@ const ClassicPlans = ({ basic, intermediate, advance }) => {
                                 })}
 
                                 key={res.id} style={styles.card_flex}>
-                                <Image source={{ uri: res.image }} style={{ width: 70, height: 70, borderRadius: 15 }} />
-                                <View style={styles.flexer}>
+                                <Image source={{ uri: res.image }} style={{ width: 60, height: 60, borderRadius: 15 }} />
+                                <View style={[styles.flexer, {borderBottomWidth : (i + 1) === basic.length ? 0 : StyleSheet.hairlineWidth}]}>
                                     <View>
                                         <Text style={styles.workout1}>{res.title.toUpperCase()}</Text>
                                         <Text style={[styles.workout, { color: '#8a8a8a' }]}>{res.exercises.length} Exercises</Text>
@@ -104,15 +104,15 @@ const ClassicPlans = ({ basic, intermediate, advance }) => {
                         <Text style={styles.category}>Intermediate</Text>
                     </ImageBackground>
                     {
-                        intermediate.map((res) => (
+                        intermediate.map((res, i) => (
                             <Pressable key={res.id}
                                 onPress={() => router.push({
                                     pathname: "/workout",
                                     params: { id: res.id },
                                 })}
                                 style={styles.card_flex}>
-                                <Image source={{ uri: res.image }} style={{ width: 70, height: 70, borderRadius: 15 }} />
-                                <View style={styles.flexer}>
+                                <Image source={{ uri: res.image }} style={{ width: 60, height: 60, borderRadius: 15 }} />
+                                <View style={[styles.flexer, {borderBottomWidth : (i + 1) === intermediate.length ? 0 : StyleSheet.hairlineWidth}]}>
                                     <View>
                                         <Text style={styles.workout1}>{res.title.toUpperCase()}</Text>
                                         <Text style={[styles.workout, { color: '#707070' }]}>{res.exercises.length} Exercises</Text>
@@ -136,15 +136,15 @@ const ClassicPlans = ({ basic, intermediate, advance }) => {
                         <Text style={styles.category}>Advanced</Text>
                     </ImageBackground>
                     {
-                        advance.map((res) => (
+                        advance.map((res, i) => (
                             <Pressable key={res.id}
                                 onPress={() => router.push({
                                     pathname: "/workout",
                                     params: { id: res.id },
                                 })}
                                 style={styles.card_flex}>
-                                <Image source={{ uri: res.image }} style={{ width: 70, height: 70, borderRadius: 15 }} />
-                                <View style={styles.flexer}>
+                                <Image source={{ uri: res.image }} style={{ width: 60, height: 60, borderRadius: 15 }} />
+                                <View style={[styles.flexer, {borderBottomWidth : (i + 1) === advance.length ? 0 : StyleSheet.hairlineWidth}]}>
                                     <View>
                                         <Text style={styles.workout1}>{res.title.toUpperCase()}</Text>
                                         <Text style={[styles.workout, { color: '#707070' }]}>{res.exercises.length} Exercises</Text>
