@@ -56,7 +56,7 @@ const colorScheme = useColorScheme()
     },
     title: {
       fontSize: 24,
-      fontWeight: 'bold',
+      fontWeight: 'bold', 
       color : Colors[colorScheme ?? 'light'].text,
       margin: 10,
     },

@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: 'bold', 
     color : Colors[colorScheme ?? 'light'].text,
     margin: 10,
     fontFamily: 'capriola',

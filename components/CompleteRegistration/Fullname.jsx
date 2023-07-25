@@ -25,7 +25,7 @@ const Fullname = ({ goNext }) => {
         heading: {
             fontSize: 26,
             fontFamily: "capriola",
-            fontWeight: 600,
+            fontWeight: 'bold', 
             textAlign : 'center'
         },
        

@@ -24,7 +24,7 @@ const Gender = ({ goNext }) => {
         heading: {
             fontSize: 26,
             fontFamily: "capriola",
-            fontWeight: 600,
+            fontWeight: 'bold', 
             textAlign : 'center'
         },
         descr: {
@@ -72,7 +72,7 @@ const Gender = ({ goNext }) => {
         boxlabel: {
             marginTop: 12,
             fontSize: 20,
-            fontWeight: 600,
+            fontWeight: 'bold', 
             textAlign: 'center',
             fontFamily: 'capriola',
             color: Colors[colorScheme ?? 'light'].text,

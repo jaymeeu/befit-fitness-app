@@ -86,12 +86,12 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 16,
-        fontWeight: 600,
+        fontWeight: 'bold', 
         fontFamily: 'capriola'
     },
     level: {
         fontSize: 14,
-        fontWeight: 600,
+        fontWeight: 'bold', 
         fontFamily: 'work-san'
     },
     btn: {

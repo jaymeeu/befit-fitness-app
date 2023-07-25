@@ -55,7 +55,7 @@ const PlanCard = ({ item }) => {
                 {
                     item.isPro &&
                     <View style={{backgroundColor : 'white', paddingVertical:3, paddingHorizontal : 8, borderRadius :5}}>
-                        <Text style={{color:'black', fontWeight : 600}}>Pro</Text>
+                        <Text style={{color:'black', fontWeight : 'bold'}}>Pro</Text>
                     </View>
                 }
             </View>

@@ -25,7 +25,7 @@ const [weight, setweight] = useState(info.weight)
         heading: {
             fontSize: 22,
             fontFamily: "capriola",
-            fontWeight: 600,
+            fontWeight: 'bold', 
             textAlign: 'center'
         },
         descr: {

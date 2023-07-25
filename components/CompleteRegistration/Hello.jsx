@@ -16,7 +16,7 @@ const Hello = ({ goNext }) => {
         },
         heading: {
             fontSize: 30,
-            fontWeight: 600
+            fontWeight: 'bold'
         },
         descr: {
             fontSize: 16,
@@ -35,7 +35,7 @@ const Hello = ({ goNext }) => {
             fontSize: 16,
             color: "white",
             textAlign: 'center',
-            fontWeight : 600,
+            fontWeight : 'bold',
             fontFamily : "capriola"
         }
 

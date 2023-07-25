@@ -25,7 +25,7 @@ const [height, setheight] = useState(info.height)
         heading: {
             fontSize: 22,
             fontFamily: "capriola",
-            fontWeight: 600,
+            fontWeight: 'bold', 
             textAlign: 'center'
         },
         descr: {
