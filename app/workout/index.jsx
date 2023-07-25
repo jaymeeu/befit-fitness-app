@@ -116,62 +116,62 @@ const Workout_id = () => {
   })
 
   const [fetchedWorkout, setFetchedWorkout] = useState()
-const [progress, setprogress] = useState([])
+  const [progress, setprogress] = useState([])
 
   const fetchByID = async () => {
     try {
-        const workouts = await DataStore.query(Workout, res => res.id.eq(params.id));
+      const workouts = await DataStore.query(Workout, res => res.id.eq(params.id));
 
-        const exerciseIds = workouts.flatMap(workout => workout.exercises);
+      const exerciseIds = workouts.flatMap(workout => workout.exercises);
 
-        const exercises = await DataStore.query(Exercise, exerc => exerc.or(e => exerciseIds.map(id => e.id.eq(id)) )); 
-  
-        const exerciseMap = exercises.reduce((map, exercise) => {
-          map[exercise.id] = exercise;
-          return map;
-        }, {});
-  
-        const workoutsWithExercises = workouts.map(workout => ({
-          ...workout,
-          exercises: workout.exercises.map(exerciseId => exerciseMap[exerciseId]),
-        }));
+      const exercises = await DataStore.query(Exercise, exerc => exerc.or(e => exerciseIds.map(id => e.id.eq(id))));
 
-        setFetchedWorkout(workoutsWithExercises[0])
+      const exerciseMap = exercises.reduce((map, exercise) => {
+        map[exercise.id] = exercise;
+        return map;
+      }, {});
 
-        const prog = await DataStore.query(Progress, p => p.and( prog =>([prog.userID.eq(dbUser.id), prog.workout_id.eq(workoutsWithExercises[0].id)])))
-        setprogress(prog)
+      const workoutsWithExercises = workouts.map(workout => ({
+        ...workout,
+        exercises: workout.exercises.map(exerciseId => exerciseMap[exerciseId]),
+      }));
+
+      setFetchedWorkout(workoutsWithExercises[0])
+
+      const prog = await DataStore.query(Progress, p => p.and(prog => ([prog.userID.eq(dbUser.id), prog.workout_id.eq(workoutsWithExercises[0].id)])))
+      setprogress(prog)
 
     } catch (error) {
-        console.log(error, "eoorr");
+      console.log(error, "eoorr");
     }
-};
+  };
 
-useEffect(() => {
-  fetchByID();
-}, []);
+  useEffect(() => {
+    fetchByID();
+  }, []);
 
   const router = useRouter()
 
-  const onStartClick = async () =>{
-    if(progress.length === 0){
+  const onStartClick = async () => {
+    if (progress.length === 0) {
       await DataStore.save(
         new Progress({
-        "workout_id": fetchedWorkout.id,
-        "total_exercise": fetchedWorkout.exercises.length,
-        "completed_exercise_ids": [],
-        "userID": dbUser?.id
-      })
-    );
+          "workout_id": fetchedWorkout.id,
+          "total_exercise": fetchedWorkout.exercises.length,
+          "completed_exercise_ids": [],
+          "userID": dbUser?.id
+        })
+      );
     }
-   
 
-  router.push({ pathname : '/workout/exercise', params :  params})
+
+    router.push({ pathname: '/workout/exercise', params: params })
   }
 
   return (
     fetchedWorkout?.title &&
     <View style={{ flex: 1 }}>
-      <ImageBackground source={{uri : fetchedWorkout.image}} style={styles.imageHeader}>
+      <ImageBackground source={{ uri: fetchedWorkout.image }} style={styles.imageHeader}>
         <View style={{ flexDirection: "row", gap: 10, alignItems: 'center' }}>
           <Pressable onPress={() => router.back()}>
             <Ionicons name="arrow-back-circle-outline" size={36} color="white" />
@@ -202,28 +202,34 @@ useEffect(() => {
           </View>
           <View>
             <Text style={[styles.title, { paddingVertical: 15 }]}>Exercises <Text style={{ color: "#707070" }}>({fetchedWorkout.exercises.length})</Text> </Text>
-          {
-            fetchedWorkout.exercises.map((exe, i)=>(
-              <View key={i} style={styles.card_flex}>
-                <Image source={{uri : exe?.image}} style={{ width: 100, height: 100, borderRadius: 15 }} />
-                <View style={styles.flexerV2}>
-                  <Text style={styles.workout1}>{exe?.name?.toUpperCase()}</Text>
-                 
-                  <Text style={[styles.workout, { color: '#707070', marginTop: 10 }]}>x {exe?.reps}</Text>
+            {
+              fetchedWorkout.exercises.map((exe, i) => (
+                <View key={i} style={styles.card_flex}>
+                  <Image source={{ uri: exe?.image }} style={{ width: 100, height: 100, borderRadius: 15 }} />
+                  <View style={styles.flexerV2}>
+                    <Text style={styles.workout1}>{exe?.name?.toUpperCase()}</Text>
+
+                    <Text style={[styles.workout, { color: '#707070', marginTop: 10 }]}>x {exe?.reps}</Text>
+                  </View>
                 </View>
-              </View>
-            ))
-          }
+              ))
+            }
             <View style={{ height: 130 }}></View>
           </View>
         </View>
       </ScrollView>
 
       <View style={styles.btncont}>
-        <Pressable onPress={ onStartClick} style={styles.btn}>
+        <Pressable onPress={() => {
+          progress[0].completed_exercise_ids.length === fetchedWorkout.exercises.length ?
+            console.log('done')
+            :
+            onStartClick()
+        }}
+          style={styles.btn}>
           <Text style={styles.btnText} >
             {
-              progress.length === 0 ? "START" : "CONTINUE"
+              progress.length === 0 ? "START" : progress[0].completed_exercise_ids.length === fetchedWorkout.exercises.length ? "COMPLETED" : "CONTINUE"
             }
           </Text>
         </Pressable>

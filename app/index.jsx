@@ -26,7 +26,7 @@ const Page = () => {
             router.replace('/boarding');
         }
         else if (userOnboard !== null) {
-            Auth.currentAuthenticatedUser({ bypassCache: true })
+            Auth.currentAuthenticatedUser()
                 .then(async (currentUser) => {
                     setAuthUser(currentUser)
                     if (currentUser?.attributes?.sub) {
