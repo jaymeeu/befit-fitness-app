@@ -13,7 +13,6 @@ export const Paginator = (props) => {
     paginationContainer: {
     //   bottom: 110,
       alignItems :'center',
-      justifyContent:'flex-start',
       paddingHorizontal:30,
       width:'100%',
       justifyContent :'flex-end'

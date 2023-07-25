@@ -16,7 +16,6 @@ const Hello = ({ goNext }) => {
         },
         heading: {
             fontSize: 30,
-            fontWeight: "capriola",
             fontWeight: 600
         },
         descr: {
