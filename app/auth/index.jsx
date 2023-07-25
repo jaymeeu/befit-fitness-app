@@ -19,10 +19,9 @@ export default SigninSIgnup = () => {
     const [customState, setCustomState] = useState(null);
 
     const checkuser = async () => {
-
         await Auth.currentAuthenticatedUser()
             .then(async currentUser => {
-                setAuthUser(currentUser)
+                // setAuthUser(currentUser)
                 if (currentUser?.attributes?.sub) {
                     if (dbUser === null) {
                         const users = await DataStore.query(User, (user) => user.sub.eq(currentUser?.attributes?.sub));

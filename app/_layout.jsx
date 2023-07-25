@@ -6,6 +6,45 @@ import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import AuthContextProvider from '../contexts/AuthContext'
 import UserContextProvider from '../contexts/RegContext';
+import awsconfig from '../src/aws-exports'
+import * as WebBrowser from "expo-web-browser";
+import { Amplify } from 'aws-amplify';
+
+
+const isLocalHost = Boolean(__DEV__);
+
+const [productionRedirectSignIn, localRedirectSignIn] =
+  awsconfig.oauth.redirectSignIn.split(",");
+
+const [productionRedirectSignOut, localRedirectSignOut] =
+  awsconfig.oauth.redirectSignOut.split(",");
+
+async function urlOpener(url, redirectUrl) {
+  const { type, url: newUrl } = await WebBrowser.openAuthSessionAsync(
+    url,
+    redirectUrl
+  );
+
+  if (type === "success" && Platform.OS === "ios") {
+    WebBrowser.dismissBrowser();
+    return Linking.openURL(newUrl);
+  }
+}
+
+const updatedConfig = {
+  ...awsconfig,
+  oauth: {
+    ...awsconfig.oauth,
+    redirectSignIn: isLocalHost
+      ? localRedirectSignIn
+      : productionRedirectSignIn,
+    redirectSignOut: isLocalHost
+      ? localRedirectSignOut
+      : productionRedirectSignOut,
+    urlOpener,
+  },
+};
+Amplify.configure(updatedConfig)
 
 export {
   // Catch any errors thrown by the Layout component.

@@ -10,7 +10,7 @@ import { useRouter, useSegments } from "expo-router";
 
 const Page = () => {
 
-    const { dbUser, setAuthUser, userOnboard, loaded, updateDbUser } = useAuthContext()
+    const { dbUser, setAuthUser, userOnboard, updateDbUser } = useAuthContext()
     const router = useRouter()
 
 
@@ -20,7 +20,6 @@ const Page = () => {
     useEffect(() => {
 
         if (!navigationState?.key) return;
-        if (!loaded) return;
 
         if (dbUser === null && userOnboard === null) {
             router.replace('/boarding');
@@ -60,12 +59,9 @@ const Page = () => {
 
         console.log('i got here')
 
-    }, [router, segments, navigationState?.key, loaded])
+    }, [segments, navigationState?.key])
 
-    return ( <View> 
-       
-            <Text>Home page</Text>
-    </View> );
+    return ( <View></View> );
 
 }
 
