@@ -57,10 +57,6 @@ export default function MyPlans() {
     useShadowColorFromDataset: false, // optional
   };
 
-  const data = {
-    data: [0.5],
-  };
-
   const [userProgress, setuserProgress] = useState([])
   const [myWorkout, setmyWorkout] = useState([])
   const [dailyProg, setdailyProg] = useState('')
@@ -111,7 +107,7 @@ export default function MyPlans() {
           <View style={styles.cards}>
             <View style={styles.card_title}>
               <ProgressChart
-                data={{ data: [parseInt(dailyProg.split("/")[0]) / parseInt(dailyProg.split("/")[1])] }}
+                data={{ data: dailyProg ? [parseInt(dailyProg.split("/")[0]) / parseInt(dailyProg.split("/")[1])] : [0.0] }}
                 width={width / 2 - 40}
                 height={100}
                 strokeWidth={8}
@@ -120,15 +116,15 @@ export default function MyPlans() {
                 hideLegend={true}
               />
               <View style={styles.numberCont}>
-                <Text style={styles.label} >{dailyProg}</Text>
-                <Text style={{ color: 'white', fontFamily: 'capriola', textAlign: 'center', fontSize: 16, }} >Daily streak</Text>
+                <Text style={styles.label} >{dailyProg ? dailyProg : 0}</Text>
+                <Text style={{ color: 'white', fontFamily: 'capriola', textAlign: 'center', fontSize: 16, }} >Today streak</Text>
               </View>
             </View>
           </View>
           <View style={styles.cards}>
             <View style={styles.card_title}>
               <ProgressChart
-                data={{ data: [overallProg.split("/")[0] / overallProg.split("/")[1]] }}
+                data={{ data: overallProg ? [overallProg.split("/")[0] / overallProg.split("/")[1]] : [0.0] }}
                 width={width / 2 - 40}
                 height={100}
                 strokeWidth={8}
@@ -137,7 +133,7 @@ export default function MyPlans() {
                 hideLegend={true}
               />
               <View style={styles.numberCont}>
-                <Text style={styles.label} >{overallProg}</Text>
+                <Text style={styles.label} >{overallProg ? overallProg : 0}</Text>
                 <Text style={{ color: 'white', fontFamily: 'capriola', textAlign: 'center', fontSize: 16, }} >Overall streak</Text>
               </View>
             </View>

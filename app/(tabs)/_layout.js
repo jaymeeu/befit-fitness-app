@@ -32,7 +32,7 @@ const HomeLayout = () => {
           ),
           headerLeft: () => (
             <View style={{marginLeft : 15, backgroundColor :'transparent'}}>
-              <Text style={{color : ''}}>{getFormattedDate()}</Text>
+              <Text>{getFormattedDate()}</Text>
               <Text style={{color : Colors[colorScheme ?? "light"].text, fontFamily : 'capriola', fontSize:20}}>Befit</Text>
             </View>
         ),

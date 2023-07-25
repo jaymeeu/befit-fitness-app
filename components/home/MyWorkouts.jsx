@@ -2,46 +2,57 @@ import { FlatList, ImageBackground, Pressable, StyleSheet, Text, View } from 're
 import React from 'react'
 import { Camelize } from '../../utils/Camelize';
 import { useRouter } from 'expo-router';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const MyWorkouts = ({ workouts, progress }) => {
-const router = useRouter()
+    const router = useRouter()
 
-function calculateSumOfRatios( id) {
-    if (progress.length === 0) { return ""}
-    const res = progress.filter((datum)=>datum.workout_id === id)
-    if(res.length > 0){
-        const completedIds = res[0].completed_exercise_ids.length;
-        const totalExercise = res[0].total_exercise;
-        return `${completedIds}/${totalExercise}`;
+    function calculateSumOfRatios(id) {
+        if (progress.length === 0) { return "" }
+        const res = progress.filter((datum) => datum.workout_id === id)
+        if (res.length > 0) {
+            const completedIds = res[0].completed_exercise_ids.length;
+            const totalExercise = res[0].total_exercise;
+            if(completedIds === totalExercise){
+                return 'done'
+            }
+            else{
+                return `${completedIds}/${totalExercise}`;
+            }
+        }
+        else {
+            return ""
+        }
+
     }
-    else{
-        return ""
-    }
-   
-  }
 
     const Item = ({ item }) => (
-        <Pressable 
-        onPress={() => {
-            router.push({
-                pathname: "/workout",
-                params: { id: item.id },
-            })}
-        }
-        style={{ flex: 1, marginBottom :20 }}>
+        <Pressable
+            onPress={() => {
+                calculateSumOfRatios(item.id) === 'done' ?
+                console.log('done')
+                :
+                router.push({
+                    pathname: "/workout",
+                    params: { id: item.id },
+                })
+            }
+            }
+            style={{ flex: 1, marginBottom: 20 }}>
+
             <ImageBackground
-                imageStyle={{ borderRadius: 10 }}
+                imageStyle={{ borderRadius: 10, opacity: calculateSumOfRatios(item.id) === 'done' ? 0.5 : 1 }}
                 source={{ uri: item?.image }} style={styles.item}>
 
                 <View style={{ justifyContent: 'flex-end', flexDirection: 'row', width: '100%' }}>
                     <View style={{ width: 40, height: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 20, backgroundColor: 'white', opacity: 0.7 }}>
-                       <Text style={[styles.title, {fontSize:14}]}>{calculateSumOfRatios(item.id)}</Text> 
+                
+                        <Text style={[styles.title, { fontSize: 14 }]}>{calculateSumOfRatios(item.id) === 'done' ?  <MaterialIcons name="done" size={24} color="black" /> : calculateSumOfRatios(item.id)}</Text>
                     </View>
                 </View>
-
                 <View
                     style={styles.btn}>
-                    <Text style={styles.btnText} >Continue</Text>
+                    <Text style={styles.btnText}> {calculateSumOfRatios(item.id) === 'done' ? "Completed" : "Continue"}</Text>
                 </View>
 
             </ImageBackground>
