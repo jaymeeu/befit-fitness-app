@@ -22,7 +22,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.jaymeeu.befitfitnesscoach"
     },
     "web": {
       "bundler": "metro",
@@ -35,6 +36,15 @@
     "experiments": {
       "tsconfigPaths": true,
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "f705fd7f-a89f-4aa6-a8e4-c81f1744a507"
+      }
+    },
+    "owner": "jaymeeu"
   }
 }
