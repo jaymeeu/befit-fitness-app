@@ -13,59 +13,6 @@ import SocialButton from '../../components/CustomButton/SocialButton';
 import { Text, View } from '../../components/Themed';
 
 export default SigninSIgnup = () => {
-    const router = useRouter()
-    const { setAuthUser, dbUser, updateDbUser } = useAuthContext()
-
-    const [customState, setCustomState] = useState(null);
-
-    const checkuser = async () => {
-        await Auth.currentAuthenticatedUser()
-            .then(async currentUser => {
-                // setAuthUser(currentUser)
-                if (currentUser?.attributes?.sub) {
-                    if (dbUser === null) {
-                        const users = await DataStore.query(User, (user) => user.sub.eq(currentUser?.attributes?.sub));
-                        if (users[0]?.sub) {
-                            updateDbUser(users[0])
-                            router.replace("/(tabs)/home");
-                        }
-                        else {
-                            router.replace("/registration");
-                        }
-                    }
-                    else {
-                        router.replace("/(tabs)/home");
-                    } 
-                }
-
-            })
-            .catch(() => console.log("Not signed in yet"));
-
-
-    }
-
-    useEffect(() => {
-        const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
-            switch (event) {
-                case "signIn":
-                    checkuser(data);
-                    break;
-                case "signOut":
-                    setAuthUser(undefined);
-                    break;
-                case "customOAuthState":
-                    setCustomState(data);
-            }
-        });
-
-
-        return unsubscribe;
-    }, []);
-
-
-
-
-
     const { height } = useWindowDimensions();
     const colorScheme = useColorScheme();
 

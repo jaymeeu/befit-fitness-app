@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
 const SkillPress = async () =>{
   await AsyncStorage.setItem('@user_onboard', 'onboarded');
   setuserOnboard('onboarded');
-  router.replace('/auth')
+  router.push('/auth')
 }
 
   return (
