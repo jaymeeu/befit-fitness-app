@@ -63,7 +63,8 @@ const PlanCard = ({ item }) => {
                 workoutName: item.title, 
                 workoutId: item.id
             }
-          });
+          })
+          
     }
 
 
