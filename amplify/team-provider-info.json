@@ -17,6 +17,12 @@
       },
       "storage": {
         "s327d8684a": {}
+      },
+      "api": {
+        "befitfitnesstracker": {}
+      },
+      "analytics": {
+        "befitfitnesstrackerPinpoint": {}
       }
     }
   }

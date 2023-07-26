@@ -2,11 +2,16 @@ import { View, Text, StyleSheet, Pressable, useWindowDimensions, ImageBackground
 import React from 'react'
 import { useRouter } from 'expo-router';
 import { TextStroke } from '../TextStroke';
+import { Analytics } from 'aws-amplify';
+import { useAuthContext } from '../../contexts/AuthContext';
 
 const PlanCard = ({ item }) => {
     const { height, width } = useWindowDimensions();
 
     const router = useRouter()
+
+    const { dbUser } = useAuthContext()
+
 
     const styles = StyleSheet.create({
         swiper: {
@@ -44,6 +49,23 @@ const PlanCard = ({ item }) => {
 
     })
 
+    const onStartClick = ()=>{
+        router.push({
+            pathname: "/workout",
+            params: { id: item.id },
+        });
+
+        Analytics.record({
+            name: 'startClick',
+            attributes: { 
+                userid: dbUser.id,
+                userEmail: dbUser.email, 
+                workoutName: item.title, 
+                workoutId: item.id
+            }
+          });
+    }
+
 
     return (
         <ImageBackground
@@ -70,10 +92,8 @@ const PlanCard = ({ item }) => {
                         item.isPro ?
                         console.log('is pro')
                         :
-                        router.push({
-                            pathname: "/workout",
-                            params: { id: item.id },
-                        })}
+                        onStartClick()
+                        }
                     }
                     style={styles.btn}>
                     <Text style={styles.btnText} >START</Text>
