@@ -13,51 +13,7 @@ import { useAuthContext } from '../../contexts/AuthContext';
 import { User } from '../../src/models';
 
 export default SigninSIgnup = () => {
-    const router = useRouter()
-    const { setAuthUser, authUser, updateDbUser } = useAuthContext()
-
-    const [customState, setCustomState] = useState(null);
-
-    useEffect(() => {
-        const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
-            switch (event) {
-                case "signIn":
-                    setAuthUser(data);
-                    break;
-                case "signOut":
-                    setAuthUser(undefined);
-                    break;
-                case "customOAuthState":
-                    setCustomState(data);
-            }
-        });
-
-        Auth.currentAuthenticatedUser()
-            .then(async currentUser => {
-                setAuthUser(currentUser)
-            })
-            .catch(() => console.log("Not signed in"));
-        return unsubscribe;
-    }, []);
-
-    useEffect(() => {
-        if (authUser) {
-            checkuser()
-        }
-    }, [authUser])
-
-    const checkuser = async ()=>{
-        try {
-            const users = await DataStore.query(User, (user) => user.sub.eq(authUser?.attributes?.sub));
-            if(users[0]?.sub){
-                updateDbUser(users[0])
-            }
-        } catch (error) {
-            console.log(error, "eoorr")
-        }
-        // router.replace("/index")
-    }
-
+  
 
     const { height } = useWindowDimensions();
     const colorScheme = useColorScheme();

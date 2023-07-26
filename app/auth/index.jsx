@@ -4,7 +4,7 @@ import { Image, ScrollView, StyleSheet, useColorScheme, useWindowDimensions } fr
 import google from '../../assets/images/GoogleIcon.png'
 import CustomButton from '../../components/CustomButton/CustomButton';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
-import { Auth, DataStore, Hub } from 'aws-amplify'
+import { Auth, Hub } from 'aws-amplify'
 import { Link, useRouter } from 'expo-router';
 import Colors from '../../constants/Colors';
 import { useAuthContext } from '../../contexts/AuthContext';
@@ -15,6 +15,12 @@ import { Text, View } from '../../components/Themed';
 export default SigninSIgnup = () => {
     const { height } = useWindowDimensions();
     const colorScheme = useColorScheme();
+
+    const router = useRouter()
+    const { setAuthUser, authUser, updateDbUser } = useAuthContext()
+
+    const [customState, setCustomState] = useState(null);
+
 
     const styles = StyleSheet.create({
         container: {
@@ -54,6 +60,53 @@ export default SigninSIgnup = () => {
             color: Colors[colorScheme ?? 'light'].text,
         },
     });
+
+
+    // const checkuser = async () => {
+    //     console.log('checker')
+    //     await Auth.currentAuthenticatedUser()
+    //         .then(async currentUser => {
+    //             setAuthUser(currentUser)
+    //             if (currentUser?.attributes?.sub) {
+    //                 if (dbUser === null) {
+    //                     const users = await DataStore.query(User, (user) => user.sub.eq(currentUser?.attributes?.sub));
+    //                     if (users[0]?.sub) {
+    //                         updateDbUser(users[0])
+    //                         router.replace("/(tabs)/home");
+    //                     }
+    //                     else {
+    //                         router.replace("/registration");
+    //                     }
+    //                 }
+    //                 else {
+    //                     router.replace("/(tabs)/home");
+    //                 }
+    //             }
+    //             else {
+    //                 // router.replace("/auth");
+    //             }
+    //         })
+    //         .catch((err) => {
+    //             // router.replace("/auth")
+    //         });
+    // }
+
+    // useEffect(() => {
+    //     const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
+    //         switch (event) {
+    //             case "signIn":
+    //                 checkuser(data);
+    //                 break;
+    //             case "signOut":
+    //                 // router.replace('/auth')
+    //                 break;
+    //             case "customOAuthState":
+    //                 setCustomState(data);
+    //         }
+    //     });
+    //     return unsubscribe;
+    // }, []);
+
 
     return (
         // <SafeAreaView >

@@ -6,7 +6,6 @@ export const Logout = async () => {
   try {
     await Auth.signOut()
     await AsyncStorage.removeItem("@db_user");
-    await AsyncStorage.removeItem("@user_onboard");
   } catch (e) {
     // remove error
   }

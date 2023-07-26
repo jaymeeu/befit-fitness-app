@@ -10,7 +10,7 @@ import { useRouter, useSegments } from "expo-router";
 
 const Page = () => {
 
-    const { dbUser, setAuthUser, userOnboard, updateDbUser } = useAuthContext()
+    const { dbUser, setAuthUser, userOnboard, updateDbUser, loaded } = useAuthContext()
     const router = useRouter()
 
     const segments = useSegments();
@@ -19,8 +19,6 @@ const Page = () => {
     const [customState, setCustomState] = useState(null);
 
     const checkuser = async () => {
-
-
         await Auth.currentAuthenticatedUser()
             .then(async currentUser => {
                 setAuthUser(currentUser)
@@ -44,8 +42,7 @@ const Page = () => {
                 }
             })
             .catch((err) => {
-                console.log(err, "error occured")
-                // router.replace("/auth")
+                router.replace("/auth")
             });
 
 
@@ -58,7 +55,7 @@ const Page = () => {
                     checkuser(data);
                     break;
                 case "signOut":
-                    setAuthUser(undefined);
+                    router.replace('/auth')
                     break;
                 case "customOAuthState":
                     setCustomState(data);
@@ -71,20 +68,22 @@ const Page = () => {
     useEffect(() => {
 
         if (!navigationState?.key) return;
+        if (!loaded) return;
 
-        if (dbUser === null && userOnboard === null) {
+        if (userOnboard === null) {
             router.push('/boarding');
         }
         else if (userOnboard !== null) {
             checkuser()
         }
 
+
         // AsyncStorage.removeItem('@user_onboard')
         // AsyncStorage.removeItem('@db_user')
         // Auth.signOut()
         // DataStore.clear()
 
-    }, [navigationState?.key])
+    }, [navigationState?.key, loaded])
 // }, [segments, navigationState?.key])
 
     return ( <View></View> );

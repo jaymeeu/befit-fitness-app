@@ -51,7 +51,7 @@ const [loaded, setloaded] = useState(false)
         setTimeout(() => {
         setloaded(true)
             
-        }, 1000);
+        }, 500);
     }, [])
 
     return (

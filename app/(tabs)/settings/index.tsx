@@ -1,22 +1,27 @@
-import { StyleSheet } from "react-native";
-import { Text, View } from "../../../components/Themed";
+import { ScrollView, StyleSheet, Text, View} from "react-native";
 
 export default function Settings() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
-    </View>
+    <ScrollView style={styles.container}>
+      <View>
+        <Text style={styles.head}>Hello</Text>
+        <Text style={styles.body}>Hello</Text>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    padding:15
   },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
+  head : {
+    fontSize : 16,
+    fontWeight : 'bold',
+    marginVertical : 10
+  },
+  body : {
+    fontSize: 14
   }
 });

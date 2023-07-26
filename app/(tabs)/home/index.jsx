@@ -8,6 +8,7 @@ import SwiperFlatList from "react-native-swiper-flatlist";
 import PlanCard from "../../../components/home/PlanCard";
 import ClassicPlans from "../../../components/ClassicPlans";
 import { Workout } from "../../../src/models";
+import { useAuthContext } from "../../../contexts/AuthContext";
 
 const HomeScreen = () => {
 
@@ -18,6 +19,7 @@ const HomeScreen = () => {
   //     DataStore.clear()
   // }, [])
 
+  const { dbUser } = useAuthContext()
 
   const [basic, setBasic] = useState([]);
   const [special, setSpecial] = useState([]);
