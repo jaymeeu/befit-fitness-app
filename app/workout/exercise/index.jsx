@@ -48,8 +48,8 @@ const Exercises = () => {
             const prog = await DataStore.query(Progress, p => p.and(prog => ([prog.userID.eq(dbUser.id), prog.workout_id.eq(workoutsWithExercises[0].id)])))
             setprogress(prog[0])
             if (prog[0]?.completed_exercise_ids) {
-                setactiveIndex(prog[0].completed_exercise_ids.length)
-                setcompletedIndex(prog[0].completed_exercise_ids.length)
+                setactiveIndex(prog[0]?.completed_exercise_ids.length)
+                setcompletedIndex(prog[0]?.completed_exercise_ids.length)
             }
 
         } catch (error) {

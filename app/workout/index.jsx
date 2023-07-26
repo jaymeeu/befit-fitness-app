@@ -221,7 +221,7 @@ const Workout_id = () => {
 
       <View style={styles.btncont}>
         <Pressable onPress={() => {
-          progress[0].completed_exercise_ids.length === fetchedWorkout.exercises.length ?
+          progress[0]?.completed_exercise_ids.length === fetchedWorkout.exercises.length ?
             console.log('done')
             :
             onStartClick()
@@ -229,7 +229,7 @@ const Workout_id = () => {
           style={styles.btn}>
           <Text style={styles.btnText} >
             {
-              progress.length === 0 ? "START" : progress[0].completed_exercise_ids.length === fetchedWorkout.exercises.length ? "COMPLETED" : "CONTINUE"
+              progress.length === 0 ? "START" : progress[0]?.completed_exercise_ids.length === fetchedWorkout.exercises.length ? "COMPLETED" : "CONTINUE"
             }
           </Text>
         </Pressable>

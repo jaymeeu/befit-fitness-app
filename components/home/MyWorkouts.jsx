@@ -11,7 +11,7 @@ const MyWorkouts = ({ workouts, progress }) => {
         if (progress.length === 0) { return "" }
         const res = progress.filter((datum) => datum.workout_id === id)
         if (res.length > 0) {
-            const completedIds = res[0].completed_exercise_ids.length;
+            const completedIds = res[0]?.completed_exercise_ids.length;
             const totalExercise = res[0].total_exercise;
             if(completedIds === totalExercise){
                 return 'done'

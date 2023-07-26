@@ -26,22 +26,12 @@ const Page = () => {
                 setAuthUser(currentUser)
                 if (currentUser?.attributes?.sub) {
                     if (dbUser === null) {
-                        console.log( currentUser?.attributes?.sub, 'currentUser?.attributes?.sxub')
-
-                        // const users = await DataStore.query(User, (user) => user.sub.eq(currentUser?.attributes?.sub));
-                        
-                        const users = await DataStore.query(Workout);
-                        
-                        console.log(users,"hhhhh")
-
-                        console.log('am almost there')
-
+                        const users = await DataStore.query(User, (user) => user.sub.eq(currentUser?.attributes?.sub));
                         if (users[0]?.sub) {
                             updateDbUser(users[0])
                             router.replace("/(tabs)/home");
                         }
                         else {
-                            console.log('registratyu')
                             router.replace("/registration");
                         }
                     }
@@ -93,21 +83,9 @@ const Page = () => {
         // AsyncStorage.removeItem('@db_user')
         // Auth.signOut()
         // DataStore.clear()
-        
-        console.log(segments, navigationState?.key)
-    }, [ navigationState?.key])
-// }, [segments, navigationState?.key])
 
-    useEffect(() => {
-        checkmate()
-    }, [])
-    const checkmate = async()=>{
-        console.log('checkingkj')
-        const users = await DataStore.query(Workout)
-                        
-        console.log(users,"hhhhh")
-    }
-    
+    }, [navigationState?.key])
+// }, [segments, navigationState?.key])
 
     return ( <View></View> );
 
