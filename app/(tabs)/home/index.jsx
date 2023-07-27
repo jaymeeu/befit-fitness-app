@@ -61,9 +61,6 @@ const HomeScreen = () => {
  
   return (
     <ScrollView >
-      {
-        console.log(dbUser, "dbUser")
-      }
       <View>
         <View style={styles.titled}>
           <Spacebetween>
