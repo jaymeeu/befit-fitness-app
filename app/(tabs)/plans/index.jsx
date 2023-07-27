@@ -72,9 +72,10 @@ export default function MyPlans() {
 
 
   function calculateSumOfRatios(data) {
-    if (data.length === 0) { return }
-    const sumCompletedIds = data.reduce((sum, item) => sum + item?.completed_exercise_ids.length, 0);
-    const sumTotalExercise = data.reduce((sum, item) => sum + item.total_exercise, 0);
+    if(!data){return }
+    if (data?.length === 0) { return }
+    const sumCompletedIds = data?.reduce((sum, item) => sum + item?.completed_exercise_ids.length, 0);
+    const sumTotalExercise = data?.reduce((sum, item) => sum + item.total_exercise, 0);
     return `${sumCompletedIds}/${sumTotalExercise}`;
   }
 
