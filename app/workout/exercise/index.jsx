@@ -2,7 +2,7 @@ import { View, Text, SafeAreaView, useWindowDimensions, StyleSheet, TouchableOpa
 import React, { useEffect, useState } from 'react'
 import { Ionicons, MaterialIcons } from '@expo/vector-icons'
 import { useLocalSearchParams, useRouter } from 'expo-router'
-import { DataStore } from 'aws-amplify'
+import { Analytics, DataStore } from 'aws-amplify'
 import { Exercise, Progress, Workout } from '../../../src/models'
 import { useAuthContext } from '../../../contexts/AuthContext'
 import LottieView from 'lottie-react-native';
@@ -258,7 +258,17 @@ const Exercises = () => {
 
                     <Pressable
                         onPress={() => {
-                            router.push({ pathname: "/plans" })
+                            router.push({ pathname: "/plans" });
+
+                            Analytics.record({
+                                name: 'workoutEnd',
+                                attributes: { 
+                                    userid: dbUser?.id,
+                                    userEmail: dbUser?.email, 
+                                    workoutName: fetchedWorkout?.title, 
+                                    workoutId: fetchedWorkout?.id
+                                }
+                              })
                         }
                         }
                         style={styles.btn}>

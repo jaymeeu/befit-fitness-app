@@ -4,11 +4,12 @@ import React, { useEffect, useState } from 'react'
 import { useRouter, useLocalSearchParams } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
 import { TextStroke } from '../../components/TextStroke'
-import { DataStore } from 'aws-amplify'
+import { Analytics, DataStore } from 'aws-amplify'
 import { Progress, Workout } from '../../src/models'
 import { Exercise } from '../../src/models'
 import { useAuthContext } from '../../contexts/AuthContext'
 import { Camelize } from '../../utils/Camelize'
+import LottieView from 'lottie-react-native';
 
 const Workout_id = () => {
 
@@ -146,11 +147,12 @@ const Workout_id = () => {
     }
   };
 
+  const router = useRouter()
+
   useEffect(() => {
     fetchByID();
-  }, []);
+  }, [router]);
 
-  const router = useRouter()
 
   const onStartClick = async () => {
     if (progress.length === 0) {
@@ -162,10 +164,42 @@ const Workout_id = () => {
           "userID": dbUser?.id
         })
       );
+
+      Analytics.record({
+        name: 'workoutStart',
+        attributes: { 
+            userid: dbUser?.id,
+            userEmail: dbUser?.email, 
+            workoutName: fetchedWorkout?.title, 
+            workoutId: fetchedWorkout?.id
+        }
+      })
     }
 
-
     router.push({ pathname: '/workout/exercise', params: params })
+  }
+
+  if(!fetchedWorkout?.title){
+    return(
+      <View
+      style={{
+        backgroundColor: "white",
+        position: "absolute",
+        opacity: 0.6,
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+        width: "100%",
+      }}
+    >
+      <LottieView
+        style={{ height: 150 }}
+        source={require("../../assets/animations/scanner.json")}
+        autoPlay
+        speed={3}
+      />
+    </View>
+    )
   }
 
   return (
@@ -214,6 +248,7 @@ const Workout_id = () => {
                 </View>
               ))
             }
+            
             <View style={{ height: 130 }}></View>
           </View>
         </View>

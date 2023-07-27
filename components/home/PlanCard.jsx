@@ -12,7 +12,6 @@ const PlanCard = ({ item }) => {
 
     const { dbUser } = useAuthContext()
 
-
     const styles = StyleSheet.create({
         swiper: {
             padding: 20, width: width - 30, margin: 15, height: width - 30,
@@ -56,7 +55,7 @@ const PlanCard = ({ item }) => {
         });
 
         Analytics.record({
-            name: 'startClick',
+            name: 'workoutClick',
             attributes: { 
                 userid: dbUser.id,
                 userEmail: dbUser.email, 

@@ -7,6 +7,8 @@ import { User, Workout } from '../src/models';
 
 import { useRootNavigationState } from "expo-router";
 import { useRouter, useSegments } from "expo-router";
+import LottieView from 'lottie-react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Page = () => {
 
@@ -76,17 +78,37 @@ const Page = () => {
         else if (userOnboard !== null) {
             checkuser()
         }
-
-
-        // AsyncStorage.removeItem('@user_onboard')
-        // AsyncStorage.removeItem('@db_user')
-        // Auth.signOut()
-        // DataStore.clear()
-
     }, [navigationState?.key, loaded])
 // }, [segments, navigationState?.key])
 
-    return ( <View></View> );
+// useEffect(() => {
+//     AsyncStorage.removeItem('@user_onboard')
+//     AsyncStorage.removeItem('@db_user')
+//     Auth.signOut()
+//     DataStore.clear()
+//     console.log('herer')
+// }, [])
+
+    return ( 
+        <View
+        style={{
+          backgroundColor: "white",
+          position: "absolute",
+          opacity: 0.6,
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+          width: "100%",
+        }}
+      >
+        <LottieView
+          style={{ height: 150 }}
+          source={require("../assets/animations/scanner.json")}
+          autoPlay
+          speed={3}
+        />
+      </View>
+      );
 
 }
 

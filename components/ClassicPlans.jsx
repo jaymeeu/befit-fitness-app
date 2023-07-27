@@ -5,8 +5,11 @@ import { useRouter } from 'expo-router'
 import classic_bg from '../assets/images/classic_bg.jpg'
 import classic_bg1 from '../assets/images/classic_bg1.jpg'
 import classic_bg2 from '../assets/images/classic_bg2.jpg'
+import { Analytics } from 'aws-amplify'
+import { useAuthContext } from '../contexts/AuthContext'
 
 const ClassicPlans = ({ basic, intermediate, advance }) => {
+    const { dbUser } = useAuthContext()
 
     const router = useRouter()
 
@@ -57,6 +60,25 @@ const ClassicPlans = ({ basic, intermediate, advance }) => {
             marginBottom: 5
         },
     })
+
+    const onStartClick = (item)=>{
+        router.push({
+            pathname: "/workout",
+            params: { id: item.id },
+        });
+
+        Analytics.record({
+            name: 'workoutClick',
+            attributes: { 
+                userid: dbUser.id,
+                userEmail: dbUser.email, 
+                workoutName: item.title, 
+                workoutId: item.id
+            }
+          })
+          
+    }
+
     return (
         <View style={{ gap: 20 }}>
 
@@ -73,10 +95,7 @@ const ClassicPlans = ({ basic, intermediate, advance }) => {
                     {
                         basic.map((res, i) => (
                             <Pressable
-                                onPress={() => router.push({
-                                    pathname: "/workout",
-                                    params: { id: res.id },
-                                })}
+                                onPress={ () => onStartClick(res)} 
 
                                 key={res.id} style={styles.card_flex}>
                                 <Image source={{ uri: res.image }} style={{ width: 60, height: 60, borderRadius: 15 }} />
