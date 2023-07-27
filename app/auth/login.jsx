@@ -12,7 +12,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { EvilIcons } from '@expo/vector-icons';
 import { Auth, DataStore } from 'aws-amplify'
 
-import Logo from '../../assets/images/GoogleIcon.png';
+import Logo from '../../assets/images/logo.png';
 import CustomInput from '../../components/CustomInput';
 import { Text, View } from '../../components/Themed';
 import CustomButton from '../../components/CustomButton/CustomButton';
@@ -68,6 +68,7 @@ const colorScheme = useColorScheme();
     try {
       const response = await Auth.signIn(data.username, data.password)
       setAuthUser(response)
+      
     }
     catch (e) {
       if(e.message === 'User is not confirmed.'){

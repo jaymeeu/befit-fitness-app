@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Image, ScrollView, StyleSheet, useColorScheme, useWindowDimensions } from 'react-native'
 import google from '../../assets/images/GoogleIcon.png'
+import logo from '../../assets/images/logo.png'
 import CustomButton from '../../components/CustomButton/CustomButton';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth';
-import { Auth, Hub } from 'aws-amplify'
+import { Auth, DataStore, Hub } from 'aws-amplify'
 import { Link, useRouter } from 'expo-router';
 import Colors from '../../constants/Colors';
 import { useAuthContext } from '../../contexts/AuthContext';
@@ -17,7 +18,7 @@ export default SigninSIgnup = () => {
     const colorScheme = useColorScheme();
 
     const router = useRouter()
-    const { setAuthUser, authUser, updateDbUser } = useAuthContext()
+    const { setAuthUser,dbUser, updateDbUser } = useAuthContext()
 
     const [customState, setCustomState] = useState(null);
 
@@ -62,50 +63,47 @@ export default SigninSIgnup = () => {
     });
 
 
-    // const checkuser = async () => {
-    //     console.log('checker')
-    //     await Auth.currentAuthenticatedUser()
-    //         .then(async currentUser => {
-    //             setAuthUser(currentUser)
-    //             if (currentUser?.attributes?.sub) {
-    //                 if (dbUser === null) {
-    //                     const users = await DataStore.query(User, (user) => user.sub.eq(currentUser?.attributes?.sub));
-    //                     if (users[0]?.sub) {
-    //                         updateDbUser(users[0])
-    //                         router.replace("/(tabs)/home");
-    //                     }
-    //                     else {
-    //                         router.replace("/registration");
-    //                     }
-    //                 }
-    //                 else {
-    //                     router.replace("/(tabs)/home");
-    //                 }
-    //             }
-    //             else {
-    //                 // router.replace("/auth");
-    //             }
-    //         })
-    //         .catch((err) => {
-    //             // router.replace("/auth")
-    //         });
-    // }
+    const checkuser = async () => {
+        await Auth.currentAuthenticatedUser()
+            .then(async currentUser => {
+                setAuthUser(currentUser)
+                if (currentUser?.attributes?.sub) {
+                    if (dbUser === null) {
+                        const users = await DataStore.query(User, (user) => user.sub.eq(currentUser?.attributes?.sub));
+                        if (users[0]?.sub) {
+                            updateDbUser(users[0])
+                            router.replace("/(tabs)/home");
+                        }
+                        else {
+                            router.replace("/registration");
+                        }
+                    }
+                    else {
+                        router.replace("/(tabs)/home");
+                    }
+                }
+                else {
+                }
+            })
+            .catch((err) => {
+            });
+    }
 
-    // useEffect(() => {
-    //     const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
-    //         switch (event) {
-    //             case "signIn":
-    //                 checkuser(data);
-    //                 break;
-    //             case "signOut":
-    //                 // router.replace('/auth')
-    //                 break;
-    //             case "customOAuthState":
-    //                 setCustomState(data);
-    //         }
-    //     });
-    //     return unsubscribe;
-    // }, []);
+    useEffect(() => {
+        const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
+            switch (event) {
+                case "signIn":
+                    checkuser(data);
+                    break;
+                case "signOut":
+                    // router.replace('/auth')
+                    break;
+                case "customOAuthState":
+                    setCustomState(data);
+            }
+        });
+        return unsubscribe;
+    }, []);
 
 
     return (
@@ -113,7 +111,7 @@ export default SigninSIgnup = () => {
         <View style={styles.container}>
 
             <View style={styles.top}>
-                <Image source={google} style={{ width: 60, height: 60 }} />
+                <Image source={logo} style={{ width: 60, height: 60 }} />
             </View>
             {
                 // console.log(user, "currentUser")

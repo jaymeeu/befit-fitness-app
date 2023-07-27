@@ -1,6 +1,6 @@
 import React from 'react'
-import { Stack, Tabs, router, useRouter } from 'expo-router'
-import { Entypo, Feather, FontAwesome } from '@expo/vector-icons';
+import { Tabs, useRouter } from 'expo-router'
+import { AntDesign, Entypo, Feather, Ionicons } from '@expo/vector-icons';
 import { Pressable, TouchableOpacity, useColorScheme } from 'react-native';
 import Colors from '../../constants/Colors';
 import { Text, View } from '../../components/Themed';
@@ -8,9 +8,6 @@ import { getFormattedDate } from '../../utils/DateGetter';
 import { Auth } from 'aws-amplify';
 import { Logout } from '../../utils/Logout';
 
-function TabBarIcon(props) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
 
 const HomeLayout = () => {
 
@@ -23,7 +20,7 @@ const HomeLayout = () => {
         name="home/index"
         options={{
           title: "Classic",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) =><Ionicons name="ios-barbell" color={color} size={28} style={{ marginBottom: -3 }} />,
           headerRight: () => (
               <TouchableOpacity>
                 <Feather 
@@ -47,14 +44,14 @@ const HomeLayout = () => {
         options={{
           headerShown : false,
           title: "Plans",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          tabBarIcon: ({ color }) =>  <Entypo name="progress-two" color={color} size={28} style={{ marginBottom: -3 }} />,
         }}
       />
        <Tabs.Screen
         name="settings/index"
         options={{
-          title: "Settings",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "About",
+          tabBarIcon: ({ color }) => <AntDesign name="ellipsis1" color={color} size={28} style={{ marginBottom: -3 }} />,
           headerRight: () => (
               <Pressable
               onPress={ async()=>{

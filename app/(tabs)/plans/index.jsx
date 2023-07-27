@@ -12,6 +12,7 @@ import { ProgressChart } from "react-native-chart-kit";
 import { Progress, Workout } from "../../../src/models";
 import { useAuthContext } from "../../../contexts/AuthContext";
 import MyWorkouts from "../../../components/home/MyWorkouts";
+import { useRouter } from "expo-router";
 
 export default function MyPlans() {
   const { width } = useWindowDimensions();
@@ -94,9 +95,11 @@ export default function MyPlans() {
     setdailyProg(calculateSumOfRatios(todayProg))
     setOverallprog(calculateSumOfRatios(prog))
   }
+
+  const router = useRouter()
   useEffect(() => {
     fetchProgress()
-  }, [])
+  }, [router])
 
 
   return (

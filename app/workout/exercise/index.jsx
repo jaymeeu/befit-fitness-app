@@ -25,6 +25,7 @@ const Exercises = () => {
     const { dbUser } = useAuthContext()
 
     const fetchByID = async () => {
+        console.log('trigger')
         try {
             const workouts = await DataStore.query(Workout, res => res.id.eq(params.id));
 
@@ -61,13 +62,13 @@ const Exercises = () => {
 
     useEffect(() => {
         fetchByID();
-    }, [router]);
+    }, []);
 
 
     const styles = StyleSheet.create({
         topCont: {
             flex: 1,
-            backgroundColor: 'blue'
+            backgroundColor: 'transparent'
         },
         topNav: {
             paddingHorizontal: 15,
@@ -175,11 +176,13 @@ const Exercises = () => {
         }
         else {
             setactiveIndex((prev) => prev + 1)
+            playSound()
         }
     }
 
     const backClick = () => {
         setactiveIndex((prev) => prev - 1)
+        playSound()
     }
 
 

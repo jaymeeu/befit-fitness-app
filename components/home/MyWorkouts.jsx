@@ -1,4 +1,4 @@
-import { FlatList, ImageBackground, Pressable, StyleSheet, Text, View } from 'react-native'
+import { FlatList, ImageBackground, Platform, Pressable, StyleSheet, Text, TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import React from 'react'
 import { Camelize } from '../../utils/Camelize';
 import { useRouter } from 'expo-router';
@@ -13,64 +13,64 @@ const MyWorkouts = ({ workouts, progress }) => {
         if (res.length > 0) {
             const completedIds = res[0]?.completed_exercise_ids.length;
             const totalExercise = res[0].total_exercise;
-            if(completedIds === totalExercise){
+            if (completedIds === totalExercise) {
                 return 'done'
             }
-            else{
+            else {
                 return `${completedIds}/${totalExercise}`;
             }
         }
         else {
             return ""
         }
-
     }
 
-    const Item = ({ item }) => (
-        <Pressable
-            onPress={() => {
-                calculateSumOfRatios(item.id) === 'done' ?
-                console.log('done')
-                :
-                router.push({
-                    pathname: "/workout",
-                    params: { id: item.id },
-                })
-            }
-            }
-            style={{ flex: 1, marginBottom: 20 }}>
-
-            <ImageBackground
-                imageStyle={{ borderRadius: 10, opacity: calculateSumOfRatios(item.id) === 'done' ? 0.5 : 1 }}
-                source={{ uri: item?.image }} style={styles.item}>
-
-                <View style={{ justifyContent: 'flex-end', flexDirection: 'row', width: '100%' }}>
-                    <View style={{ width: 40, height: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 20, backgroundColor: 'white', opacity: 0.7 }}>
-                
-                        <Text style={[styles.title, { fontSize: 14 }]}>{calculateSumOfRatios(item.id) === 'done' ?  <MaterialIcons name="done" size={24} color="black" /> : calculateSumOfRatios(item.id)}</Text>
-                    </View>
-                </View>
-                <View
-                    style={styles.btn}>
-                    <Text style={styles.btnText}> {calculateSumOfRatios(item.id) === 'done' ? "Completed" : "Continue"}</Text>
-                </View>
-
-            </ImageBackground>
-
-            <Text style={styles.title} numberOfLines={1}>{Camelize(item?.title)}</Text>
-            <Text style={styles.level}>{Camelize(item?.level)}</Text>
-
-        </Pressable>
-    );
-
     return (
+
         <FlatList
             numColumns={2}
-            data={workouts}
-            renderItem={({ item }) => <Item item={item} />}
-            keyExtractor={item => item.id}
             columnWrapperStyle={{ gap: 15 }}
+            data={workouts}
+            renderItem={({ item }) => (
+                <TouchableHighlight
+                    key={item.id}
+                    onPress={() => {
+                        calculateSumOfRatios(item.id) === 'done' ?
+                            console.log('done')
+                            :
+                            router.push({
+                                pathname: "/workout",
+                                params: { id: item.id },
+                            })
+                    }
+                    }
+                    style={{ flex: 1, marginBottom: 20 }}
+                >
+                    <View style={{ backgroundColor: 'white' }}>
+                        <ImageBackground
+                            imageStyle={{ borderRadius: 10, opacity: calculateSumOfRatios(item.id) === 'done' ? 0.5 : 1 }}
+                            source={{ uri: item?.image }} style={styles.item}>
+
+                            <View style={{ justifyContent: 'flex-end', flexDirection: 'row', width: '100%' }}>
+                                <View style={{ width: 40, height: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 20, backgroundColor: 'white', opacity: 0.7 }}>
+
+                                    <Text style={[styles.title, { fontSize: 14 }]}>{calculateSumOfRatios(item.id) === 'done' ? <MaterialIcons name="done" size={24} color="black" /> : calculateSumOfRatios(item.id)}</Text>
+                                </View>
+                            </View>
+                            <View
+                                style={styles.btn}>
+                                <Text style={styles.btnText}> {calculateSumOfRatios(item.id) === 'done' ? "Completed" : "Continue"}</Text>
+                            </View>
+
+                        </ImageBackground>
+                        <Text style={styles.title} numberOfLines={1}>{Camelize(item?.title)}</Text>
+                        <Text style={styles.level}>{Camelize(item?.level)}</Text>
+
+                    </View>
+                </TouchableHighlight>
+            )}
         />
+
     )
 }
 
@@ -86,19 +86,19 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 16,
-        fontWeight: 'bold', 
+        fontWeight: 'bold',
         fontFamily: 'capriola'
     },
     level: {
         fontSize: 14,
-        fontWeight: 'bold', 
+        fontWeight: 'bold',
         fontFamily: 'work-san'
     },
     btn: {
         width: '90%',
         backgroundColor: 'white',
         opacity: 0.7,
-        borderRadius: '20px',
+        borderRadius: 20,
         padding: 8
     },
     btnText: {
