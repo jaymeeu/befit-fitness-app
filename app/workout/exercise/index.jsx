@@ -317,15 +317,15 @@ const Exercises = () => {
                         onPress={() => {
                             router.push({ pathname: "/plans" });
 
-                            // Analytics.record({
-                            //     name: 'workoutEnd',
-                            //     attributes: { 
-                            //         userid: dbUser?.id,
-                            //         userEmail: dbUser?.email, 
-                            //         workoutName: fetchedWorkout?.title, 
-                            //         workoutId: fetchedWorkout?.id
-                            //     }
-                            //   })
+                            Analytics.record({
+                                name: 'workoutEnd',
+                                attributes: { 
+                                    userid: dbUser?.id,
+                                    userEmail: dbUser?.email, 
+                                    workoutName: fetchedWorkout?.title, 
+                                    workoutId: fetchedWorkout?.id
+                                }
+                              })
                         }
                         }
                         style={styles.btn}>

@@ -215,15 +215,15 @@ const Workout_id = () => {
         })
       );
 
-      // Analytics.record({
-      //   name: 'workoutStart',
-      //   attributes: { 
-      //       userid: dbUser?.id,
-      //       userEmail: dbUser?.email, 
-      //       workoutName: fetchedWorkout?.title, 
-      //       workoutId: fetchedWorkout?.id
-      //   }
-      // })
+      Analytics.record({
+        name: 'workoutStart',
+        attributes: { 
+            userid: dbUser?.id,
+            userEmail: dbUser?.email, 
+            workoutName: fetchedWorkout?.title, 
+            workoutId: fetchedWorkout?.id
+        }
+      })
     }
 
     router.push({ pathname: '/workout/exercise', params: params })
