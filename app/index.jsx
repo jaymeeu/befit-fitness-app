@@ -3,7 +3,7 @@ import { useAuthContext } from '../contexts/AuthContext';
 import { View } from '../components/Themed';
 import { useEffect, useState } from 'react';
 import { Auth, DataStore, Hub } from 'aws-amplify';
-import { User, Workout } from '../src/models';
+import { Exercise, Progress, User, Workout } from '../src/models';
 
 import { useRootNavigationState } from "expo-router";
 import { useRouter, useSegments } from "expo-router";
@@ -18,10 +18,8 @@ const Page = () => {
     const segments = useSegments();
     const navigationState = useRootNavigationState();
 
-    const [customState, setCustomState] = useState(null);
-
     const checkuser = async () => {
-        await Auth.currentAuthenticatedUser()
+        await Auth.currentAuthenticatedUser({bypassCache : true})
             .then(async currentUser => {
                 setAuthUser(currentUser)
                 if (currentUser?.attributes?.sub) {
@@ -37,7 +35,7 @@ const Page = () => {
                     }
                     else {
                         router.replace("/(tabs)/home");
-                    } 
+                    }
                 }
                 else {
                     router.replace("/auth");
@@ -51,23 +49,6 @@ const Page = () => {
     }
 
     useEffect(() => {
-        const unsubscribe = Hub.listen("auth", ({ payload: { event, data } }) => {
-            switch (event) {
-                case "signIn":
-                    checkuser(data);
-                    break;
-                case "signOut":
-                    router.replace('/auth')
-                    break;
-                case "customOAuthState":
-                    setCustomState(data);
-            }
-        });
-        return unsubscribe;
-    }, []);
-
-
-    useEffect(() => {
 
         if (!navigationState?.key) return;
         if (!loaded) return;
@@ -79,36 +60,51 @@ const Page = () => {
             checkuser()
         }
     }, [navigationState?.key, loaded])
-// }, [segments, navigationState?.key])
 
-// useEffect(() => {
-//     AsyncStorage.removeItem('@user_onboard')
-//     AsyncStorage.removeItem('@db_user')
-//     Auth.signOut()
-//     DataStore.clear()
-//     console.log('herer')
-// }, [])
+    useEffect(() => {
+        const removeListener = Hub.listen("datastore", async ({ payload: { event, data } }) => {
+            switch (event) {
+                case "ready":
+                    await DataStore.query(Exercise);
+                    await DataStore.query(Workout);
+                    await DataStore.query(Progress);
+                    break;
+            }
+        });
+        DataStore.start();
+        return removeListener;
+    }, []);
 
-    return ( 
+    // }, [segments, navigationState?.key])
+
+    // useEffect(() => {
+    //     AsyncStorage.removeItem('@user_onboard')
+    //     AsyncStorage.removeItem('@db_user')
+    //     Auth.signOut()
+    //     DataStore.clear()
+    //     console.log('herer')
+    // }, [])
+
+    return (
         <View
-        style={{
-          backgroundColor: "white",
-          position: "absolute",
-          opacity: 0.6,
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%",
-          width: "100%",
-        }}
-      >
-        <LottieView
-          style={{ height: 150 }}
-          source={require("../assets/animations/scanner.json")}
-          autoPlay
-          speed={3}
-        />
-      </View>
-      );
+            style={{
+                backgroundColor: "white",
+                position: "absolute",
+                opacity: 0.6,
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+                width: "100%",
+            }}
+        >
+            <LottieView
+                style={{ height: 150 }}
+                source={require("../assets/animations/scanner.json")}
+                autoPlay
+                speed={3}
+            />
+        </View>
+    );
 
 }
 

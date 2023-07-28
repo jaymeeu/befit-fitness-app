@@ -5,8 +5,9 @@ import { Pressable, TouchableOpacity, useColorScheme } from 'react-native';
 import Colors from '../../constants/Colors';
 import { Text, View } from '../../components/Themed';
 import { getFormattedDate } from '../../utils/DateGetter';
-import { Auth } from 'aws-amplify';
+import { Auth, DataStore } from 'aws-amplify';
 import { Logout } from '../../utils/Logout';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const HomeLayout = () => {
@@ -55,8 +56,11 @@ const HomeLayout = () => {
           headerRight: () => (
               <Pressable
               onPress={ async()=>{
-                await Auth.signOut()
-                router.replace('/')
+                await Auth.signOut();
+                await AsyncStorage.removeItem('@db_user')
+                await DataStore.clear()
+                router.replace('/auth');
+
               }}
               >
                 {({ pressed }) => (

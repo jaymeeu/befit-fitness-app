@@ -27,50 +27,52 @@ const MyWorkouts = ({ workouts, progress }) => {
 
     return (
 
-        <FlatList
-            numColumns={2}
-            columnWrapperStyle={{ gap: 15 }}
-            data={workouts}
-            renderItem={({ item }) => (
-                <TouchableHighlight
-                    key={item.id}
-                    onPress={() => {
-                        calculateSumOfRatios(item.id) === 'done' ?
-                            console.log('done')
-                            :
-                            router.push({
-                                pathname: "/workout",
-                                params: { id: item.id },
-                            })
-                    }
-                    }
-                    style={{ flex: 1, marginBottom: 20 }}
-                >
-                    <View style={{ backgroundColor: 'white' }}>
-                        <ImageBackground
-                            imageStyle={{ borderRadius: 10, opacity: calculateSumOfRatios(item.id) === 'done' ? 0.5 : 1 }}
-                            source={{ uri: item?.image }} style={styles.item}>
+            <FlatList
+                numColumns={2}
+                style={{ height: '100%' }}
+                columnWrapperStyle={{ gap: 15 }}
+                data={workouts}
+                showsVerticalScrollIndicator={false}
+                renderItem={({ item }) => (
+                    <TouchableHighlight
+                        key={item.id}
+                        onPress={() => {
+                            calculateSumOfRatios(item.id) === 'done' ?
+                                console.log('done')
+                                :
+                                router.push({
+                                    pathname: "/workout",
+                                    params: { id: item.id },
+                                })
+                        }
+                        }
+                        style={{ flex: 1, marginBottom: 20 }}
+                    >
+                        <View style={{ backgroundColor: 'white' }}>
+                            <ImageBackground
+                                imageStyle={{ borderRadius: 10, opacity: calculateSumOfRatios(item.id) === 'done' ? 0.5 : 1 }}
+                                source={{ uri: item?.image }} style={styles.item}>
 
-                            <View style={{ justifyContent: 'flex-end', flexDirection: 'row', width: '100%' }}>
-                                <View style={{ width: 40, height: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 20, backgroundColor: 'white', opacity: 0.7 }}>
+                                <View style={{ justifyContent: 'flex-end', flexDirection: 'row', width: '100%' }}>
+                                    <View style={{ width: 40, height: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 20, backgroundColor: 'white', opacity: 0.7 }}>
 
-                                    <Text style={[styles.title, { fontSize: 14 }]}>{calculateSumOfRatios(item.id) === 'done' ? <MaterialIcons name="done" size={24} color="black" /> : calculateSumOfRatios(item.id)}</Text>
+                                        <Text style={[styles.title, { fontSize: 14 }]}>{calculateSumOfRatios(item.id) === 'done' ? <MaterialIcons name="done" size={24} color="black" /> : calculateSumOfRatios(item.id)}</Text>
+                                    </View>
                                 </View>
-                            </View>
-                            <View
-                                style={styles.btn}>
-                                <Text style={styles.btnText}> {calculateSumOfRatios(item.id) === 'done' ? "Completed" : "Continue"}</Text>
-                            </View>
+                                <View
+                                    style={styles.btn}>
+                                    <Text style={styles.btnText}> {calculateSumOfRatios(item.id) === 'done' ? "Completed" : "Continue"}</Text>
+                                </View>
 
-                        </ImageBackground>
-                        <Text style={styles.title} numberOfLines={1}>{Camelize(item?.title)}</Text>
-                        <Text style={styles.level}>{Camelize(item?.level)}</Text>
+                            </ImageBackground>
+                            <Text style={styles.title} numberOfLines={1}>{Camelize(item?.title)}</Text>
+                            <Text style={styles.level}>{Camelize(item?.level)}</Text>
 
-                    </View>
-                </TouchableHighlight>
-            )}
-        />
+                        </View>
+                    </TouchableHighlight>
 
+                )}
+            />
     )
 }
 

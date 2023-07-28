@@ -12,9 +12,11 @@ import { ProgressChart } from "react-native-chart-kit";
 import { Progress, Workout } from "../../../src/models";
 import { useAuthContext } from "../../../contexts/AuthContext";
 import MyWorkouts from "../../../components/home/MyWorkouts";
-import { useRouter } from "expo-router";
+import { useIsFocused } from '@react-navigation/native'
 
 export default function MyPlans() {
+  const isFocused = useIsFocused()
+
   const { width } = useWindowDimensions();
 
   const { dbUser } = useAuthContext()
@@ -67,7 +69,7 @@ export default function MyPlans() {
     if (array.length === 0) { return }
     const today = new Date();
     const todayISOString = today.toISOString().split('T')[0];
-    return array.filter(item => item.createdAt.startsWith(todayISOString));
+    return array.filter(item => item?.createdAt?.startsWith(todayISOString));
   }
 
 
@@ -80,6 +82,8 @@ export default function MyPlans() {
   }
 
   const fetchProgress = async () => {
+
+    console.log('am called')
     const prog = await DataStore.query(Progress, prog => (prog.userID.eq(dbUser.id)))
 
     if(prog.length > 0){
@@ -87,7 +91,6 @@ export default function MyPlans() {
       const workouts = await DataStore.query(Workout, work => work.or(e => workout_ids.map(id => e.id.eq(id)) )); 
       setmyWorkout(workouts)
     }
-    
 
     setuserProgress(prog)
 
@@ -97,15 +100,14 @@ export default function MyPlans() {
     setOverallprog(calculateSumOfRatios(prog))
   }
 
-  const router = useRouter()
   useEffect(() => {
     fetchProgress()
-  }, [router])
+  }, [isFocused])
 
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={{ padding: 15 }}>
+      <View style={{ padding: 15, flex:1 }}>
         <Text style={styles.plans}>Performance</Text>
         <View style={styles.upperCardCont}>
           <View style={styles.cards}>

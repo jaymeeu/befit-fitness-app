@@ -27,9 +27,10 @@ const Exercises = () => {
     const fetchByID = async () => {
         console.log('trigger')
         try {
+            const start = Date.now();
             const workouts = await DataStore.query(Workout, res => res.id.eq(params.id));
-
-            const exerciseIds = workouts.flatMap(workout => workout.exercises);
+            // const exerciseIds = workouts.flatMap(workout => workout.exercises);
+            const exerciseIds = workouts?.[0].exercises
 
             const exercises = await DataStore.query(Exercise, exerc => exerc.or(e => exerciseIds.map(id => e.id.eq(id))));
 
@@ -52,6 +53,8 @@ const Exercises = () => {
                 setactiveIndex(prog[0]?.completed_exercise_ids.length)
                 setcompletedIndex(prog[0]?.completed_exercise_ids.length)
             }
+            
+            console.log(`Execution time: ${Date.now() - start} ms`);
 
         } catch (error) {
             console.log(error, "eoorr");
@@ -59,10 +62,42 @@ const Exercises = () => {
 
     };
 
+    // const fetchByID = async()=>{
+    //     await DataStore.query(Workout, res => res.id.eq(params.id))
+    //     .then(async (workouts) => {
+    //       const exerciseIds = workouts.flatMap(workout => workout.exercises);
+  
+    //       await DataStore.query(Exercise, exerc => exerc.or(e => exerciseIds.map(id => e.id.eq(id))))
+    //         .then(async (exercises) => {
+    //           const exerciseMap = exercises.reduce((map, exercise) => {
+    //             map[exercise.id] = exercise;
+    //             return map;
+    //           }, {});
+  
+    //           const workoutsWithExercises = workouts.map(workout => ({
+    //             ...workout,
+    //             exercises: workout.exercises.map(exerciseId => exerciseMap[exerciseId]),
+    //           }));
+  
+    //           setFetchedWorkout(workoutsWithExercises[0])
+    //           await DataStore.query(Progress, p => p.and(prog => ([prog.userID.eq(dbUser.id), prog.workout_id.eq(workoutsWithExercises[0].id)])))
+    //             .then((prog) => {
+    //               setprogress(prog)
+    //               if (prog[0]?.completed_exercise_ids) {
+    //                 setactiveIndex(prog[0]?.completed_exercise_ids.length)
+    //                 setcompletedIndex(prog[0]?.completed_exercise_ids.length)
+    //             }
+  
+    //             })
+    //         })
+    //     })
+    // }
+    
+
 
     useEffect(() => {
         fetchByID();
-    }, []);
+    }, [params.id]);
 
 
     const styles = StyleSheet.create({
@@ -185,7 +220,7 @@ const Exercises = () => {
         playSound()
     }
 
-    if(!exercises?.[activeIndex]?.name){
+    if(!exercises?.[activeIndex]?.name && !completed){
             return(
               <View
               style={{
@@ -282,15 +317,15 @@ const Exercises = () => {
                         onPress={() => {
                             router.push({ pathname: "/plans" });
 
-                            Analytics.record({
-                                name: 'workoutEnd',
-                                attributes: { 
-                                    userid: dbUser?.id,
-                                    userEmail: dbUser?.email, 
-                                    workoutName: fetchedWorkout?.title, 
-                                    workoutId: fetchedWorkout?.id
-                                }
-                              })
+                            // Analytics.record({
+                            //     name: 'workoutEnd',
+                            //     attributes: { 
+                            //         userid: dbUser?.id,
+                            //         userEmail: dbUser?.email, 
+                            //         workoutName: fetchedWorkout?.title, 
+                            //         workoutId: fetchedWorkout?.id
+                            //     }
+                            //   })
                         }
                         }
                         style={styles.btn}>

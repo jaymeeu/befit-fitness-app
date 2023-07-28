@@ -67,15 +67,15 @@ const ClassicPlans = ({ basic, intermediate, advance }) => {
             params: { id: item.id },
         });
 
-        Analytics.record({
-            name: 'workoutClick',
-            attributes: { 
-                userid: dbUser.id,
-                userEmail: dbUser.email, 
-                workoutName: item.title, 
-                workoutId: item.id
-            }
-          })
+        // Analytics.record({
+        //     name: 'workoutClick',
+        //     attributes: { 
+        //         userid: dbUser.id,
+        //         userEmail: dbUser.email, 
+        //         workoutName: item.title, 
+        //         workoutId: item.id
+        //     }
+        //   })
           
     }
 

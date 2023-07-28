@@ -119,39 +119,89 @@ const Workout_id = () => {
   const [fetchedWorkout, setFetchedWorkout] = useState()
   const [progress, setprogress] = useState([])
 
+  // const fetchByID = async () => {
+
+  //   console.log('am outsider')
+  //   try {
+  //     console.log(params.id, 'pppwo')
+
+  //     const workouts = await DataStore.query(Workout, res => res.id.eq(params.id));
+
+  //     console.log('onne')
+  //     const exerciseIds = workouts.flatMap(workout => workout.exercises);
+  //     console.log('two')
+
+  //     const exercises = await DataStore.query(Exercise, exerc => exerc.or(e => exerciseIds.map(id => e.id.eq(id))));
+  //     console.log('thress')
+
+
+  //     const exerciseMap = exercises.reduce((map, exercise) => {
+  //       map[exercise.id] = exercise;
+  //       return map;
+  //     }, {});
+
+  //     console.log('four')
+
+  //     const workoutsWithExercises = workouts.map(workout => ({
+  //       ...workout,
+  //       exercises: workout.exercises.map(exerciseId => exerciseMap[exerciseId]),
+  //     }));
+  //     console.log('five')
+
+
+  //     setFetchedWorkout(workoutsWithExercises[0])
+
+  //     console.log('six')
+
+  //     const prog = await DataStore.query(Progress, p => p.and(prog => ([prog.userID.eq(dbUser.id), prog.workout_id.eq(workoutsWithExercises[0].id)])))
+  //     setprogress(prog)
+
+  //     console.log('seven')
+
+
+  //   } catch (error) {
+  //     console.log(error, "eoorr");
+  //   }
+  // };
+
+
   const fetchByID = async () => {
-    try {
-      const workouts = await DataStore.query(Workout, res => res.id.eq(params.id));
+    const start = Date.now();
 
-      const exerciseIds = workouts.flatMap(workout => workout.exercises);
+    await DataStore.query(Workout, res => res.id.eq(params.id))
+      .then(async (workouts) => {
+        const exerciseIds = workouts.flatMap(workout => workout.exercises);
 
-      const exercises = await DataStore.query(Exercise, exerc => exerc.or(e => exerciseIds.map(id => e.id.eq(id))));
+        await DataStore.query(Exercise, exerc => exerc.or(e => exerciseIds.map(id => e.id.eq(id))))
+          .then(async (exercises) => {
+            const exerciseMap = exercises.reduce((map, exercise) => {
+              map[exercise.id] = exercise;
+              return map;
+            }, {});
 
-      const exerciseMap = exercises.reduce((map, exercise) => {
-        map[exercise.id] = exercise;
-        return map;
-      }, {});
+            const workoutsWithExercises = workouts.map(workout => ({
+              ...workout,
+              exercises: workout.exercises.map(exerciseId => exerciseMap[exerciseId]),
+            }));
 
-      const workoutsWithExercises = workouts.map(workout => ({
-        ...workout,
-        exercises: workout.exercises.map(exerciseId => exerciseMap[exerciseId]),
-      }));
+            setFetchedWorkout(workoutsWithExercises[0])
+            await DataStore.query(Progress, p => p.and(prog => ([prog.userID.eq(dbUser.id), prog.workout_id.eq(workoutsWithExercises[0].id)])))
+              .then((prog) => {
+                setprogress(prog)
 
-      setFetchedWorkout(workoutsWithExercises[0])
+              })
+          })
+      })
 
-      const prog = await DataStore.query(Progress, p => p.and(prog => ([prog.userID.eq(dbUser.id), prog.workout_id.eq(workoutsWithExercises[0].id)])))
-      setprogress(prog)
+      console.log(`Execution time: ${Date.now() - start} ms`);
 
-    } catch (error) {
-      console.log(error, "eoorr");
-    }
   };
 
   const router = useRouter()
 
   useEffect(() => {
     fetchByID();
-  }, [router]);
+  }, [params.id]);
 
 
   const onStartClick = async () => {
@@ -165,40 +215,40 @@ const Workout_id = () => {
         })
       );
 
-      Analytics.record({
-        name: 'workoutStart',
-        attributes: { 
-            userid: dbUser?.id,
-            userEmail: dbUser?.email, 
-            workoutName: fetchedWorkout?.title, 
-            workoutId: fetchedWorkout?.id
-        }
-      })
+      // Analytics.record({
+      //   name: 'workoutStart',
+      //   attributes: { 
+      //       userid: dbUser?.id,
+      //       userEmail: dbUser?.email, 
+      //       workoutName: fetchedWorkout?.title, 
+      //       workoutId: fetchedWorkout?.id
+      //   }
+      // })
     }
 
     router.push({ pathname: '/workout/exercise', params: params })
   }
 
-  if(!fetchedWorkout?.title){
-    return(
+  if (!fetchedWorkout?.title) {
+    return (
       <View
-      style={{
-        backgroundColor: "white",
-        position: "absolute",
-        opacity: 0.6,
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100%",
-        width: "100%",
-      }}
-    >
-      <LottieView
-        style={{ height: 150 }}
-        source={require("../../assets/animations/scanner.json")}
-        autoPlay
-        speed={3}
-      />
-    </View>
+        style={{
+          backgroundColor: "white",
+          position: "absolute",
+          opacity: 0.6,
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+          width: "100%",
+        }}
+      >
+        <LottieView
+          style={{ height: 150 }}
+          source={require("../../assets/animations/scanner.json")}
+          autoPlay
+          speed={3}
+        />
+      </View>
     )
   }
 
@@ -216,6 +266,7 @@ const Workout_id = () => {
 
         </View>
       </ImageBackground>
+
 
       <ScrollView style={styles.container}>
         {/* <Text>{workout_id}</Text> */}
@@ -248,7 +299,7 @@ const Workout_id = () => {
                 </View>
               ))
             }
-            
+
             <View style={{ height: 130 }}></View>
           </View>
         </View>
