@@ -70,8 +70,10 @@ export default SigninSIgnup = () => {
                 if (currentUser?.attributes?.sub) {
                     if (dbUser === null) {
                         const users = await DataStore.query(User, (user) => user.sub.eq(currentUser?.attributes?.sub));
+                        console.log(users[0]?.sub,"users[0]?.sub")
                         if (users[0]?.sub) {
                             updateDbUser(users[0])
+                            console.log(users[0], "users[0]")
                             router.replace("/(tabs)/home");
                         }
                         else {
@@ -79,6 +81,7 @@ export default SigninSIgnup = () => {
                         }
                     }
                     else {
+                        console.log()
                         router.replace("/(tabs)/home");
                     }
                 }

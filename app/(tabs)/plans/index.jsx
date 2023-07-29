@@ -69,7 +69,7 @@ export default function MyPlans() {
     if (array.length === 0) { return }
     const today = new Date();
     const todayISOString = today.toISOString().split('T')[0];
-    return array.filter(item => item?.createdAt?.startsWith(todayISOString));
+    return array.filter(item => item?.updatedAt?.startsWith(todayISOString));
   }
 
 
@@ -83,7 +83,6 @@ export default function MyPlans() {
 
   const fetchProgress = async () => {
 
-    console.log('am called')
     const prog = await DataStore.query(Progress, prog => (prog.userID.eq(dbUser.id)))
 
     if(prog.length > 0){

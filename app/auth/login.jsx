@@ -32,7 +32,7 @@ const SignInScreen = () => {
   const router = useRouter()
   const { height } = useWindowDimensions();
 
-const { updateDbUser, setAuthUser } = useAuthContext()
+const { setAuthUser } = useAuthContext()
 const colorScheme = useColorScheme();
 
 

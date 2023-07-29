@@ -8,11 +8,15 @@ import { getFormattedDate } from '../../utils/DateGetter';
 import { Auth, DataStore } from 'aws-amplify';
 import { Logout } from '../../utils/Logout';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAuthContext } from '../../contexts/AuthContext';
 
 
 const HomeLayout = () => {
 
   const router = useRouter()
+
+  const { setDbUser } = useAuthContext()
+
 
   const colorScheme = useColorScheme()
   return (
@@ -58,8 +62,11 @@ const HomeLayout = () => {
               onPress={ async()=>{
                 await Auth.signOut();
                 await AsyncStorage.removeItem('@db_user')
-                await DataStore.clear()
-                router.replace('/auth');
+                await DataStore.clear();
+                setDbUser(null)
+                setTimeout(() => {
+                  router.replace('/');
+                }, 2000);
 
               }}
               >

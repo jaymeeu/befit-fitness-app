@@ -35,12 +35,10 @@ const AuthContextProvider = ({ children }) => {
     const updateDbUser = async (user) => {
       await AsyncStorage.setItem('@db_user', JSON.stringify(user) );
       setDbUser(user)
+      
   }
 
-  const updateAuthUser = async (user) => {
-    await AsyncStorage.setItem('@db_user', JSON.stringify(user) );
-    setDbUser(user)
-}
+
 
 const [loaded, setloaded] = useState(false)
 
