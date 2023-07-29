@@ -4,6 +4,7 @@ import { View } from '../components/Themed';
 import { useEffect } from 'react';
 import { Auth, DataStore } from 'aws-amplify';
 import { User } from '../src/models';
+// import { DataStore } from '@aws-amplify/datastore';
 
 import { useRootNavigationState } from "expo-router";
 import { useRouter, useSegments } from "expo-router";
@@ -58,15 +59,13 @@ const Page = () => {
         // Auth.signOut()
         // DataStore.clear()
 
+        console.log('i got here')
+
     }, [router, segments, navigationState?.key, loaded])
 
     return ( <View> 
-        {
-            !navigationState?.key || !loaded ? 
-            <Text>LOADING...</Text> 
-            : 
-            <></>
-        }
+       
+            <Text>Home page</Text>
     </View> );
 
 }
